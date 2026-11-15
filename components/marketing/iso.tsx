@@ -393,3 +393,77 @@ export function IsoLabel({
     </g>
   );
 }
+
+interface IsoDiscProps {
+  /** Centre on the ground plane. */
+  at: [x: number, y: number];
+  /** Radius and height, in units. */
+  radius: number;
+  height: number;
+  z?: number;
+  scale: number;
+  tone?: IsoTone;
+  className?: string;
+  style?: CSSProperties;
+}
+
+/**
+ * A short cylinder (a coin, a puck). A circle lying on the ground projects
+ * to an ellipse 1.2247 times its radius wide and 0.7071 times tall.
+ */
+export function IsoDisc({ at, radius, height, z = 0, scale, tone = "paper", className, style }: IsoDiscProps) {
+  const t = TONES[tone];
+  const [x, top] = project([at[0], at[1], z + height], scale);
+  const bottom = r(top + height * scale);
+  const rx = r(radius * scale * Math.SQRT2 * COS);
+  const ry = r(radius * scale * Math.SQRT2 * SIN);
+
+  return (
+    <g className={cx(t.stroke, className)} style={style} strokeWidth={STROKE} strokeLinejoin="round">
+      <path
+        className={t.right}
+        d={`M${r(x - rx)} ${top} L${r(x - rx)} ${bottom} A${rx} ${ry} 0 0 0 ${r(x + rx)} ${bottom} L${r(x + rx)} ${top} Z`}
+      />
+      <ellipse cx={x} cy={top} rx={rx} ry={ry} className={t.top} />
+    </g>
+  );
+}
+
+interface IsoPanelProps {
+  /** Bottom-left corner of the panel. It stands in the x-z plane, facing the viewer's left. */
+  at: Point3;
+  /** Width along x and height along z, in units. */
+  size: [w: number, h: number];
+  scale: number;
+  className?: string;
+  /** Drawn in the panel's own flat coordinates: x from 0 to width px, y from -height px (top) to 0 (bottom). */
+  children?: ReactNode;
+}
+
+/**
+ * An upright card standing in the scene, like a screen. Its content is drawn
+ * flat and sheared 30 degrees with the panel, so text on it stays legible.
+ */
+export function IsoPanel({ at, size, scale, className, children }: IsoPanelProps) {
+  const [x, y] = project(at, scale);
+  const width = r(size[0] * scale);
+  const height = r(size[1] * scale);
+  const c = r(COS * 1000) / 1000;
+
+  return (
+    <g className={className}>
+      <g transform={`translate(${x} ${y}) matrix(${c} ${SIN} 0 1 0 0)`}>
+        <rect
+          x={0}
+          y={-height}
+          width={width}
+          height={height}
+          rx={10}
+          strokeWidth={STROKE}
+          className="fill-background-primary-default stroke-brand-blue-400"
+        />
+        {children}
+      </g>
+    </g>
+  );
+}
