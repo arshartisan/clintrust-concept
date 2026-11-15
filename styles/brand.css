@@ -1,0 +1,561 @@
+/* ---------------------------------------------------------------------------
+ * ClinTrust brand layer
+ *
+ * Sits on top of BoardUI's theme.css / typography.css and is the ONLY place
+ * brand values are written as literals. Everything else in the codebase uses
+ * the semantic utilities these variables feed (text-text-primary, bg-accent-500,
+ * border-separator-border, text-hero ...).
+ *
+ * What lives here:
+ *   1. Accent ramp   - BoardUI's CTA hue re-tinted to ClinTrust teal.
+ *   2. Navy ramp     - the brand ink; drives light-mode text and dark surfaces.
+ *   3. Semantic overrides for light (:root) and dark (.dark).
+ *   4. Marketing type ramp (text-hero, text-section, ...).
+ *   5. Landing-page keyframes.
+ *
+ * See docs/sop/02-design-system.md before changing anything here.
+ * --------------------------------------------------------------------------- */
+
+/* `pinned:` = screens big enough for the scroll-pinned "how it works" section:
+ * desktop width AND enough height to hold the pinned block. Phones, tablets
+ * and short windows get the stacked layout instead. Keep in sync with
+ * PINNED_QUERY in components/marketing/how-it-works.tsx. */
+@custom-variant pinned (@media (min-width: 1024px) and (min-height: 640px));
+
+@theme {
+  /* 0. Typeface: Figtree, loaded in app/layout.tsx as --font-brand.
+   * Overrides BoardUI's --font-sans (which points at Inter), so every BoardUI
+   * component and every utility picks it up. To change the site font, change
+   * the next/font import in the layout; nothing else. */
+  --font-sans: var(--font-brand), ui-sans-serif, system-ui, sans-serif,
+               "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+               "Noto Color Emoji";
+
+  /* 1. Primary: the logo's teal (#02CDAB, top-left of the mark), mapped onto
+   * BoardUI's accent ramp so every CTA, focus ring and selection state uses
+   * it. The exact logo teal sits at 400. 500/600 are deepened so white button
+   * labels on the primary gradient clear 3.5:1 / 5:1. Literal values on
+   * purpose: BoardUI's accent engine needs literals, not var() references. */
+  --color-accent-50:  #ecfdf8;
+  --color-accent-100: #cdfaee;
+  --color-accent-200: #9cf2dd;
+  --color-accent-300: #5ae3c5;
+  --color-accent-400: #02cdab;
+  --color-accent-500: #059a84;
+  --color-accent-600: #067d6c;
+  --color-accent-700: #086459;
+  --color-accent-800: #0a4f47;
+  --color-accent-900: #0b413b;
+  --color-accent-950: #032622;
+
+  /* 1b. Secondary: the logo's royal blue (#003EAF, bottom-right of the mark),
+   * sitting at 600. Used for "in progress / not yet verified" data marks and
+   * informational accents; teal stays reserved for "verified / paid". */
+  --color-brand-blue-50:  #eef4ff;
+  --color-brand-blue-100: #dbe7ff;
+  --color-brand-blue-200: #b8cfff;
+  --color-brand-blue-300: #86abf7;
+  --color-brand-blue-400: #4c80e6;
+  --color-brand-blue-500: #1b5ad0;
+  --color-brand-blue-600: #003eaf;
+  --color-brand-blue-700: #00338f;
+  --color-brand-blue-800: #062a70;
+  --color-brand-blue-900: #0a2456;
+
+  /* 2. Navy: the ink and the dark surfaces. Same hue as the logo blue (219),
+   * taken down to near-black, so text and the dark band belong to the mark. */
+  --color-navy-50:  #f6f8fc;
+  --color-navy-100: #eef1f7;
+  --color-navy-150: #e8ecf4;
+  --color-navy-200: #e1e6f0;
+  --color-navy-300: #cbd3e2;
+  --color-navy-400: #8592ac;
+  --color-navy-500: #546381;
+  --color-navy-600: #38486b;
+  --color-navy-700: #1b3464;
+  --color-navy-800: #102751;
+  --color-navy-850: #0b1f45;
+  --color-navy-900: #081a3b;
+  --color-navy-950: #05122b;
+
+  /* 4. Marketing type ramp. BoardUI's display styles are tuned for dashboards
+   * (0 tracking, loose leading); a landing page needs tighter, larger display
+   * type. Registered the same way as BoardUI's composites so one utility sets
+   * size + leading + tracking + weight. Mirror any addition in utils/cx.ts. */
+  --text-hero: clamp(2.5rem, 1.2rem + 4.4vw, 4.5rem);
+  --text-hero--line-height: 1.04;
+  --text-hero--letter-spacing: -0.03em;
+  --text-hero--font-weight: 500;
+
+  --text-section: clamp(1.875rem, 1.1rem + 2.4vw, 2.75rem);
+  --text-section--line-height: 1.12;
+  --text-section--letter-spacing: -0.024em;
+  --text-section--font-weight: 500;
+
+  --text-subsection: 1.5rem;
+  --text-subsection--line-height: 1.25;
+  --text-subsection--letter-spacing: -0.02em;
+  --text-subsection--font-weight: 500;
+
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.6;
+  --text-lead--letter-spacing: -0.006em;
+  --text-lead--font-weight: 400;
+
+  /* The decorative wordmark under the footer card. */
+  --text-wordmark: clamp(4rem, 19vw, 15rem);
+  --text-wordmark--line-height: 0.82;
+  --text-wordmark--letter-spacing: -0.055em;
+  --text-wordmark--font-weight: 600;
+
+  --text-figure: clamp(2.5rem, 1.6rem + 3vw, 4rem);
+  --text-figure--line-height: 1;
+  --text-figure--letter-spacing: -0.035em;
+  --text-figure--font-weight: 500;
+}
+
+/* 3a. Light mode: cool, navy-inked neutrals instead of BoardUI's pure greys. */
+:root {
+  --color-text-primary:   var(--color-navy-900);
+  --color-text-secondary: var(--color-navy-500);
+  --color-text-tertiary:  var(--color-navy-400);
+  --color-text-placeholder: var(--color-navy-400);
+
+  --color-foreground-icon-primary:   var(--color-navy-900);
+  --color-foreground-icon-secondary: var(--color-navy-500);
+  --color-foreground-icon-tertiary:  var(--color-navy-400);
+
+  --color-background-secondary-default: var(--color-navy-50);
+  --color-background-secondary-hover:   var(--color-navy-100);
+  /* Input fields and progress tracks sit on this; one step lighter than the
+   * border so a filled field never reads as disabled. */
+  --color-background-tertiary-default:  var(--color-navy-150);
+  --color-background-primary-hover:     var(--color-navy-50);
+  --color-background-primary-active:    var(--color-navy-100);
+
+  --color-border-button-default: var(--color-navy-200);
+  --color-border-button-hover:   var(--color-navy-300);
+  --color-separator-border:      var(--color-navy-200);
+}
+
+/* 3b. Dark mode: brand navy surfaces. `.dark` can be put on <html> for a full
+ * dark site, or on a single <section> to make one dark band on a light page
+ * (the capital section does this). Restated after :root so it wins when both
+ * selectors match the same element. */
+.dark {
+  --color-text-primary:   var(--color-white);
+  --color-text-secondary: #a7b6cc;
+  --color-text-tertiary:  #7387a5;
+  --color-text-placeholder: #7387a5;
+
+  --color-foreground-icon-primary:   var(--color-white);
+  --color-foreground-icon-secondary: #a7b6cc;
+  --color-foreground-icon-tertiary:  #7387a5;
+
+  --color-background-full:              var(--color-navy-950);
+  --color-background-primary-default:   var(--color-navy-850);
+  --color-background-primary-hover:     var(--color-navy-800);
+  --color-background-primary-active:    var(--color-navy-800);
+  --color-background-secondary-default: var(--color-navy-900);
+  --color-background-secondary-hover:   var(--color-navy-850);
+  --color-background-tertiary-default:  var(--color-navy-800);
+
+  --color-border-button-default: var(--color-navy-700);
+  --color-border-button-hover:   var(--color-navy-600);
+  --color-separator-border:      var(--color-navy-800);
+
+  color: var(--color-text-primary);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Device budget for motion.
+ * Animating `filter: blur()` is the one expensive effect in BoardUI's entrance
+ * recipe. Phones and tablets (touch-first, or narrow) get the same entrance
+ * without the blur, so every animation on those devices is opacity/transform
+ * only and stays on the compositor. */
+:root {
+  --enter-blur: 4px;
+  --enter-blur-sm: 2px;
+}
+@media (hover: none), (max-width: 767px) {
+  :root {
+    --enter-blur: 0px;
+    --enter-blur-sm: 0px;
+  }
+}
+
+/* 5. Keyframes ------------------------------------------------------------- */
+
+/* Section-heading entrance. <Reveal> sets data-inview once the heading is on
+ * screen. Shown outright when scripting is off or motion is reduced. */
+.reveal {
+  opacity: 0;
+  scale: 0.985;
+  filter: blur(var(--enter-blur));
+  transition:
+    opacity 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    scale 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal[data-inview="true"] {
+  opacity: 1;
+  scale: 1;
+  filter: none;
+}
+@media (scripting: none), (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    scale: 1;
+    filter: none;
+    transition: none;
+  }
+}
+
+/* Content swap inside a panel (how-it-works steps, audience switch). The new
+ * content is keyed in React, so mounting it replays this entrance. */
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    scale: 0.985;
+    filter: blur(var(--enter-blur-sm));
+  }
+}
+.panel-in {
+  animation: panel-in 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Navbar dropdown opening: BoardUI's popover recipe (fade + scale 0.95 +
+ * small blur, 150ms, growing out of its trigger). */
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    scale: 0.95;
+    filter: blur(var(--enter-blur-sm));
+  }
+}
+.menu-in {
+  animation: menu-in 150ms ease-out;
+}
+
+/* A new row arriving in the hero ledger. It slides down from above the list
+ * in step with the rows below it (same 400ms curve as their `translate`
+ * transition), so rows never overlap. The keyframe has no `to`, so it lands
+ * on the row's own inline `translate`. */
+@keyframes ledger-row-in {
+  from {
+    opacity: 0;
+    translate: 0 -62px;
+  }
+}
+.ledger-row-in {
+  /* No fill-mode. A filling animation keeps owning `translate` after it ends,
+   * which stops the row's own transition from running on later ticks (the row
+   * would jump while its neighbours slide, and overlap them). */
+  animation: ledger-row-in 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Isometric illustrations (hero scene, platform visuals). Rules:
+ *   - opacity / translate / stroke-dashoffset only: no layout work.
+ *   - they run only under [data-inview="true"], so off-screen scenes are idle.
+ *   - the resting state (no animation) is the complete, readable picture, so
+ *     reduced-motion and no-JS visitors lose nothing.
+ * Stagger with --d on each element. */
+
+/* One pulse travelling along a connector. The path is normalised to length
+ * 100 (pathLength) and carries a single 12-long dash; sliding the offset by
+ * one full period moves the dash from the start of the wire to its end.
+ * Linear timing: an eased pulse visibly lurches on short wires. */
+@keyframes iso-pulse {
+  from {
+    stroke-dashoffset: 12;
+    opacity: 0;
+  }
+  12%,
+  80% {
+    opacity: 1;
+  }
+  to {
+    stroke-dashoffset: -88;
+    opacity: 0;
+  }
+}
+/* A verified tile lighting up, then resting. */
+@keyframes iso-blink {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  30%,
+  65% {
+    opacity: 1;
+  }
+}
+/* A part hovering: the sheets in the budget stack. */
+@keyframes iso-float {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 -7px;
+  }
+}
+/* A part arriving in sequence (bars, coins), then leaving together. */
+@keyframes iso-step {
+  0% {
+    opacity: 0;
+    translate: 0 8px;
+  }
+  12%,
+  88% {
+    opacity: 1;
+    translate: 0 0;
+  }
+  100% {
+    opacity: 0;
+    translate: 0 0;
+  }
+}
+
+/* Resting state: pulses are hidden, so a still frame shows clean wires. */
+.iso-pulse {
+  opacity: 0;
+}
+.iso-float {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-inview="true"] .iso-pulse {
+    animation: iso-pulse 2.8s linear var(--d, 0ms) infinite;
+  }
+  [data-inview="true"] .iso-blink {
+    animation: iso-blink 4.5s ease-in-out var(--d, 0ms) infinite both;
+  }
+  [data-inview="true"] .iso-float {
+    animation: iso-float 3.2s ease-in-out var(--d, 0ms) infinite alternate;
+  }
+  [data-inview="true"] .iso-step {
+    animation: iso-step 6s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) infinite both;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Border glow (components/marketing/border-glow.tsx)
+ *
+ * Adapted from React Bits' BorderGlow (reactbits.dev/components/border-glow):
+ * a ring of colour on the card's edge, and a soft halo outside it, both
+ * masked to a cone that points at the cursor and brightening as the cursor
+ * nears the edge.
+ *
+ * What differs from the original, and why:
+ *   - The component writes two CSS variables instead of React state, so moving
+ *     the pointer never re-renders the card or its children.
+ *   - Colours are the brand tokens (the logo's teal and blue), not literals.
+ *   - Touch devices have no cursor, so the same variables are animated once
+ *     by CSS when the card scrolls into view: one sweep around the border.
+ *   - The halo uses 3 shadow layers, not 13. On a light page the difference
+ *     is invisible and it is far cheaper to paint.
+ *
+ * Class names start with `glow-card`, never `border-`: tailwind-merge (cx)
+ * reads any `border-*` class as a border colour and drops it when the card
+ * also sets a real border colour.
+ *
+ * --glow-angle: where the cone points. --glow-edge: 0 (centre) to 1 (edge).
+ * Registered with @property so they can be animated and transitioned.
+ * ------------------------------------------------------------------------- */
+@property --glow-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 45deg;
+}
+@property --glow-edge {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.glow-card {
+  position: relative;
+  isolation: isolate;
+  --glow-size: 18px;
+}
+
+.glow-card-cone,
+.glow-card-halo {
+  position: absolute;
+  pointer-events: none;
+  border-radius: inherit;
+  transition: opacity 600ms ease-in-out;
+}
+
+/* The ring: full strength once the cursor is in the outer half of the card. */
+.glow-card-cone {
+  inset: -1px;
+  z-index: 2;
+  opacity: calc((var(--glow-edge) - 0.5) / 0.5);
+  -webkit-mask: conic-gradient(
+    from var(--glow-angle) at center,
+    #000 25%,
+    transparent 40%,
+    transparent 60%,
+    #000 75%
+  );
+  mask: conic-gradient(from var(--glow-angle) at center, #000 25%, transparent 40%, transparent 60%, #000 75%);
+}
+.glow-card-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(
+    135deg,
+    var(--color-accent-400),
+    var(--color-brand-blue-500) 55%,
+    var(--color-accent-300)
+  );
+  /* Keep only the 1.5px ring. Shorthands first, composites last (see the
+   * liquid-glass note in globals.css). */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* The halo: a narrower cone, outside the card. */
+.glow-card-halo {
+  inset: calc(var(--glow-size) * -1);
+  z-index: -1;
+  opacity: calc((var(--glow-edge) - 0.3) / 0.7);
+  -webkit-mask: conic-gradient(
+    from var(--glow-angle) at center,
+    #000 4%,
+    transparent 14%,
+    transparent 86%,
+    #000 96%
+  );
+  mask: conic-gradient(from var(--glow-angle) at center, #000 4%, transparent 14%, transparent 86%, #000 96%);
+}
+.glow-card-halo > span {
+  position: absolute;
+  inset: var(--glow-size);
+  border-radius: inherit;
+  box-shadow:
+    0 0 4px 0 color-mix(in srgb, var(--color-accent-400) 55%, transparent),
+    0 0 12px 0 color-mix(in srgb, var(--color-accent-400) 35%, transparent),
+    0 0 26px 2px color-mix(in srgb, var(--color-brand-blue-400) 22%, transparent);
+}
+
+.glow-card[data-tracking="true"] .glow-card-cone,
+.glow-card[data-tracking="true"] .glow-card-halo {
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+}
+
+/* One sweep around the border when the card first comes on screen. This is
+ * the whole effect on touch devices, and an introduction on desktop. */
+@keyframes glow-card-sweep {
+  0% {
+    --glow-angle: 110deg;
+    --glow-edge: 0;
+  }
+  14% {
+    --glow-edge: 1;
+  }
+  72% {
+    --glow-edge: 1;
+  }
+  100% {
+    --glow-angle: 470deg;
+    --glow-edge: 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* data-sweep is set once by the component and removed when the sweep ends.
+   * `backwards` only: a forwards fill would keep overriding the variables the
+   * pointer writes afterwards. */
+  .glow-card[data-sweep="run"] {
+    animation: glow-card-sweep 3.6s cubic-bezier(0.45, 0, 0.3, 1) var(--d, 0ms) 1 backwards;
+  }
+}
+
+
+/* Hero load sequence: BoardUI's entrance (fade + slight scale + small blur),
+ * given a little more travel and time because it is the page's one staged
+ * moment. Stagger with --d on each element. */
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+    filter: blur(var(--enter-blur));
+  }
+}
+.hero-in {
+  animation: hero-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* The headline and lead are the page's largest text (its LCP). They must be
+ * painted in the first frame, so they never start transparent: they only
+ * settle upward. Fading them in from opacity 0 measured as a 3.3s LCP on a
+ * throttled phone, because the browser does not count invisible text. */
+@keyframes hero-settle {
+  from {
+    transform: translateY(10px);
+  }
+}
+.hero-settle {
+  animation: hero-settle 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Dashes flowing along a connector in the problem diagram. */
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-inview="true"] .flow-dash {
+    animation: flow-dash 1.6s linear infinite;
+  }
+}
+
+/* A single pulse travelling along the "with ClinTrust" payment chain. */
+@keyframes chain-pulse {
+  from {
+    translate: -100% 0;
+  }
+  to {
+    translate: 500% 0;
+  }
+}
+.chain-pulse {
+  animation: chain-pulse 3.6s cubic-bezier(0.33, 0, 0.15, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-in,
+  .hero-settle,
+  .menu-in,
+  .panel-in,
+  .ledger-row-in,
+  .chain-pulse {
+    animation: none;
+  }
+  .chain-pulse {
+    display: none;
+  }
+}
