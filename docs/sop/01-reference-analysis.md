@@ -73,6 +73,14 @@ was supplied for each section in turn. What each asked for, and what was built:
 | Navbar | A floating pill with dropdown menus (icon, title, description per row) | The pill, the dropdown rows | Light theme. Two dropdowns (Our approach, Company) and one plain link |
 | Typeface | Google Sans, then Figtree | Whole site | Figtree is the current face; it replaces Inter Display |
 
+Sprint 4 added three more:
+
+| Section | Reference | What was taken | How it was adapted |
+| --- | --- | --- | --- |
+| How it works | Three feature cards, each with a label, a small animated scene and a centred title and line | The card anatomy; one distinct looping scene per card | Record, Reconcile, Pay. This replaced the scroll-pinned version from sprint 3 |
+| Footer, first attempt | An isometric conveyor feeding a machine | A conveyor scene drawn for ClinTrust: plain tiles in, ticked teal tiles out | Built, then removed the same day in favour of the layout below |
+| Footer, final | Logo row with social icons, a contact card beside link columns, a giant faded wordmark, a legal line | All of it except the social icons | Standards tags sit where the social icons were |
+
 A pattern worth noting for future sprints: the references the client responds
 to are **illustrated and spatial** (isometric scenes, flows with moving
 signals, panels inside panels). The sprint 1 and 2 direction, flat product

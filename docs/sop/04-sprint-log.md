@@ -5,6 +5,57 @@ checked, what is open.
 
 ---
 
+## Sprint 4: step cards, footer, line quality (2026-11-15)
+
+Short sprint of follow-ups after the client reviewed sprint 3.
+
+### Shipped
+
+| Change | Detail |
+| --- | --- |
+| How it works | The scroll-pinned step list became three animated cards (Record, Reconcile, Pay), each with its own looping scene. Now a server component with no script |
+| Footer | Rebuilt to a supplied layout: logo row with standards tags, contact card beside the link columns, large faded wordmark, legal line |
+| Illustration line quality | Rounded box corners, rounded wire bends, 1.25px strokes, linear pulses, across the hero scene and all six platform illustrations |
+| Hero logo | Smaller on the centre tile |
+| Captions | "Illustrative data." removed from product panels (the previous site has none) |
+| Performance | Hero scene and platform illustrations made client components, bringing homepage HTML from 50 KB back to 32 KB |
+| Repository | Initialised and pushed to `github.com/arshartisan/clintrust-concept` |
+
+### Decisions and their reasons
+
+1. **Pinned scrolling was dropped one sprint after it was added.** It was
+   built on request in sprint 3; the client then supplied a three-card
+   reference for the same section. The cards are simpler, need no script, and
+   behave the same on every device.
+2. **A footer scene was built and removed.** An isometric conveyor (records
+   in, verified payments out) was built to one reference, then replaced when a
+   different footer layout was supplied. It is in the git history
+   (`components/marketing/footer-scene.tsx`) if it is wanted elsewhere.
+3. **No social icons in the footer.** The reference has them; ClinTrust has no
+   social accounts on record. The standards tags take that position.
+4. **Generated illustrations became client components**, the opposite of the
+   usual default, because their output is far larger than their source. See
+   `05-performance.md`, section 7.
+
+### How it was checked
+
+- `npx tsc --noEmit`, `npm run lint`, `npm run build`: all pass.
+- Homepage: Lighthouse mobile and desktop 100 / 100 / 100 / 100; page weight
+  inside every budget. `/about` and `/approach` spot-checked at 100.
+- Chrome, production build: the step cards, the footer and the hero viewed at
+  desktop width; no horizontal overflow at 360, 768 or 1024.
+
+Not checked: the step-card and footer layouts were measured at phone width
+but not looked at; the other items listed at the end of `05-performance.md`
+still stand.
+
+### Open items
+
+Unchanged from sprint 3, except that git is now set up. The contact form
+still delivers nowhere, and the inner-page content still needs sign-off.
+
+---
+
 ## Sprint 3: homepage redesign, inner pages, new typeface (2026-11-15)
 
 ### Goal

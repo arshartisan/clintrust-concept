@@ -16,12 +16,6 @@
  * See docs/sop/02-design-system.md before changing anything here.
  * --------------------------------------------------------------------------- */
 
-/* `pinned:` = screens big enough for the scroll-pinned "how it works" section:
- * desktop width AND enough height to hold the pinned block. Phones, tablets
- * and short windows get the stacked layout instead. Keep in sync with
- * PINNED_QUERY in components/marketing/how-it-works.tsx. */
-@custom-variant pinned (@media (min-width: 1024px) and (min-height: 640px));
-
 @theme {
   /* 0. Typeface: Figtree, loaded in app/layout.tsx as --font-brand.
    * Overrides BoardUI's --font-sans (which points at Inter), so every BoardUI
@@ -102,10 +96,10 @@
   --text-lead--letter-spacing: -0.006em;
   --text-lead--font-weight: 400;
 
-  /* The decorative wordmark under the footer card. */
+  /* The decorative wordmark in the footer. */
   --text-wordmark: clamp(4rem, 19vw, 15rem);
   --text-wordmark--line-height: 0.82;
-  --text-wordmark--letter-spacing: -0.055em;
+  --text-wordmark--letter-spacing: -0.045em;
   --text-wordmark--font-weight: 600;
 
   --text-figure: clamp(2.5rem, 1.6rem + 3vw, 4rem);
@@ -519,6 +513,72 @@ html {
 }
 .hero-settle {
   animation: hero-settle 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* "How it works" cards (components/marketing/how-it-works.tsx).
+ * Same rules as the isometric drawings: compositor properties only, running
+ * only under [data-inview="true"], with a resting state that reads on its own. */
+
+/* Record: the arc of incoming entries rocks gently. */
+@keyframes how-sway {
+  from {
+    rotate: -7deg;
+  }
+  to {
+    rotate: 7deg;
+  }
+}
+/* Reconcile: each row takes its turn in focus (three rows, 2s each). */
+@keyframes how-row {
+  0%,
+  33%,
+  100% {
+    translate: 0 0;
+  }
+  5%,
+  28% {
+    translate: -10px 0;
+  }
+}
+@keyframes how-row-tint {
+  0%,
+  33%,
+  100% {
+    opacity: 0;
+  }
+  5%,
+  28% {
+    opacity: 1;
+  }
+}
+/* Pay: a ring spreading from the currency being paid. */
+@keyframes how-ring {
+  from {
+    scale: 1;
+    opacity: 0.55;
+  }
+  to {
+    scale: 1.9;
+    opacity: 0;
+  }
+}
+.how-row-tint,
+.how-ring {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-inview="true"] .how-sway {
+    animation: how-sway 5s ease-in-out infinite alternate;
+  }
+  [data-inview="true"] .how-row {
+    animation: how-row 6s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) infinite;
+  }
+  [data-inview="true"] .how-row-tint {
+    animation: how-row-tint 6s ease-out var(--d, 0ms) infinite;
+  }
+  [data-inview="true"] .how-ring {
+    animation: how-ring 2.2s ease-out infinite;
+  }
 }
 
 /* Dashes flowing along a connector in the problem diagram. */

@@ -168,7 +168,7 @@ library in the initial bundle (see `05-performance.md` for why).
 | Hero scene | Pulses travel the wires in and out; verified tiles light up | `.iso-pulse` (2.8s per pulse, staggered), `.iso-blink` (4.5s) |
 | Section headings | Condense into focus once, on entering the viewport | `<Reveal>` + `.reveal`: fade + scale 0.985 + blur, 400ms |
 | The problem | A light travels the timeline; dots pulse in order; dashes flow along the connectors | `.chain-pulse`, `.iso-blink`, `.flow-dash` |
-| How it works | Pinned on desktop; the step follows the scroll position | Scroll-driven. Rail fill uses `--step-progress`; panel swap `.panel-in`, 300ms |
+| How it works | Three cards, each with a small looping scene | `.how-sway` (arc rocking, 5s), `.how-row` + `.how-row-tint` (each row in focus for 2s of a 6s cycle), `.how-ring` (ring spreading, 2.2s) |
 | Capital | Bars and figure follow the slider | `scale` 300ms ease-out; figure `useCountUp` 320ms |
 | Platform cards | Each illustration loops while its card is on screen | `.iso-pulse`, `.iso-blink`, `.iso-float`, `.iso-step` |
 | Glow cards | Border lights toward the cursor; one sweep when first seen | See "Glow card" below |
@@ -263,20 +263,31 @@ border colour and silently drops it when the element also sets a real border
 colour. Never name a custom class `border-*`, `text-*`, `bg-*` or any other
 Tailwind utility prefix.
 
-### Pinned section (How it works)
+### Step cards (How it works)
 
-Defined by the `pinned:` variant in `brand.css`: at least 1024px wide **and**
-640px tall. On those screens the section is `position: sticky` inside a track
-300vh tall, and the scroll position picks the step. Everywhere else the three
-steps are stacked, because pinning a block taller than the screen traps
-content off-screen.
+`components/marketing/how-it-works.tsx`. Three glow cards in a row (stacked
+on phones): a step label with three ticks showing how far along the chain the
+step is, a scene on a soft surface, then the step's name and one line.
 
-- Keep `PINNED_QUERY` in `how-it-works.tsx` identical to the variant in CSS.
-- The pinned block must fit in the viewport height at 640px. If content is
-  added, check it at 1024 x 640.
-- No ancestor of the sticky block may have `overflow: hidden` or `auto`.
-- Scroll handling is one `requestAnimationFrame`-throttled passive listener;
-  React state changes only when the step changes.
+| Step | Scene | Colour |
+| --- | --- | --- |
+| Record | Three round badges riding a rocking arc | Blue: recorded, not yet verified |
+| Reconcile | Three budget lines, each taking a turn in focus; the third needs review | Teal for matched, amber for the flagged line |
+| Pay | A "payment settled" card feeding a row of currencies, one enlarged with a spreading ring | Teal: paid |
+
+It is a server component with no script. Sprint 3 had this section pinned to
+the viewport with the step following the scroll; that was replaced in sprint 4
+at the client's request, and the `pinned:` variant was removed with it.
+
+### Footer
+
+`components/marketing/site-footer.tsx`. Logo row with the standards as small
+tags, a divider, a "Reach out to us" card beside the link columns, a large
+faded wordmark, then the legal line. No social icons: there are no ClinTrust
+social accounts on record to link to. Add them to the logo row when there are.
+
+The wordmark is generated content (`::before`), so it is skipped by assistive
+technology and by contrast checks.
 
 ### Navbar
 

@@ -23,6 +23,12 @@ that breaks a budget is not done.
 | Cumulative layout shift | under 0.02 | 0.005 | 0 | **0** |
 | Horizontal overflow at 360 / 768 / 1024 / 1280 / 1536 | 0 px | 16 px at 390 (fixed) | 0 px | **0 px** |
 
+Sprint 4 (step cards, new footer, smoothed illustrations), homepage: initial
+JavaScript 154 KB, CSS 27 KB, HTML 32 KB; Lighthouse mobile and desktop
+100 / 100 / 100 / 100; LCP 1.2 s mobile; blocking time 30 ms; layout shift 0;
+no horizontal overflow at 360, 768 or 1024. The other pages were spot-checked
+(`/about`, `/approach`: 100 across the board).
+
 Two things to watch after sprint 3:
 
 - **Home HTML doubled** (16 to 30 KB), from the inline isometric SVGs and from
@@ -152,7 +158,21 @@ with a transform origin, not `width`.
 | Text size | Small text never uses `text-text-tertiary` (3.1:1 on white). That tone is for display-size text only. |
 | Tap targets | Buttons are 32px or taller with at least 8px between them. |
 
-### 7. Decorative text is generated content
+### 7. Generated illustrations are client components
+
+`hero-scene.tsx` and `iso-visuals.tsx` start with `"use client"` although they
+have no state or effects. A few lines of drawing code expand into a lot of
+SVG. As a server component that SVG is sent twice: once as HTML and once in
+the page's serialized component tree. As a client component it is sent once
+as HTML, and the small generator travels in the script bundle instead.
+
+Measured on the homepage in sprint 4, after the illustrations got rounded
+corners (longer paths): 50 KB of HTML as server components, 32 KB as client
+components, for 4 KB more JavaScript. The rule: a component whose output is
+much larger than its source, and is not needed for search, should be a client
+component.
+
+### 8. Decorative text is generated content
 
 The huge wordmark under the footer is drawn with `::before` and
 `content: attr(data-wordmark)`, not as text in the document. As real text it
