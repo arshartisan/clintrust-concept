@@ -27,21 +27,29 @@ export const about = {
   ],
   leadership: {
     title: "Founded by operators, built by builders.",
+    // Photos are from the previous site (clintrust.ai/images/team-*.jpg), each
+    // placed beside the same name the previous site shows it with. NOTE: on
+    // that site the file names for two of them are crossed (team-amanvir.jpg
+    // is shown as Larisa Nagra, team-larisa.jpg as Amanvir Mundra). The
+    // placement was followed, not the file names. Confirm who is who.
     people: [
       {
         name: "Larisa Nagra",
+        photo: "/team/larisa-nagra.webp",
         role: "CEO and co-founder",
         bio: "More than 20 years in clinical operations at pharma sponsors and major CROs, with expertise in investigator site payments, trial execution and APAC clinical operations.",
         tags: ["Clinical finance", "APAC operations"],
       },
       {
         name: "Vivek Gujral",
+        photo: "/team/vivek-gujral.webp",
         role: "CTO and co-founder",
         bio: "Fintech infrastructure specialist who has built payment solutions for the insurance sector, including payment rail architecture and AI-assisted financial systems in Singapore and internationally.",
         tags: ["Fintech infrastructure", "AI systems"],
       },
       {
         name: "Amanvir Mundra",
+        photo: "/team/amanvir-mundra.webp",
         role: "CPO and co-founder",
         bio: "Digital product and transformation leader across healthcare, defense, retail and construction, delivering enterprise platforms.",
         tags: ["Digital transformation", "Product leadership"],

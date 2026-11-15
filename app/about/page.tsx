@@ -12,12 +12,6 @@ export const metadata: Metadata = {
   description: about.hero.lead,
 };
 
-const initials = (name: string) =>
-  name
-    .split(" ")
-    .map((part) => part[0])
-    .join("");
-
 export default function AboutPage() {
   return (
     <>
@@ -60,12 +54,16 @@ export default function AboutPage() {
                 className="h-full rounded-3xl border border-border-button-default bg-background-full"
               >
                 <div className="flex h-full flex-col p-7">
-                  <span
-                    aria-hidden="true"
-                    className="flex size-12 items-center justify-center rounded-2xl bg-background-secondary-default text-headline-medium text-text-primary"
-                  >
-                    {initials(person.name)}
-                  </span>
+                  {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized 224px WebP; next/image adds nothing here */}
+                  <img
+                    src={person.photo}
+                    alt={`Portrait of ${person.name}`}
+                    width={224}
+                    height={224}
+                    loading="lazy"
+                    decoding="async"
+                    className="size-20 rounded-full object-cover ring-1 ring-border-button-default"
+                  />
                   <h3 className="mt-5 text-title-3-medium text-text-primary">{person.name}</h3>
                   <p className="text-body-medium text-accent-600">{person.role}</p>
                   <p className="mt-4 mb-6 text-body-regular text-text-secondary">{person.bio}</p>
