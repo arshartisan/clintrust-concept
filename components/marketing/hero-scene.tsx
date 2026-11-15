@@ -1,3 +1,12 @@
+"use client";
+
+// A client component on purpose, although it has no state or effects.
+// These drawings are generated from a few lines of code into a lot of SVG.
+// As a server component that SVG is sent twice: once as HTML and once in the
+// page's serialized component tree. As a client component it is sent once as
+// HTML, plus the small generator in the script bundle. On the homepage that
+// was the difference between 50 KB and the HTML budget (docs/sop/05-performance.md).
+
 import type { CSSProperties } from "react";
 import { IsoBox, IsoLabel, IsoStamp, IsoWire, type Point3 } from "./iso";
 
@@ -208,7 +217,7 @@ export function HeroScene({ className }: { className?: string }) {
 
       {/* The mark, printed flat on the raised centre tile. */}
       <IsoBox at={[0, 0]} size={[TILE, TILE, 0.26]} z={0.58} scale={S} />
-      <IsoStamp at={[0, 0, 0.84]} scale={S} width={52} />
+      <IsoStamp at={[0, 0, 0.84]} scale={S} width={38} />
 
       {/* Labels: hidden on phones, where they would be too small to read. */}
       <g className="max-sm:hidden">
