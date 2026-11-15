@@ -138,7 +138,6 @@ export function HowItWorks() {
                     <ActivePanel />
                   </div>
                 </Stage>
-                <p className="mt-3 text-caption-1-regular text-text-secondary">Illustrative data.</p>
               </div>
             </div>
           </div>
@@ -170,7 +169,6 @@ export function HowItWorks() {
               );
             })}
           </ol>
-          <p className="mt-3 text-caption-1-regular text-text-secondary">Illustrative data.</p>
         </div>
       </div>
     </section>

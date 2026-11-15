@@ -62,7 +62,6 @@ export function Platform() {
           </li>
         ))}
       </ul>
-      <p className="mt-3 text-caption-1-regular text-text-secondary">Illustrative.</p>
     </Section>
   );
 }

@@ -48,7 +48,9 @@ on the centre tile was re-projected so its edges are parallel to the tile's
 (a vertical squash had left it at 45 degrees); the typeface changed from
 Google Sans to Figtree; and all isometric line work was smoothed (rounded
 tile corners, rounded wire bends, 1.25px strokes). The project was then put
-under git and pushed to `github.com/arshartisan/clintrust-concept`.
+under git and pushed to `github.com/arshartisan/clintrust-concept`. Last, the
+"Illustrative data." captions under the product panels were removed (the
+previous site has none); the capital calculator keeps its assumptions line.
 
 ### Decisions and their reasons
 

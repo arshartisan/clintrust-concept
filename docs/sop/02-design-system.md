@@ -293,7 +293,12 @@ returns focus, focus leaving or a press elsewhere closes.
 
 - Plain verbs, sentence case, no filler. Say what the thing does.
 - A button says what happens: "Request a demo", and the toast answers "Demo requested".
-- Every product panel that shows numbers carries "Illustrative data." beneath it.
+- Product panels and illustrations show sample figures without a caption, as
+  the previous site's mockups did. ("Illustrative data." captions were added in
+  sprint 1 and removed in sprint 3 at the client's request: they repeated on
+  every panel.) The one exception is the capital calculator, which keeps a
+  line stating its assumptions, because it outputs dollar figures a visitor
+  might quote.
 - Figures on the page must trace to a source the team can stand behind. The
   current ones come from the previous site (see the sprint log).
 

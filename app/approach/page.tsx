@@ -59,7 +59,6 @@ export default function ApproachPage() {
             {role.id === "sites" ? (
               <div className="lg:col-span-5">
                 <SettlementLedger />
-                <p className="mt-3 text-caption-1-regular text-text-secondary">Illustrative data.</p>
               </div>
             ) : null}
           </div>
