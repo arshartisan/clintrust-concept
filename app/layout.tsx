@@ -1,17 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import { Figtree } from "next/font/google";
+import { Inter } from "next/font/google";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { brand } from "@/content/landing";
 import "@/styles/globals.css";
 
-// Figtree (variable, 300 to 900) for the whole site.
+// Inter (variable, with its optical-size axis) for the whole site. With the
+// axis loaded, the browser switches to Inter's display drawing at large sizes
+// on its own, so headings get the tighter cut and body text the text cut.
 // next/font downloads it at build time and serves it from this site: one
 // latin-subset variable file, and no request to Google at runtime.
 // styles/brand.css points Tailwind's --font-sans at --font-brand.
-const figtree = Figtree({
+const inter = Inter({
   variable: "--font-brand",
   subsets: ["latin"],
+  axes: ["opsz"],
   display: "swap",
 });
 
@@ -31,7 +34,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${figtree.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-background-full text-text-primary">
         <SiteHeader />
         <main className="flex-1">{children}</main>

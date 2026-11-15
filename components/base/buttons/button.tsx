@@ -85,8 +85,8 @@ const styles = sortCx({
 
   // Base shape per size (used when label is present OR medium icon-only).
   size: {
-    medium: "h-9 rounded-2lg p-2 text-body-medium",
-    small:  "h-8 rounded-lg px-2 py-1.5 text-body-medium",
+    medium: "h-10 rounded-2lg p-2 text-body-medium", // ClinTrust: 40px tall (BoardUI: h-9)
+    small:  "h-9 rounded-lg px-2 py-1.5 text-body-medium", // ClinTrust: 36px tall (BoardUI: h-8)
     xs:     "h-6 rounded-sm px-2 text-caption-1-semibold",
   },
 
@@ -98,7 +98,7 @@ const styles = sortCx({
   //            template's edit-icon buttons (timezone/participants/reminder).
   iconOnlySize: {
     medium: "",                // base size already produces 36×36 with a 20px icon
-    small:  "size-8 p-0",      // hard 32×32, content-centered
+    small:  "size-9 p-0",      // 36×36, content-centered (matches the taller small size)
     xs:     "size-6 p-0",      // hard 24×24, content-centered
   },
 
@@ -115,18 +115,19 @@ const styles = sortCx({
   },
 
   variant: {
-    primary: [
-      "bg-button-primary text-text-white shadow-xs",
-      "disabled:text-button-primary-disabled-foreground disabled:shadow-none",
-      "aria-disabled:text-button-primary-disabled-foreground aria-disabled:shadow-none",
-    ].join(" "),
+    // ClinTrust: the primary button is the "glow" pill (styles/brand.css →
+    // .button-glow), carried over from the Vernius project. Deep accent body,
+    // lit lower rim, soft bloom. It reads the accent ramp, so it is teal here.
+    // BoardUI's stock primary was: "bg-button-primary text-text-white shadow-xs".
+    primary: "button-glow relative rounded-full px-4 text-text-white disabled:opacity-60 aria-disabled:opacity-60",
     danger: [
       "bg-button-danger text-text-white shadow-xs",
       "disabled:text-foreground-disabled-danger disabled:shadow-none",
       "aria-disabled:text-foreground-disabled-danger aria-disabled:shadow-none",
     ].join(" "),
     secondary: [
-      "bg-background-primary-default text-text-primary",
+      // rounded-full + px-3: a pill, to sit beside the primary glow pill.
+      "rounded-full px-4 bg-background-primary-default text-text-primary",
       "border border-border-button-default shadow-xs",
       "hover:bg-background-primary-hover  hover:border-border-button-hover",
       "active:bg-background-primary-active active:border-border-button-active",

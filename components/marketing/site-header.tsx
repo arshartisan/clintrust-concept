@@ -46,7 +46,7 @@ const ICONS: Record<IconName, ComponentType<{ className?: string }>> = {
 };
 
 const itemClass =
-  "flex h-9 items-center gap-0.5 rounded-xl px-3 text-body-medium text-text-secondary transition-colors duration-150 hover:bg-background-secondary-default hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring cursor-pointer";
+  "flex h-9 items-center gap-0.5 rounded-full px-3.5 text-body-medium text-text-secondary transition-colors duration-150 hover:bg-background-secondary-default hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring cursor-pointer";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -85,19 +85,25 @@ export function SiteHeader() {
     <header className="pointer-events-none sticky top-3 z-40 mt-3 px-3">
       <div
         ref={barRef}
-        className="pointer-events-auto relative mx-auto w-fit max-w-full rounded-2xl border border-border-button-default bg-background-primary-default/90 shadow-lg backdrop-blur-md"
+        // A full pill. With the phone menu open the bar is taller than it is
+        // round, so it relaxes to a large radius.
+        className={cx(
+          // 1200px: the same width as the page column, so the bar lines up with the rails.
+          "nav-glass pointer-events-auto relative mx-auto w-full max-w-[1200px]",
+          mobileOpen ? "rounded-[1.75rem]" : "rounded-full",
+        )}
       >
-        <div className="flex items-center gap-1 p-1.5">
+        <div className="flex items-center gap-1 p-2 lg:px-3">
           <Link
             href="/"
             aria-label={`${brand.name} home`}
-            className="me-1 flex h-9 items-center gap-2 rounded-xl ps-1.5 pe-2.5 outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
+            className="me-1 flex h-9 items-center gap-2 rounded-full ps-2.5 pe-3 outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
           >
             <LogoMark className="h-7" />
             <span className="text-headline-semibold tracking-tight text-text-primary">{brand.name}</span>
           </Link>
 
-          <nav aria-label="Primary" className="hidden items-center gap-0.5 md:flex">
+          <nav aria-label="Primary" className="hidden flex-1 items-center justify-center gap-0.5 md:flex">
             {nav.map((entry) => {
               if (!("items" in entry)) {
                 return (
@@ -171,7 +177,7 @@ export function SiteHeader() {
             })}
           </nav>
 
-          <ButtonLink href="/contact" size="small" className="ms-1">
+          <ButtonLink href="/contact" size="small" className="ms-auto md:ms-1">
             Request a demo
           </ButtonLink>
           <Button

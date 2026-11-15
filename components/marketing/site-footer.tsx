@@ -83,11 +83,12 @@ export function SiteFooter() {
 
         {/* Decorative wordmark. Drawn as generated content (::before), not as
             text in the document, so assistive technology and contrast checks
-            skip it. The legal line sits over its lower edge. */}
+            skip it. Filled with the logo's teal-to-blue gradient (`.wordmark-brand`
+            in styles/brand.css). The legal line sits over its lower edge. */}
         <div
           aria-hidden="true"
           data-wordmark={brand.name}
-          className="pointer-events-none mt-10 -mb-[0.2em] text-center text-wordmark text-background-secondary-hover select-none [mask-image:linear-gradient(to_bottom,black_25%,transparent_95%)] before:content-[attr(data-wordmark)] lg:mt-6"
+          className="wordmark-brand pointer-events-none mt-10 -mb-[0.2em] text-center text-wordmark select-none [mask-image:linear-gradient(to_bottom,black_20%,transparent_96%)] lg:mt-6"
         />
 
         <p className="relative pb-6 text-body-2-regular text-text-secondary">{footer.legal}</p>
