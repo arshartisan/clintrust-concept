@@ -31,7 +31,7 @@ no horizontal overflow at 360, 768 or 1024. The other pages were spot-checked
 
 Sprint 5 (new hero, capital cards, APAC bento, light call-to-action, glow
 buttons, glass navbar, Inter), homepage: initial JavaScript 154 KB, CSS 28 KB,
-**HTML 36 KB**; Lighthouse mobile and desktop 100 / 100 / 100 / 100; LCP 1.2 s
+**HTML 36 KB** (37 KB after the later hero additions); Lighthouse mobile and desktop 100 / 100 / 100 / 100; LCP 1.2 s
 mobile; blocking time 20 ms; layout shift 0; no horizontal overflow at 360,
 768, 1024 or 1280. `/about` spot-checked at 100.
 

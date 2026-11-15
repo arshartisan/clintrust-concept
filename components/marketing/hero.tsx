@@ -11,8 +11,9 @@ import { InView } from "./in-view";
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
 /**
- * Hero (sprint 5): a compact headline block at the top left, and a large
- * isometric scene that fills the rest and tucks in under the text.
+ * Hero: a compact headline block at the top left over an isometric floor
+ * grid, a large isometric scene that fills the rest and tucks in under the
+ * text, and the standards as a full-width strip of four cells underneath.
  *
  * On desktop the scene is pulled up behind the text with a negative margin.
  * That only works because the scene keeps its top-left corner empty (see
@@ -24,6 +25,12 @@ export function Hero() {
     // overflow-x-clip: the scene and dot field bleed past the column and must not widen the page.
     <section id="top" className="relative overflow-x-clip">
       <div className={cx(container, "relative")}>
+        {/* Isometric floor grid: two sets of hairlines at plus and minus 30 degrees,
+            strongest behind the scene and fading out toward the edges. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 [background-image:repeating-linear-gradient(30deg,var(--color-separator-border)_0_1px,transparent_1px_34px),repeating-linear-gradient(150deg,var(--color-separator-border)_0_1px,transparent_1px_34px)] [mask-image:radial-gradient(ellipse_75%_70%_at_62%_58%,black_20%,transparent_78%)]"
+        />
         <div className="pt-12 pb-8 lg:pt-14 lg:pb-10">
           <div className="relative z-10 max-w-[560px]">
             <p
@@ -47,20 +54,16 @@ export function Hero() {
             </div>
           </div>
 
-          {/* -mt-[250px]: how far the scene's empty top-left corner reaches under the text. */}
-          <div className="hero-in relative mt-6 lg:-mt-[250px] lg:ms-[3%] lg:-me-8" style={delay(200)}>
-            {/* Dot field under the scene, faded out toward its edges. */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 [background-image:radial-gradient(var(--color-border-button-hover)_1px,transparent_1px)] [background-size:18px_18px] [mask-image:radial-gradient(ellipse_at_60%_55%,black_25%,transparent_70%)]"
-            />
+          {/* -mt-[325px]: how far the scene's empty top-left corner reaches under the text. */}
+          <div className="hero-in relative mt-6 lg:-mt-[325px] lg:ms-[3%] lg:-me-8" style={delay(200)}>
             <InView className="relative">
               <HeroScene className="h-auto w-full" />
             </InView>
           </div>
         </div>
 
-        <ul className="grid grid-cols-2 gap-px border-t border-separator-border bg-separator-border lg:-mx-12 lg:grid-cols-4">
+        {/* Standards: a full-width strip of four cells under the hero. */}
+        <ul className="relative grid grid-cols-2 gap-px border-t border-separator-border bg-separator-border lg:-mx-12 lg:grid-cols-4">
           {hero.compliance.map((item) => (
             <li
               key={item}

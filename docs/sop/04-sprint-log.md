@@ -28,6 +28,12 @@ Another round of section-by-section changes against supplied references.
 Removed: `capital-calculator.tsx`, `capital-widget.tsx` and the lazy capital
 widget. The homepage now loads no react-aria code at all.
 
+After review, the hero was taken closer to the KOVA reference (Pinterest pin
+1048986938340607777): an isometric floor grid, a second floating card above
+the platform, one highlighted payout line, and a shield icon in place of the
+logo on the centre tile. A floating standards card was added with it and
+then reverted to the four-cell strip. Homepage HTML is now 37 KB.
+
 ### Decisions and their reasons
 
 1. **The hero overlaps text and scene on purpose**, using a negative margin

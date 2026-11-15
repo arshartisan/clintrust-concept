@@ -271,6 +271,8 @@ interface IsoWireProps {
   tone?: "blue" | "accent";
   /** Stagger for the travelling pulse, in ms. */
   delay?: number;
+  /** Draw the wire itself thick and in colour: the one route being highlighted. */
+  strong?: boolean;
 }
 
 /**
@@ -284,6 +286,7 @@ export function IsoWire({
   scale,
   tone = "blue",
   delay = 0,
+  strong,
 }: IsoWireProps) {
   // Bends are rounded so a pulse sweeps round a corner instead of snapping.
   const d = isoLine(points, scale, 0.45);
@@ -291,13 +294,24 @@ export function IsoWire({
 
   return (
     <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-      <path d={d} className="stroke-border-button-hover" strokeWidth={STROKE} />
+      <path
+        d={d}
+        className={
+          strong
+            ? tone === "accent"
+              ? "stroke-accent-400"
+              : "stroke-brand-blue-400"
+            : "stroke-border-button-hover"
+        }
+        strokeWidth={strong ? 4.5 : STROKE}
+      />
       <path
         d={d}
         pathLength={100}
         className={cx(
           "iso-pulse",
-          tone === "accent" ? "stroke-accent-400" : "stroke-brand-blue-400",
+          // On a strong wire the pulse is white, so it shows against the colour.
+          strong ? "stroke-text-white" : tone === "accent" ? "stroke-accent-400" : "stroke-brand-blue-400",
         )}
         style={{ "--d": `${delay}ms` } as CSSProperties}
         strokeWidth={2.5}
@@ -436,6 +450,7 @@ interface IsoPanelProps {
   size: [w: number, h: number];
   scale: number;
   className?: string;
+  style?: CSSProperties;
   /** Drawn in the panel's own flat coordinates: x from 0 to width px, y from -height px (top) to 0 (bottom). */
   children?: ReactNode;
 }
@@ -444,14 +459,14 @@ interface IsoPanelProps {
  * An upright card standing in the scene, like a screen. Its content is drawn
  * flat and sheared 30 degrees with the panel, so text on it stays legible.
  */
-export function IsoPanel({ at, size, scale, className, children }: IsoPanelProps) {
+export function IsoPanel({ at, size, scale, className, style, children }: IsoPanelProps) {
   const [x, y] = project(at, scale);
   const width = r(size[0] * scale);
   const height = r(size[1] * scale);
   const c = r(COS * 1000) / 1000;
 
   return (
-    <g className={className}>
+    <g className={className} style={style}>
       <g transform={`translate(${x} ${y}) matrix(${c} ${SIN} 0 1 0 0)`}>
         <rect
           x={0}
@@ -464,6 +479,44 @@ export function IsoPanel({ at, size, scale, className, children }: IsoPanelProps
         />
         {children}
       </g>
+    </g>
+  );
+}
+
+interface IsoShieldProps {
+  /** Grid point at the centre of the icon (use the top of the surface for z). */
+  at: Point3;
+  scale: number;
+  /** Size of the icon along the surface, in px. */
+  size: number;
+  /** Paint for the shield, e.g. `url(#gradient-id)`. Defaults to the accent. */
+  fill?: string;
+}
+
+/**
+ * A shield with a tick, printed flat on a horizontal surface with the same
+ * projection as IsoStamp. A plain icon reads more clearly than the full logo
+ * at this size and angle, where the logo's fine detail closes up.
+ */
+export function IsoShield({ at, scale, size, fill }: IsoShieldProps) {
+  const [x, y] = project(at, scale);
+  const c = r(COS * 1000) / 1000;
+  const k = r((size / 24) * 1000) / 1000;
+  return (
+    <g transform={`translate(${x} ${y}) matrix(${c} ${-SIN} ${c} ${SIN} 0 0) scale(${k}) translate(-12 -12)`}>
+      <path
+        d="M12 2.5 4 5.4v6.1c0 4.7 3.2 8.6 8 10 4.8-1.4 8-5.3 8-10V5.4l-8-2.9Z"
+        className={fill ? undefined : "fill-accent-500"}
+        fill={fill}
+      />
+      <path
+        d="m8.4 12.2 2.5 2.5 4.8-5.2"
+        fill="none"
+        className="stroke-text-white"
+        strokeWidth={1.9}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </g>
   );
 }

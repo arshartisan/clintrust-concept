@@ -8,7 +8,7 @@
 // (docs/sop/05-performance.md, section 7).
 
 import type { CSSProperties } from "react";
-import { IsoBox, IsoDisc, IsoLabel, IsoPanel, IsoStamp, IsoWire, type Point3 } from "./iso";
+import { IsoBox, IsoDisc, IsoLabel, IsoPanel, IsoShield, IsoWire, type Point3 } from "./iso";
 
 /**
  * The hero illustration (sprint 5): the platform, built from its own parts.
@@ -19,9 +19,12 @@ import { IsoBox, IsoDisc, IsoLabel, IsoPanel, IsoStamp, IsoWire, type Point3 } f
  *   Site visits   a rack of visit records at the bottom left. Teal ones are
  *                 paid, white ones are still in progress.
  *   EDC, CTMS     the two data feeds, as source blocks at the top right.
- *   ClinTrust     a stack of three plates (record, reconcile, pay) with the
- *                 mark printed on top, and a payable standing behind it.
- *   Payouts       coins in three local currencies, right and bottom.
+ *   ClinTrust     a stack of three plates (record, reconcile, pay) with a
+ *                 shield icon printed on top, and a payable standing behind it.
+ *   Payouts       coins in three local currencies, right and bottom. The
+ *                 SGD route is drawn thick, as the one being followed.
+ *   Cards         two upright cards float above the platform: the verified
+ *                 visit, and the payable it produced.
  *
  * Blue pulses carry raw data in; teal pulses carry verified payments out.
  * One inline SVG, animated with CSS only (`iso-*` classes) while on screen.
@@ -47,13 +50,14 @@ const RACK_Y = 6.2;
 const RACK = Array.from({ length: 7 }, (_, index) => ({ x: -4 + index * 0.6, paid: index < 3 }));
 
 // The payable panel, in its own flat pixel space (see IsoPanel).
-const PANEL_W = 3.2 * S;
+const PANEL_W = 3.7 * S;
 const PANEL_H = 3.6 * S;
+const PANEL2_H = 1.45 * S;
 
 export function HeroScene({ className }: { className?: string }) {
   return (
     <svg
-      viewBox="-388 -238 712 416"
+      viewBox="-388 -312 712 490"
       shapeRendering="geometricPrecision"
       className={className}
       role="img"
@@ -69,6 +73,11 @@ export function HeroScene({ className }: { className?: string }) {
           <stop offset="0" style={{ stopColor: "var(--color-brand-blue-500)" }} />
           <stop offset="1" style={{ stopColor: "var(--color-brand-blue-600)" }} />
         </linearGradient>
+        {/* The logo's teal-to-blue, for the shield on the centre tile. */}
+        <linearGradient id="hero-shield" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" style={{ stopColor: "var(--color-accent-400)" }} />
+          <stop offset="1" style={{ stopColor: "var(--color-brand-blue-600)" }} />
+        </linearGradient>
       </defs>
 
       {/* Ground: connectors first, so everything else sits on top of them. */}
@@ -76,7 +85,8 @@ export function HeroScene({ className }: { className?: string }) {
         <IsoWire key={index} points={points} scale={S} tone="blue" delay={index * 500} />
       ))}
       {OUT.map((points, index) => (
-        <IsoWire key={index} points={points} scale={S} tone="accent" delay={1100 + index * 500} />
+        // The SGD payout is the highlighted route: a thick teal line.
+        <IsoWire key={index} points={points} scale={S} tone="accent" delay={1100 + index * 500} strong={index === 0} />
       ))}
 
       {/* The two data feeds. */}
@@ -95,7 +105,7 @@ export function HeroScene({ className }: { className?: string }) {
       <IsoBox at={[0, 0]} size={[4, 4, 0.34]} z={0.88} scale={S} />
 
       {/* The payable, standing on the back edge of the platform. */}
-      <IsoPanel at={[-1.6, -1.6, 1.3]} size={[3.2, 3.6]} scale={S} className="iso-float">
+      <IsoPanel at={[-1.8, -1.6, 1.3]} size={[3.7, 3.6]} scale={S} className="iso-float" style={{ "--d": "-1600ms" } as CSSProperties}>
         <g className="max-sm:hidden">
           <text x={12} y={-PANEL_H + 21} className="fill-text-secondary text-caption-2-medium">
             Payable 2041-118
@@ -122,9 +132,27 @@ export function HeroScene({ className }: { className?: string }) {
         })}
       </IsoPanel>
 
-      {/* The mark, printed on a raised tile at the front of the platform. */}
+      {/* A second card floating above the first: the visit that produced the payable. */}
+      <IsoPanel at={[-1.8, -1.6, 5.55]} size={[3.7, 1.45]} scale={S} className="iso-float">
+        <circle cx={18} cy={-PANEL2_H + 18} r={7} className="fill-accent-500" />
+        <path
+          d={`M14.6 ${-PANEL2_H + 18.2} l2.4 2.4 l4.2 -4.8`}
+          fill="none"
+          className="stroke-text-white"
+          strokeWidth={1.6}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <text x={32} y={-PANEL2_H + 22} className="fill-text-primary text-caption-2-semibold max-sm:hidden">
+          Visit verified
+        </text>
+        <rect x={12} y={-PANEL2_H + 33} width={62} height={5} rx={2.5} className="fill-brand-blue-100" />
+      </IsoPanel>
+
+      {/* A shield icon, printed on a raised tile at the front of the platform.
+          The full logo was used here first; its detail closed up at this size. */}
       <IsoBox at={[0.4, 0.5]} size={[2.3, 2.3, 0.16]} z={1.22} scale={S} />
-      <IsoStamp at={[0.4, 0.5, 1.38]} scale={S} width={48} />
+      <IsoShield at={[0.4, 0.5, 1.38]} scale={S} size={50} fill="url(#hero-shield)" />
 
       {/* Site visits: a rack of records on a plinth, in front of the platform. */}
       <IsoBox at={[-2.2, RACK_Y]} size={[5.2, 3.2, 0.14]} scale={S} tone="blue" />

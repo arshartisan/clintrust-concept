@@ -274,17 +274,27 @@ Tailwind utility prefix.
 `components/marketing/hero.tsx` + `hero-scene.tsx`. A compact text block at
 the top left; below and behind it, a large isometric scene.
 
-- On `lg` and up the scene is pulled up under the text with `-mt-[250px]`.
+- On `lg` and up the scene is pulled up under the text with `-mt-[325px]`.
   This only works because the scene's composition runs from bottom left to
   top right and **keeps its top-left corner empty**. If you move anything in
   the scene toward the top left, or lengthen the hero copy, check 1024, 1280
   and 1536 for collisions.
 - Below `lg` there is no overlap: the scene follows the text.
 - The scene: a rack of site-visit records (bottom left), the EDC and CTMS
-  feeds (top right), the ClinTrust stack with the logo printed on top and a
-  payable card standing behind it, and three currency coins.
-- New toolkit pieces used here: `IsoDisc` (coins) and `IsoPanel` (the upright
-  payable card, whose text is sheared with the panel so it stays legible).
+  feeds (top right), the ClinTrust stack with a shield icon printed on its
+  top tile, two upright cards floating above it ("Visit verified", then the
+  payable it produced), and three currency coins. The SGD payout line is drawn
+  thick and teal, as the one route being followed (`IsoWire strong`).
+- Behind it all, an isometric floor grid: two sets of hairlines at plus and
+  minus 30 degrees in CSS, faded toward the edges.
+- The centre tile carries `IsoShield`, not the logo. The logo was tried first
+  (`IsoStamp`); its fine detail closed up at that size and angle. The platform
+  cards' hubs still use the logo.
+- Under the hero, the standards sit in a full-width strip of four cells. A
+  floating card version was tried and reverted at the client's request.
+- Toolkit pieces added for this scene: `IsoDisc` (coins), `IsoPanel` (the
+  upright cards, whose text is sheared with the panel so it stays legible; keep
+  text inside the panel width, it does not wrap or clip), and `IsoShield`.
 
 ### Buttons
 
