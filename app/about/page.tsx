@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { ButtonLink } from "@/components/base/buttons/button";
-import { BorderGlow } from "@/components/marketing/border-glow";
 import { CtaBand } from "@/components/marketing/cta-band";
 import { Section, SectionHeading } from "@/components/marketing/frame";
 import { PageHero } from "@/components/marketing/page-hero";
@@ -47,12 +46,9 @@ export default function AboutPage() {
           <SectionHeading title={about.leadership.title} />
         </Reveal>
         <ul className="mt-14 grid gap-4 md:grid-cols-3">
-          {about.leadership.people.map((person, index) => (
+          {about.leadership.people.map((person) => (
             <li key={person.name}>
-              <BorderGlow
-                sweepDelay={index * 140}
-                className="h-full rounded-3xl border border-border-button-default bg-background-full"
-              >
+              <div className="h-full rounded-3xl border border-border-button-default bg-background-full">
                 <div className="flex h-full flex-col p-7">
                   {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized 224px WebP; next/image adds nothing here */}
                   <img
@@ -78,7 +74,7 @@ export default function AboutPage() {
                     ))}
                   </ul>
                 </div>
-              </BorderGlow>
+              </div>
             </li>
           ))}
         </ul>

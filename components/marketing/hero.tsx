@@ -44,7 +44,8 @@ export function Hero() {
             {/* hero-settle, not hero-in: this is the LCP and must not start invisible. */}
             <h1 className="hero-settle mt-5 max-w-[15ch] text-hero text-balance text-text-primary">{hero.title}</h1>
 
-            <p className="hero-settle mt-5 max-w-[44ch] text-lead text-pretty text-text-secondary">{hero.lead}</p>
+            {/* One step under text-lead: the home hero's lead sits beside the scene, not alone. */}
+            <p className="hero-settle mt-4 max-w-[52ch] text-headline-regular text-pretty text-text-secondary">{hero.lead}</p>
 
             <div className="hero-in mt-7 flex flex-wrap items-center gap-3" style={delay(120)}>
               <ButtonLink href={hero.primaryCta.href}>{hero.primaryCta.label}</ButtonLink>
@@ -54,8 +55,10 @@ export function Hero() {
             </div>
           </div>
 
-          {/* -mt-[325px]: how far the scene's empty top-left corner reaches under the text. */}
-          <div className="hero-in relative mt-6 lg:-mt-[325px] lg:ms-[3%] lg:-me-8" style={delay(200)}>
+          {/* lg:w-[70%] sets the scene's size; ms-auto keeps it against the right edge.
+              -mt-[240px]: how far the scene's empty top-left corner reaches under the text.
+              The two go together: a smaller scene lifts the rack toward the buttons. */}
+          <div className="hero-in relative mt-6 lg:ms-auto lg:-me-8 lg:-mt-[240px] lg:w-[70%]" style={delay(200)}>
             <InView className="relative">
               <HeroScene className="h-auto w-full" />
             </InView>

@@ -37,7 +37,7 @@ const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 const IN: Point3[][] = [
   [[-1, 4.5], [-1, 2]], // site visits
   [[2.6, -5.2], [2.6, -3.2], [1, -3.2], [1, -2]], // EDC
-  [[-1, -4.8], [-1, -2]], // CTMS
+  [[-0.6, -5.4], [-0.6, -2]], // CTMS
 ];
 const OUT: Point3[][] = [
   [[2, 1.2], [5.1, 1.2]], // SGD
@@ -91,7 +91,8 @@ export function HeroScene({ className }: { className?: string }) {
 
       {/* The two data feeds. */}
       <IsoBox at={[2.6, -6]} size={[1.6, 1.6, 0.6]} scale={S} />
-      <IsoBox at={[-1, -5.6]} size={[1.6, 1.6, 0.6]} scale={S} />
+      {/* CTMS sits far enough back to clear the right edge of the payable card. */}
+      <IsoBox at={[-0.6, -6.2]} size={[1.6, 1.6, 0.6]} scale={S} />
 
       {/* The platform: three plates. */}
       <IsoBox
@@ -191,7 +192,7 @@ export function HeroScene({ className }: { className?: string }) {
         <IsoLabel at={[2.6, -6, 0.6]} scale={S}>
           EDC
         </IsoLabel>
-        <IsoLabel at={[-1, -5.6, 0.6]} scale={S}>
+        <IsoLabel at={[-0.6, -6.2, 0.6]} scale={S}>
           CTMS
         </IsoLabel>
         <IsoLabel at={[6, -2.4, 0.22]} scale={S}>

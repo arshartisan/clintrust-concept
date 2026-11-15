@@ -117,7 +117,7 @@ Two ramps:
 
 | Style | Size | Leading | Tracking | Weight |
 | --- | --- | --- | --- | --- |
-| `text-hero` | 40 to 64px (fluid) | 1.04 | -0.03em | 500 |
+| `text-hero` | 36 to 52px (fluid) | 1.04 | -0.03em | 500 |
 | `text-section` | 30 to 44px (fluid) | 1.12 | -0.024em | 500 |
 | `text-subsection` | 24px | 1.25 | -0.02em | 500 |
 | `text-lead` | 18px | 1.6 | -0.006em | 400 |
@@ -177,7 +177,6 @@ library in the initial bundle (see `05-performance.md` for why).
 | APAC bento | Bars slide, dial needle rocks, dashes flow, dots pulse | `.how-row`, `.how-sway`, `.flow-dash`, `.iso-blink` |
 | Call-to-action panel | Corner glows drift | `.cta-drift`, 8s alternate |
 | Platform cards | Each illustration loops while its card is on screen | `.iso-pulse`, `.iso-blink`, `.iso-float`, `.iso-step` |
-| Glow cards | Border lights toward the cursor; one sweep when first seen | See "Glow card" below |
 
 Rules:
 
@@ -185,8 +184,7 @@ Rules:
   slow, small and inside their cards.
 - Entrances are fade + slight scale + small blur. Nothing slides in from a distance.
 - Buttons never scale on hover. Press feedback is BoardUI's.
-- **Gate every loop on visibility.** Wrap the animated area in `<InView>` (or a
-  `<BorderGlow>`, which does the same) and declare the animation under
+- **Gate every loop on visibility.** Wrap the animated area in `<InView>` and declare the animation under
   `[data-inview="true"]`. Timers use `useInView`.
 - **Compositor properties only**: `opacity`, `transform`, `translate`, `scale`,
   `stroke-dashoffset`. Never animate `width`, `height` or position offsets.
@@ -238,48 +236,39 @@ How to draw a new one:
 4. Give it one animation class and a resting state that reads on its own.
 5. Labels go in a `<g className="max-sm:hidden">`.
 
-### Glow card
+### Cards
 
-`components/marketing/border-glow.tsx` + `.glow-card*` in `brand.css`.
-Adapted from React Bits' BorderGlow (https://reactbits.dev/components/border-glow).
-Used for: platform cards, the audience panel, leadership cards, insight cards.
+Cards are plain bordered surfaces: `rounded-3xl`, `border-border-button-default`
+and a surface token. A card with a looping illustration is an `<InView>`, so
+the loop runs only while it is on screen.
 
-What it does: a teal-to-blue ring on the card edge and a soft halo outside it,
-both masked to a cone that points at the cursor and brightening as the cursor
-nears the edge. On first appearing, the glow sweeps once around the border;
-on touch screens that sweep is the whole effect.
+Sprints 3 to 5 had a "glow card" (`BorderGlow`, adapted from React Bits): a
+teal-to-blue ring and halo on the card edge that followed the cursor. It was
+removed everywhere in sprint 6 at the client's request, with its CSS. It is
+in git history (`components/marketing/border-glow.tsx`) if it is wanted again.
 
-How it differs from the original, and why:
-
-| Original | Here | Reason |
-| --- | --- | --- |
-| Pointer position held in React state | Two CSS variables written straight to the element, once per frame | No re-render of the card or its children on pointer move |
-| Literal colours passed as props | Brand tokens in CSS | Token rule; one place to re-colour |
-| 13 box-shadow layers | 3 | Same look on a light page, far cheaper to paint |
-| Intro sweep driven by JavaScript timers | One CSS animation of registered custom properties | No script; honours reduced motion |
-| Always tracks the pointer | Only for a real mouse (`hover: hover` and `pointer: fine`) | Touch has no hover |
-
-Rules: the card needs a border radius and a background. Do not put
-`overflow-hidden` on the `BorderGlow` itself (it would clip the halo): put it
-on a child, as the platform cards do. Stagger a grid with `sweepDelay`.
-
-**Naming trap, cost an hour:** the classes are `glow-card*`, not
-`border-glow*`. `cx()` (tailwind-merge) treats any `border-<word>` class as a
-border colour and silently drops it when the element also sets a real border
-colour. Never name a custom class `border-*`, `text-*`, `bg-*` or any other
-Tailwind utility prefix.
+**Naming trap, cost an hour** (found while building it): `cx()`
+(tailwind-merge) treats any `border-<word>` class as a border colour and
+silently drops it when the element also sets a real border colour. Never name
+a custom class `border-*`, `text-*`, `bg-*` or any other Tailwind utility
+prefix.
 
 ### Hero
 
 `components/marketing/hero.tsx` + `hero-scene.tsx`. A compact text block at
 the top left; below and behind it, a large isometric scene.
 
-- On `lg` and up the scene is pulled up under the text with `-mt-[325px]`.
+- On `lg` and up the scene is 70% of the column wide (`lg:w-[70%]`), held
+  against the right edge, and pulled up under the text with `-mt-[240px]`.
   This only works because the scene's composition runs from bottom left to
   top right and **keeps its top-left corner empty**. If you move anything in
-  the scene toward the top left, or lengthen the hero copy, check 1024, 1280
-  and 1536 for collisions.
+  the scene toward the top left, lengthen the hero copy, or change the width,
+  check 1024, 1280 and 1536 for collisions. Width and pull-up go together: a
+  smaller scene raises the rack toward the buttons, so reduce the pull-up
+  with it (full width used `-mt-[325px]`).
 - Below `lg` there is no overlap: the scene follows the text.
+- The lead paragraph here is `text-headline-regular` (16px), one step under
+  `text-lead`, which the inner page heroes still use.
 - The scene: a rack of site-visit records (bottom left), the EDC and CTMS
   feeds (top right), the ClinTrust stack with a shield icon printed on its
   top tile, two upright cards floating above it ("Visit verified", then the
@@ -324,7 +313,7 @@ stays: it explains the $15M figure.
 
 ### APAC bento
 
-`components/marketing/region.tsx`. Dark section, centred heading, four glow
+`components/marketing/region.tsx`. Dark section, centred heading, four plain
 tiles: a tall tile (regulatory), a figure tile (T+5, payment rails), a small
 dial tile (FX), and a wide tile (local-currency payouts). The illustrations
 are monochrome shapes in the dark surface tones with teal used only for the
@@ -338,9 +327,10 @@ hairlines, one button. It was a dark panel in sprints 3 and 4.
 
 ### Step cards (How it works)
 
-`components/marketing/how-it-works.tsx`. Three glow cards in a row (stacked
-on phones): a step label with three ticks showing how far along the chain the
-step is, a scene on a soft surface, then the step's name and one line.
+`components/marketing/how-it-works.tsx`. Three plain bordered cards in a row
+(stacked on phones): a step label with three ticks showing how far along the
+chain the step is, a scene on a soft surface, then the step's name and one
+line, both left-aligned.
 
 | Step | Scene | Colour |
 | --- | --- | --- |
@@ -348,7 +338,7 @@ step is, a scene on a soft surface, then the step's name and one line.
 | Reconcile | Three budget lines, each taking a turn in focus; the third needs review | Teal for matched, amber for the flagged line |
 | Pay | A "payment settled" card feeding a row of currencies, one enlarged with a spreading ring | Teal: paid |
 
-It is a server component with no script. Sprint 3 had this section pinned to
+It is a server component; each card's `InView` wrapper is its only script. Sprint 3 had this section pinned to
 the viewport with the step following the scroll; that was replaced in sprint 4
 at the client's request, and the `pinned:` variant was removed with it.
 
@@ -379,14 +369,23 @@ the identyca reference. An earlier version had an icon tile and a description
 per row. The panel is nearly opaque (`.nav-glass.nav-menu`), not blurred: it
 sits inside the bar, which is already a backdrop-filter surface, and a nested
 backdrop-filter cannot see the page behind its parent. There is no "Log in"
-item, because the site has no login. On phones the same links appear in one
-panel under the bar, grouped, two per row.
+item, because the site has no login.
 
 The dropdowns are hand-built disclosure buttons, **not** BoardUI's `dropdown`.
 This is a deliberate exception to "install, do not rebuild": that component
 loads react-aria (about 75 KB), and the header is on every page. Behaviour
 kept: click or Enter toggles, hover opens for a mouse, Escape closes and
 returns focus, focus leaving or a press elsewhere closes.
+
+On phones (below `md`) the menu button opens BoardUI's `Drawer`
+(`components/marketing/mobile-nav.tsx`): a 320px panel from the end edge over
+a dimmed page, with the logo and a close button, the same links grouped in
+one column, and the demo button in the footer. The drawer traps focus, locks
+page scroll, and closes on Escape, a backdrop press, or a link. It does use
+react-aria, so `site-header.tsx` loads it with `React.lazy`: the chunk is
+fetched when the menu button is first touched, hovered or focused, and nothing
+is added to the first load. An earlier version expanded a panel inside the
+pill itself.
 
 ## Writing
 

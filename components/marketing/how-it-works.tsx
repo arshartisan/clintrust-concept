@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { RiCalendarCheckLine, RiCheckLine, RiStethoscopeLine, RiTestTubeLine } from "@remixicon/react";
 import { steps } from "@/content/landing";
 import { cx } from "@/utils/cx";
-import { BorderGlow } from "./border-glow";
+import { InView } from "./in-view";
 import { Section, SectionHeading } from "./frame";
 import { Reveal } from "./reveal";
 
@@ -14,7 +14,7 @@ import { Reveal } from "./reveal";
  * The steps are a real sequence, so they are numbered.
  *
  * A server component: no script of its own. The scenes are markup plus the
- * `how-*` classes in styles/brand.css, switched on by the card's BorderGlow
+ * `how-*` classes in styles/brand.css, switched on by the card's InView wrapper
  * while it is on screen.
  */
 
@@ -37,37 +37,30 @@ export function HowItWorks() {
           const Scene = SCENES[index];
           return (
             <li key={step.id} className="min-w-0">
-              <BorderGlow
-                sweepDelay={index * 160}
-                className="h-full rounded-3xl border border-border-button-default bg-background-primary-default"
-              >
-                <div className="flex h-full flex-col p-5">
-                  <div className="flex items-center justify-between">
-                    <p className="text-body-2-medium text-text-secondary">Step {index + 1}</p>
-                    {/* Three ticks; the lit ones show how far along the chain this step is. */}
-                    <span className="flex gap-0.5" aria-hidden="true">
-                      {steps.map((other, tick) => (
-                        <span
-                          key={other.id}
-                          className={cx(
-                            "h-3 w-0.5 rounded-full",
-                            tick <= index ? "bg-accent-400" : "bg-background-tertiary-default",
-                          )}
-                        />
-                      ))}
-                    </span>
-                  </div>
-
-                  <div className="relative mt-4 h-56 overflow-hidden rounded-2xl bg-background-secondary-default">
-                    <Scene />
-                  </div>
-
-                  <h3 className="mt-6 text-center text-title-2-medium text-text-primary">{step.name}</h3>
-                  <p className="mx-auto mt-2 mb-2 max-w-[34ch] text-center text-body-regular text-pretty text-text-secondary">
-                    {step.text}
-                  </p>
+              <InView className="flex h-full flex-col rounded-3xl border border-border-button-default bg-background-primary-default p-5">
+                <div className="flex items-center justify-between">
+                  <p className="text-body-2-medium text-text-secondary">Step {index + 1}</p>
+                  {/* Three ticks; the lit ones show how far along the chain this step is. */}
+                  <span className="flex gap-0.5" aria-hidden="true">
+                    {steps.map((other, tick) => (
+                      <span
+                        key={other.id}
+                        className={cx(
+                          "h-3 w-0.5 rounded-full",
+                          tick <= index ? "bg-accent-400" : "bg-background-tertiary-default",
+                        )}
+                      />
+                    ))}
+                  </span>
                 </div>
-              </BorderGlow>
+
+                <div className="relative mt-4 h-56 overflow-hidden rounded-2xl bg-background-secondary-default">
+                  <Scene />
+                </div>
+
+                <h3 className="mt-6 text-title-2-medium text-text-primary">{step.name}</h3>
+                <p className="mt-2 mb-2 max-w-[38ch] text-body-regular text-pretty text-text-secondary">{step.text}</p>
+              </InView>
             </li>
           );
         })}

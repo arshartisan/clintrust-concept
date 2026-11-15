@@ -88,7 +88,7 @@ export function SiteFooter() {
         <div
           aria-hidden="true"
           data-wordmark={brand.name}
-          className="wordmark-brand pointer-events-none mt-10 -mb-[0.2em] text-center text-wordmark select-none [mask-image:linear-gradient(to_bottom,black_20%,transparent_96%)] lg:mt-6"
+          className="wordmark-brand pointer-events-none mt-16 -mb-[0.2em] text-center text-wordmark select-none [mask-image:linear-gradient(to_bottom,black_20%,transparent_96%)] lg:mt-20"
         />
 
         <p className="relative pb-6 text-body-2-regular text-text-secondary">{footer.legal}</p>

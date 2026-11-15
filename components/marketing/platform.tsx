@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { modules } from "@/content/landing";
 import { cx } from "@/utils/cx";
-import { BorderGlow } from "./border-glow";
 import { Section, SectionHeading } from "./frame";
+import { InView } from "./in-view";
 import {
   BudgetVisual,
   CaptureVisual,
@@ -43,22 +43,17 @@ export function Platform() {
       <ul className="mt-14 grid grid-flow-dense gap-4 md:grid-cols-2 lg:grid-cols-6">
         {modules.map((module, index) => (
           <li key={module.name} className={cx("min-w-0", TILES[index].span)}>
-            {/* BorderGlow draws the cursor-following edge and switches the
+            {/* A plain card: no border glow here. InView switches the
                 illustration's animation on while the card is visible. */}
-            <BorderGlow
-              sweepDelay={index * 140}
-              className="h-full rounded-3xl border border-border-button-default bg-background-full"
-            >
-              <div className="flex h-full flex-col overflow-hidden rounded-[inherit]">
-                <div className="h-52 border-b border-separator-border bg-background-secondary-default px-4 py-3">
-                  {TILES[index].visual}
-                </div>
-                <div className="p-6 sm:p-7">
-                  <h3 className="text-headline-medium text-text-primary">{module.name}</h3>
-                  <p className="mt-1.5 max-w-[46ch] text-body-regular text-text-secondary">{module.text}</p>
-                </div>
+            <InView className="flex h-full flex-col overflow-hidden rounded-3xl border border-border-button-default bg-background-full">
+              <div className="h-52 border-b border-separator-border bg-background-secondary-default px-4 py-3">
+                {TILES[index].visual}
               </div>
-            </BorderGlow>
+              <div className="p-6 sm:p-7">
+                <h3 className="text-headline-medium text-text-primary">{module.name}</h3>
+                <p className="mt-1.5 max-w-[46ch] text-body-regular text-text-secondary">{module.text}</p>
+              </div>
+            </InView>
           </li>
         ))}
       </ul>

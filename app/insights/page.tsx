@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { BorderGlow } from "@/components/marketing/border-glow";
 import { CtaBand } from "@/components/marketing/cta-band";
 import { Section } from "@/components/marketing/frame";
 import { PageHero } from "@/components/marketing/page-hero";
@@ -22,12 +21,9 @@ export default function InsightsPage() {
 
       <Section>
         <ul className="grid gap-4 lg:grid-cols-3">
-          {insights.articles.map((article, index) => (
+          {insights.articles.map((article) => (
             <li key={article.title}>
-              <BorderGlow
-                sweepDelay={index * 140}
-                className="h-full rounded-3xl border border-border-button-default bg-background-full"
-              >
+              <div className="h-full rounded-3xl border border-border-button-default bg-background-full">
                 <article className="flex h-full flex-col p-7">
                   <p className="flex items-center justify-between gap-4 text-body-2-medium">
                     <span className="text-accent-600">{article.category}</span>
@@ -46,7 +42,7 @@ export default function InsightsPage() {
                     ))}
                   </ul>
                 </article>
-              </BorderGlow>
+              </div>
             </li>
           ))}
         </ul>

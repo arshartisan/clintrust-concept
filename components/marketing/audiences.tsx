@@ -2,7 +2,6 @@ import { RiCheckLine, RiFundsLine, RiHospitalLine, RiTeamLine } from "@remixicon
 import { ButtonLink } from "@/components/base/buttons/button";
 import { audiences } from "@/content/landing";
 import { cx } from "@/utils/cx";
-import { BorderGlow } from "./border-glow";
 import { Section, SectionHeading } from "./frame";
 import { Reveal } from "./reveal";
 
@@ -29,7 +28,7 @@ export function Audiences() {
         />
       </Reveal>
 
-      <BorderGlow className="mt-14 rounded-[2rem] border border-border-button-default bg-background-secondary-default p-2 sm:p-3">
+      <div className="mt-14 rounded-[2rem] border border-border-button-default bg-background-secondary-default p-2 sm:p-3">
         <div className="grid gap-2 lg:grid-cols-3 lg:gap-0">
           <Column audience={lead} primary className="p-6 sm:p-7" />
           <div className="grid gap-px overflow-hidden rounded-3xl border border-border-button-default bg-separator-border shadow-lg sm:grid-cols-2 lg:col-span-2">
@@ -38,7 +37,7 @@ export function Audiences() {
             ))}
           </div>
         </div>
-      </BorderGlow>
+      </div>
     </Section>
   );
 }

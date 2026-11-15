@@ -2,8 +2,8 @@ import type { CSSProperties } from "react";
 import { RiCheckLine } from "@remixicon/react";
 import { region } from "@/content/landing";
 import { cx } from "@/utils/cx";
-import { BorderGlow } from "./border-glow";
 import { Section } from "./frame";
+import { InView } from "./in-view";
 import { Reveal } from "./reveal";
 
 /**
@@ -13,7 +13,8 @@ import { Reveal } from "./reveal";
  * tile, and a wide tile along the bottom.
  *
  * Server component. The illustrations are markup and inline SVG, animated by
- * classes from styles/brand.css while the tile is on screen.
+ * classes from styles/brand.css while the tile is on screen (each tile is an
+ * InView wrapper).
  */
 
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
@@ -37,7 +38,7 @@ export function Region() {
       <div className="mt-14 grid gap-4 lg:grid-cols-12 lg:grid-rows-[minmax(0,1fr)_minmax(0,1fr)]">
         {/* Tall tile: every market's requirements, each one met. */}
         <div className="lg:col-span-4 lg:row-span-2">
-          <BorderGlow className={tile}>
+          <InView className={tile}>
             <div className="flex h-full min-h-[420px] flex-col overflow-hidden rounded-[inherit]">
               <div className="p-7">
                 <h3 className={title}>{regulatory.name}</h3>
@@ -67,12 +68,12 @@ export function Region() {
                 </div>
               </div>
             </div>
-          </BorderGlow>
+          </InView>
         </div>
 
         {/* Figure tile: settlement over regional rails. */}
         <div className="lg:col-span-5">
-          <BorderGlow className={tile}>
+          <InView className={tile}>
             <div className="flex h-full flex-col overflow-hidden rounded-[inherit] pb-7">
               <div className="flex flex-col gap-3 pt-7" aria-hidden="true">
                 <span
@@ -96,12 +97,12 @@ export function Region() {
                 <p className={cx(body, "mt-1")}>{rails.text}</p>
               </div>
             </div>
-          </BorderGlow>
+          </InView>
         </div>
 
         {/* Dial tile: the rate is shown before the money moves. */}
         <div className="lg:col-span-3">
-          <BorderGlow className={tile}>
+          <InView className={tile}>
             <div className="flex h-full flex-col overflow-hidden rounded-[inherit]">
               <svg viewBox="0 0 200 112" className="w-full" aria-hidden="true">
                 <path d="M4 112 A96 96 0 0 1 196 112 Z" className="fill-background-tertiary-default" />
@@ -130,12 +131,12 @@ export function Region() {
                 <p className={cx(body, "mt-1")}>{fx.text}</p>
               </div>
             </div>
-          </BorderGlow>
+          </InView>
         </div>
 
         {/* Wide tile: one payable, paid out along the region in local currency. */}
         <div className="lg:col-span-8">
-          <BorderGlow className={tile}>
+          <InView className={tile}>
             <div className="flex h-full flex-col overflow-hidden rounded-[inherit]">
               <div className="p-7 pb-0">
                 <h3 className={title}>Paid in the site&apos;s own currency</h3>
@@ -191,7 +192,7 @@ export function Region() {
                 </text>
               </svg>
             </div>
-          </BorderGlow>
+          </InView>
         </div>
       </div>
     </Section>

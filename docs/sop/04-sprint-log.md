@@ -5,6 +5,34 @@ checked, what is open.
 
 ---
 
+## Sprint 6: client review pass (2026-11-15)
+
+Small changes from a screenshot-by-screenshot review with the client.
+
+### Shipped
+
+| Area | Change |
+| --- | --- |
+| Hero scene | 70% of the column on desktop (was full width), held to the right; pull-up reduced from 325px to 240px to match |
+| Hero scene | CTMS block moved back (`[-0.6, -6.2]`): its left edge was hidden behind the payable card |
+| Hero text | `text-hero` is now 36 to 52px (was 40 to 64px). This is the shared token, so the inner page heroes shrank with it. The home lead is 16px (`text-headline-regular`) |
+| Phone menu | Rebuilt on BoardUI's `Drawer` (`mobile-nav.tsx`), loaded on demand. Installed `drawer`, `modal`, `spinner` |
+| Border glow | Removed from the whole site: platform, step, APAC, leadership and insight cards and the audience panel. `border-glow.tsx` and the `.glow-card*` CSS are deleted. Cards with a looping illustration use `InView` instead |
+| Step cards | Name and text left-aligned |
+| Footer | More space between the link columns and the wordmark (`mt-16`, `lg:mt-20`) |
+
+### How it was checked
+
+- `npx tsc --noEmit`, `eslint` on `app` and `components`, `npm run build`: all pass.
+- Dev server in Chrome at a 1920px viewport: hero, platform cards, footer
+  looked at; drawer opened by script, 14 links present, Escape closes it.
+
+Not checked: the drawer at a real phone width (the test window could not be
+narrowed); the hero at 1024 and 1280 (sizes were calculated, not looked at);
+bundle sizes and Lighthouse; the pages after the glow was removed.
+
+---
+
 ## Sprint 5: hero, capital, APAC, call to action, buttons, navbar (2026-11-15)
 
 Another round of section-by-section changes against supplied references.
