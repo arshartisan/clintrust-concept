@@ -33,7 +33,7 @@ site of this kind) can start from here instead of from scratch.
 - Tailwind CSS v4 via `@tailwindcss/turbopack`
 - BoardUI (source-owned components under `components/`, free tier)
 - CSS for all page animation (no animation library in the initial bundle), `@remixicon/react` for icons
-- Figtree (variable, self-hosted by `next/font`)
+- Inter (variable with optical sizing, self-hosted by `next/font`)
 
 ## Site map
 

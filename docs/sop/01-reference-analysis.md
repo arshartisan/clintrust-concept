@@ -81,6 +81,17 @@ Sprint 4 added three more:
 | Footer, first attempt | An isometric conveyor feeding a machine | A conveyor scene drawn for ClinTrust: plain tiles in, ticked teal tiles out | Built, then removed the same day in favour of the layout below |
 | Footer, final | Logo row with social icons, a contact card beside link columns, a giant faded wordmark, a legal line | All of it except the social icons | Standards tags sit where the social icons were |
 
+Sprint 5:
+
+| Section | Reference | What was taken | How it was adapted |
+| --- | --- | --- | --- |
+| Hero | SwarmOne and KOVA: text block top left, a large isometric scene filling the rest | The layout; a scene made of the product's own parts | Rack of visit records, EDC and CTMS feeds, the ClinTrust stack with a payable card, currency coins |
+| APAC | A dark "Why choose us" bento: one tall tile, a big-figure tile, a dial tile, a wide tile, all in monochrome shapes | The tile arrangement and the monochrome illustration style | Regulatory, T+5 on regional rails, FX, local-currency payouts |
+| Capital | A light "Result and impact" layout: staggered stat cards over a sweeping curve | Stepped cards, a small chart in each, the sweep | Idle capital, less escrow, capital released. Replaced the slider |
+| Call to action | Sincera: a panel with corner glows, a dot grid and angular outlines | All of it, in a light theme as asked | Teal and blue glows on a soft surface |
+| Buttons | The glow button from the client's Vernius project | The recipe, unchanged | It reads the accent ramp, so it came out teal |
+| Navbar | Two notes: wider and glassier, then pill-shaped and as wide as the sections | Both | A 1200px glass pill |
+
 A pattern worth noting for future sprints: the references the client responds
 to are **illustrated and spatial** (isometric scenes, flows with moving
 signals, panels inside panels). The sprint 1 and 2 direction, flat product

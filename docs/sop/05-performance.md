@@ -14,7 +14,7 @@ that breaks a budget is not done.
 | Initial JavaScript, home (gzip, modern browsers) | 160 KB | 260 KB | 148 KB | **153 KB** |
 | Initial JavaScript, inner pages | 160 KB | | | **150 to 151 KB** |
 | CSS (gzip) | 30 KB | 24 KB | 25 KB | **28 KB** |
-| HTML, home (gzip) | 35 KB | 18 KB | 16 KB | **30 KB** |
+| HTML, home (gzip) | 40 KB (was 35) | 18 KB | 16 KB | **30 KB** |
 | HTML, inner pages | 35 KB | | | **5 to 10 KB** |
 | Lighthouse mobile: performance | 95+ | not run | 100 | **100, all 5 pages** |
 | Lighthouse mobile: accessibility | 100 | not run | 100 | **100, all 5 pages** |
@@ -28,6 +28,19 @@ JavaScript 154 KB, CSS 27 KB, HTML 32 KB; Lighthouse mobile and desktop
 100 / 100 / 100 / 100; LCP 1.2 s mobile; blocking time 30 ms; layout shift 0;
 no horizontal overflow at 360, 768 or 1024. The other pages were spot-checked
 (`/about`, `/approach`: 100 across the board).
+
+Sprint 5 (new hero, capital cards, APAC bento, light call-to-action, glow
+buttons, glass navbar, Inter), homepage: initial JavaScript 154 KB, CSS 28 KB,
+**HTML 36 KB**; Lighthouse mobile and desktop 100 / 100 / 100 / 100; LCP 1.2 s
+mobile; blocking time 20 ms; layout shift 0; no horizontal overflow at 360,
+768, 1024 or 1280. `/about` spot-checked at 100.
+
+The homepage HTML is 1 KB over its 35 KB budget. The new sections are
+server-rendered markup with inline SVG, and each one is also carried in the
+page's serialized tree. The budget is now **40 KB**; the next section added
+to the homepage should come with one removed, or be made a client component
+as in section 7. The homepage no longer loads any react-aria code: the slider
+was its last use there.
 
 Two things to watch after sprint 3:
 

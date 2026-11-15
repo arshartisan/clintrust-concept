@@ -5,6 +5,74 @@ checked, what is open.
 
 ---
 
+## Sprint 5: hero, capital, APAC, call to action, buttons, navbar (2026-11-15)
+
+Another round of section-by-section changes against supplied references.
+
+### Shipped
+
+| Change | Detail |
+| --- | --- |
+| Hero | Text block at the top left; a much larger isometric scene fills the rest and tucks under the text. New scene built from the platform's parts |
+| The problem | Connector lines now meet their dots; the blue glow rises from the bottom edge of the band instead of ending in a hard line |
+| Capital | Slider calculator replaced by three stepped result cards over a sweep, in a light section |
+| APAC | Plain list replaced by a dark four-tile bento |
+| Call to action | Dark panel replaced by a light panel with corner glows, dot grid and angular hairlines |
+| Buttons | Primary is now the glow pill from the Vernius project; secondary is a pill; both slightly larger |
+| Navbar | Glass surface, pill-shaped, 1200px wide to match the page column |
+| Footer | Wordmark filled with the logo's teal-to-blue gradient |
+| About | Leadership photos from the previous site |
+| Typeface | Inter |
+| Toolkit | `IsoDisc` and `IsoPanel` added to `iso.tsx` |
+
+Removed: `capital-calculator.tsx`, `capital-widget.tsx` and the lazy capital
+widget. The homepage now loads no react-aria code at all.
+
+### Decisions and their reasons
+
+1. **The hero overlaps text and scene on purpose**, using a negative margin
+   and a scene whose top-left corner is kept empty. It is the only way to get
+   the reference's scale without the scene pushing the headline off screen.
+   The cost is a coupling between hero copy length and scene composition,
+   written up in `02-design-system.md`.
+2. **The calculator was dropped, not restyled.** The reference is a set of
+   result cards. The slider's one real job, letting a sponsor see their own
+   number, is gone; the cards state the $100M case.
+3. **The glow button replaced BoardUI's primary** rather than being added as a
+   fifth variant, so every existing primary button changed at once. This is an
+   edit to BoardUI's own source file and would be lost on a re-install.
+4. **The navbar glass is less transparent than first built.** At 42 to 62%
+   the links disappeared over the dark sections. It is now 66 to 80%.
+5. **Team photos follow the previous site's placement, not its file names.**
+   On that site `team-amanvir.jpg` is displayed as Larisa Nagra and
+   `team-larisa.jpg` as Amanvir Mundra. Either the files are misnamed or the
+   old site shows two people under each other's names. The new site shows each
+   photo beside the same name the old site does. **Needs confirming before
+   launch**: it is the kind of mistake that is embarrassing in public.
+
+### How it was checked
+
+- `npx tsc --noEmit`, `npm run lint`, `npm run build`: all pass.
+- Homepage Lighthouse mobile and desktop: 100 / 100 / 100 / 100. `/about`: 100.
+- Chrome, production build: hero, problem, capital, APAC, call to action,
+  footer and the About leadership cards viewed at desktop width.
+- No horizontal overflow at 360, 768, 1024 or 1280. Hero text and scene do
+  not collide at 1024 (measured) or at the desktop width viewed.
+
+Not checked: the hero overlap at 1280 was measured by bounding boxes only,
+which reported touches that are probably empty corners of shapes, but it was
+not looked at; the new sections at phone width were measured for overflow but
+not looked at; and the standing list at the end of `05-performance.md`.
+
+### Open items
+
+- [ ] **Confirm which leadership photo is whose** (see decision 5).
+- [ ] Look at the hero at 1280 and on a real laptop.
+- [ ] Everything still open from sprints 3 and 4: the contact form delivers
+      nowhere; inner-page content sign-off; name and legal line; legal pages.
+
+---
+
 ## Sprint 4: step cards, footer, line quality (2026-11-15)
 
 Short sprint of follow-ups after the client reviewed sprint 3.
