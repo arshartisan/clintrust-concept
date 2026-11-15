@@ -97,7 +97,13 @@ const panel =
 
 export function Problem() {
   return (
-    <Section id="problem" className="dark bg-background-full">
+    <Section id="problem" className="dark bg-background-full" innerClassName="relative">
+      {/* Blue light rising from the bottom edge of the band. It is anchored to
+          the section, not the diagram, so it never ends in a hard line. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[75%] [background:radial-gradient(75%_100%_at_50%_100%,color-mix(in_srgb,var(--color-brand-blue-600)_45%,transparent),transparent)]"
+      />
       <Reveal>
         <SectionHeading
           title={problem.title}
@@ -106,11 +112,6 @@ export function Problem() {
       </Reveal>
 
       <InView className="relative mt-14">
-        {/* Soft blue light behind the diagram. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-1/3 bottom-0 [background:radial-gradient(60%_60%_at_50%_60%,color-mix(in_srgb,var(--color-brand-blue-600)_38%,transparent),transparent)]"
-        />
 
         {/* Today's chain: a real sequence, so the steps are numbered. */}
         <ol className="relative grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -142,6 +143,9 @@ export function Problem() {
 
         {/* What ClinTrust does with it. */}
         <div className="relative mt-14 flex flex-col xl:mt-16 xl:flex-row xl:items-center">
+          {/* The inputs and their fan share one row, so the fan is exactly as
+              tall as the panel and its lines start at the dots. */}
+          <div className="flex flex-col xl:flex-1 xl:flex-row">
           {/* Equal-height cells and no vertical padding on the panel, so each
               item's centre lands exactly on the fan's (i + 0.5) / n stop. */}
           <div className={cx(panel, "relative px-3 xl:w-[260px] xl:shrink-0")}>
@@ -167,6 +171,7 @@ export function Problem() {
           </div>
 
           <Fan count={problem.flow.inputs.length} direction="in" tone="blue" />
+          </div>
           <Drop tone="blue" />
 
           <div
@@ -194,6 +199,7 @@ export function Problem() {
           </div>
 
           <Drop tone="accent" />
+          <div className="flex flex-col xl:flex-1 xl:flex-row">
           <Fan
             count={problem.flow.results.length}
             direction="out"
@@ -221,6 +227,7 @@ export function Problem() {
               </li>
             ))}
           </ul>
+          </div>
         </div>
       </InView>
     </Section>

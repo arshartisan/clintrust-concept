@@ -6,17 +6,16 @@ import { useInView } from "@/hooks/use-in-view";
 /**
  * Deferred interactive widgets.
  *
- * The slider and the forms are the only parts of the
- * site that need the form-control library (react-aria, ~75 KB compressed).
- * None of them is on screen at load, so their code is split into separate
- * chunks and fetched later: when the widget comes within 800px of the
+ * The contact form is the only part of the
+ * site that needs the form-control library (react-aria, ~75 KB compressed).
+ * It is not on screen at load, so its code is split into a separate
+ * chunk and fetched later: when the widget comes within 800px of the
  * viewport, or once the browser is idle after load, whichever is first.
  *
  * Until then the server-rendered `fallback` holds the widget's place at the
  * same size, so nothing shifts when the real widget arrives.
  */
 
-const CapitalWidget = lazy(() => import("./capital-widget").then((m) => ({ default: m.CapitalWidget })));
 const DemoForm = lazy(() => import("./demo-form").then((m) => ({ default: m.DemoForm })));
 
 const IDLE_FALLBACK_MS = 2500;
@@ -64,14 +63,6 @@ function LazyMount({ fallback, className, children }: LazyProps & { children: Re
     <div ref={ref} className={className}>
       {near || idle ? <Suspense fallback={fallback}>{children}</Suspense> : fallback}
     </div>
-  );
-}
-
-export function LazyCapitalWidget(props: LazyProps) {
-  return (
-    <LazyMount {...props}>
-      <CapitalWidget />
-    </LazyMount>
   );
 }
 

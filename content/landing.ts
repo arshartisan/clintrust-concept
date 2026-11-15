@@ -94,9 +94,37 @@ export const steps = [
 
 export const capital = {
   title: "Stop funding forecasts.",
-  continuation:
-    "Escrow on a $100M portfolio typically ties up $15–25M. Funding against verified work needs a fraction of it.",
-  note: "Illustrative model. Assumes a 20% escrow advance today and a 5% dynamic buffer, the midpoints of the typical 15–25% escrow range and a 70–80% reduction.",
+  continuation: "Fund the work that has been verified, and release the rest.",
+  aside: {
+    lead: "Less capital locked, faster site payments,",
+    rest: "and one record that sponsor, CRO and site all trust.",
+  },
+  // Each card: a sentence (accented lead + rest), a label and a figure.
+  cards: [
+    {
+      lead: "Upfront advances",
+      rest: "sit in escrow long before the visits they pay for have happened.",
+      label: "Idle on a $100M portfolio",
+      figure: "$15–25M",
+    },
+    {
+      lead: "Dynamic funding",
+      rest: "sizes the buffer to verified activity instead of a forecast.",
+      label: "Less escrow required",
+      figure: "70–80%",
+    },
+    {
+      lead: "A small buffer",
+      rest: "replaces the large advance, and the difference goes back to research.",
+      label: "Capital released on $100M",
+      figure: "$15M",
+    },
+  ],
+  bars: [
+    { label: "Escrow today", value: "$20M", percent: 100 },
+    { label: "Buffer with ClinTrust", value: "$5M", percent: 25 },
+  ],
+  note: "Illustrative model for a $100M portfolio: a 20% escrow advance today against a 5% dynamic buffer, the midpoints of the typical 15–25% escrow range and a 70–80% reduction.",
 };
 
 export const audiences = [

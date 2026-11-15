@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { modules, region } from "@/content/landing";
+import { modules } from "@/content/landing";
 import { cx } from "@/utils/cx";
 import { BorderGlow } from "./border-glow";
 import { Section, SectionHeading } from "./frame";
@@ -62,30 +62,6 @@ export function Platform() {
           </li>
         ))}
       </ul>
-    </Section>
-  );
-}
-
-export function Region() {
-  return (
-    <Section id="apac">
-      <div className="grid gap-12 lg:grid-cols-12">
-        <Reveal className="lg:col-span-6">
-          <SectionHeading title={region.title} continuation={region.continuation} className="max-w-[24ch]" />
-        </Reveal>
-
-        <dl className="lg:col-span-6">
-          {region.points.map((point) => (
-            <div
-              key={point.name}
-              className="grid gap-1 border-t border-separator-border py-6 first:border-t-0 first:pt-0 sm:grid-cols-[200px_1fr] sm:gap-6"
-            >
-              <dt className="text-headline-medium text-text-primary">{point.name}</dt>
-              <dd className="max-w-[48ch] text-body-regular text-text-secondary">{point.text}</dd>
-            </div>
-          ))}
-        </dl>
-      </div>
     </Section>
   );
 }
