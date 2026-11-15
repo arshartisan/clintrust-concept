@@ -746,6 +746,18 @@ html {
     0 1px 2px 0 color-mix(in srgb, var(--color-navy-900) 6%, transparent),
     0 12px 32px -14px color-mix(in srgb, var(--color-navy-900) 28%, transparent);
 }
+/* A dropdown panel hanging from the bar. It sits inside the bar, which is
+ * itself a backdrop-filter surface, and a nested backdrop-filter cannot see
+ * the page behind its parent. So the panel is nearly opaque instead of
+ * relying on blur: otherwise page text shows through it unblurred. */
+.nav-glass.nav-menu {
+  background: color-mix(in srgb, var(--color-background-primary-default) 96%, transparent);
+  box-shadow:
+    inset 0 1px 0 0 color-mix(in srgb, var(--color-white) 85%, transparent),
+    0 1px 2px 0 color-mix(in srgb, var(--color-navy-900) 6%, transparent),
+    0 24px 48px -20px color-mix(in srgb, var(--color-navy-900) 35%, transparent);
+}
+
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .nav-glass {
     background: color-mix(in srgb, var(--color-background-primary-default) 94%, transparent);

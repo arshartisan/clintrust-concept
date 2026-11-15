@@ -373,6 +373,15 @@ a bright top rim. Do not make it more transparent: below that the links are
 unreadable while the bar passes over a dark section. Entries with `items` in
 `nav` (`content/landing.ts`) are dropdowns.
 
+A dropdown is a 520px glass panel centred under its button: a small heading
+(`heading` in the nav data) and a two-column list of plain text links, after
+the identyca reference. An earlier version had an icon tile and a description
+per row. The panel is nearly opaque (`.nav-glass.nav-menu`), not blurred: it
+sits inside the bar, which is already a backdrop-filter surface, and a nested
+backdrop-filter cannot see the page behind its parent. There is no "Log in"
+item, because the site has no login. On phones the same links appear in one
+panel under the bar, grouped, two per row.
+
 The dropdowns are hand-built disclosure buttons, **not** BoardUI's `dropdown`.
 This is a deliberate exception to "install, do not rebuild": that component
 loads react-aria (about 75 KB), and the header is on every page. Behaviour

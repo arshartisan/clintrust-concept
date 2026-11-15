@@ -15,24 +15,32 @@ export const brand = {
 } as const;
 
 /**
- * Primary navigation. An entry with `items` is a dropdown menu; one with
- * `href` is a plain link. `icon` is a key into ICONS in site-header.tsx.
+ * Primary navigation. An entry with `items` is a dropdown menu (a heading and
+ * a two-column list of links); one with `href` is a plain link.
  */
 export const nav = [
   {
     label: "Our approach",
+    heading: "By role",
     items: [
-      { label: "For sponsors", text: "Capital efficiency and accrual visibility", href: "/approach#sponsors", icon: "sponsors" },
-      { label: "For CROs", text: "Less reconciliation, fewer disputes", href: "/approach#cros", icon: "cros" },
-      { label: "For sites", text: "Earned versus paid, in real time", href: "/approach#sites", icon: "sites" },
+      { label: "For sponsors", href: "/approach#sponsors" },
+      { label: "For CROs", href: "/approach#cros" },
+      { label: "For sites", href: "/approach#sites" },
+      { label: "How it works", href: "/#how-it-works" },
+      { label: "Capital model", href: "/#capital" },
+      { label: "Platform modules", href: "/#platform" },
     ],
   },
   {
     label: "Company",
+    heading: "About ClinTrust",
     items: [
-      { label: "About", text: "Mission, values and roadmap", href: "/about", icon: "about" },
-      { label: "Leadership", text: "The founding team and advisors", href: "/about#leadership", icon: "leadership" },
-      { label: "Contact", text: "Request a demo or ask a question", href: "/contact", icon: "contact" },
+      { label: "About", href: "/about" },
+      { label: "Mission", href: "/about#mission" },
+      { label: "Leadership", href: "/about#leadership" },
+      { label: "Roadmap", href: "/about#roadmap" },
+      { label: "How we build", href: "/about#principles" },
+      { label: "Contact", href: "/contact" },
     ],
   },
   { label: "Insights", href: "/insights" },

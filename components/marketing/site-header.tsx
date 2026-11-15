@@ -1,26 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState, type ComponentType } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  RiArrowDownSLine,
-  RiBuilding2Line,
-  RiCloseLine,
-  RiFundsLine,
-  RiGroupLine,
-  RiHospitalLine,
-  RiMailLine,
-  RiMenuLine,
-  RiTeamLine,
-} from "@remixicon/react";
+import { RiArrowDownSLine, RiCloseLine, RiMenuLine } from "@remixicon/react";
 import { Button, ButtonLink } from "@/components/base/buttons/button";
 import { brand, nav } from "@/content/landing";
 import { cx } from "@/utils/cx";
 import { LogoMark } from "./logo";
 
 /**
- * Floating pill navbar with dropdown menus (sprint 3).
+ * Glass pill navbar with dropdown menus.
+ *
+ * Each dropdown is a glass panel under its button: a small heading, then a
+ * two-column list of plain links (after the identyca reference, sprint 5).
  *
  * The menus are plain disclosure buttons (the WAI-ARIA "disclosure navigation"
  * pattern), not BoardUI's dropdown. That component is built on react-aria,
@@ -30,23 +23,11 @@ import { LogoMark } from "./logo";
  * returns focus, and moving focus or clicking elsewhere closes.
  */
 
-type IconName = (typeof nav)[number] extends infer Item
-  ? Item extends { items: readonly { icon: infer Name }[] }
-    ? Name
-    : never
-  : never;
-
-const ICONS: Record<IconName, ComponentType<{ className?: string }>> = {
-  sponsors: RiFundsLine,
-  cros: RiTeamLine,
-  sites: RiHospitalLine,
-  about: RiBuilding2Line,
-  leadership: RiGroupLine,
-  contact: RiMailLine,
-};
-
 const itemClass =
   "flex h-9 items-center gap-0.5 rounded-full px-3.5 text-body-medium text-text-secondary transition-colors duration-150 hover:bg-background-secondary-default hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring cursor-pointer";
+
+const menuLinkClass =
+  "block rounded-lg px-3 py-2 text-headline-regular text-text-secondary transition-colors duration-150 hover:bg-background-secondary-default hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -85,10 +66,10 @@ export function SiteHeader() {
     <header className="pointer-events-none sticky top-3 z-40 mt-3 px-3">
       <div
         ref={barRef}
-        // A full pill. With the phone menu open the bar is taller than it is
-        // round, so it relaxes to a large radius.
+        // A full pill, 1200px: the same width as the page column, so the bar
+        // lines up with the rails. With the phone menu open the bar is taller
+        // than it is round, so it relaxes to a large radius.
         className={cx(
-          // 1200px: the same width as the page column, so the bar lines up with the rails.
           "nav-glass pointer-events-auto relative mx-auto w-full max-w-[1200px]",
           mobileOpen ? "rounded-[1.75rem]" : "rounded-full",
         )}
@@ -146,30 +127,21 @@ export function SiteHeader() {
                   </button>
 
                   {open ? (
-                    // pt-3 bridges the gap so the pointer can travel from button to panel.
-                    <div id={panelId} className="absolute start-0 top-full pt-3">
-                      <ul className="menu-in w-[320px] origin-top-left rounded-2xl border border-border-button-default bg-background-primary-default p-2 shadow-xl">
-                        {entry.items.map((item) => {
-                          const Icon = ICONS[item.icon];
-                          return (
+                    // Centred under its button. pt-4 bridges the gap so the
+                    // pointer can travel from the button to the panel.
+                    <div id={panelId} className="absolute top-full left-1/2 -translate-x-1/2 pt-4">
+                      <div className="nav-glass nav-menu menu-in w-[520px] origin-top rounded-3xl p-5">
+                        <p className="px-3 text-body-2-medium text-text-secondary">{entry.heading}</p>
+                        <ul className="mt-2 grid grid-cols-2 gap-x-4">
+                          {entry.items.map((item) => (
                             <li key={item.label}>
-                              <Link
-                                href={item.href}
-                                onClick={() => setOpenMenu(null)}
-                                className="flex items-center gap-3 rounded-xl p-2 transition-colors duration-150 hover:bg-background-secondary-default outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
-                              >
-                                <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent-50 text-accent-600">
-                                  <Icon className="size-5" />
-                                </span>
-                                <span>
-                                  <span className="block text-body-medium text-text-primary">{item.label}</span>
-                                  <span className="block text-body-2-regular text-text-secondary">{item.text}</span>
-                                </span>
+                              <Link href={item.href} onClick={() => setOpenMenu(null)} className={menuLinkClass}>
+                                {item.label}
                               </Link>
                             </li>
-                          );
-                        })}
-                      </ul>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   ) : null}
                 </div>
@@ -204,16 +176,19 @@ export function SiteHeader() {
               "items" in entry ? (
                 <div key={entry.label} className="pb-2">
                   <p className="px-2 pt-2 pb-1 text-caption-1-medium text-text-secondary">{entry.label}</p>
-                  {entry.items.map((item) => (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      onClick={() => setMobileOpen(false)}
-                      className="block rounded-xl px-2 py-2 text-body-medium text-text-primary outline-none hover:bg-background-secondary-default focus-visible:ring-2 focus-visible:ring-border-focus-ring"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
+                  <ul className="grid grid-cols-2">
+                    {entry.items.map((item) => (
+                      <li key={item.label}>
+                        <Link
+                          href={item.href}
+                          onClick={() => setMobileOpen(false)}
+                          className="block rounded-xl px-2 py-2 text-body-medium text-text-primary outline-none hover:bg-background-secondary-default focus-visible:ring-2 focus-visible:ring-border-focus-ring"
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ) : (
                 <Link

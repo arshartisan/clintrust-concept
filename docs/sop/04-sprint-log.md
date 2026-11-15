@@ -34,6 +34,10 @@ the platform, one highlighted payout line, and a shield icon in place of the
 logo on the centre tile. A floating standards card was added with it and
 then reverted to the four-cell strip. Homepage HTML is now 37 KB.
 
+Last, the navbar dropdowns were restyled to the identyca reference: a wide
+panel with a heading and a two-column list of plain links, six per menu,
+replacing the icon-and-description rows.
+
 ### Decisions and their reasons
 
 1. **The hero overlaps text and scene on purpose**, using a negative margin
