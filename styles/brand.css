@@ -164,6 +164,34 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Page scrollbar (sprint 7): thin, a rounded teal-to-blue thumb on a clear
+ * track. Standard properties for Chrome 121+, Edge and Firefox; the WebKit
+ * pseudo-elements for Safari, which has no `scrollbar-color`. Touch devices
+ * keep their own overlay scrollbars. */
+@supports (scrollbar-color: auto) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent-500) transparent;
+  }
+}
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, var(--color-accent-400), var(--color-brand-blue-500)) padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    border-width: 2px;
+  }
+}
 /* Once Lenis is running (components/marketing/smooth-scroll.tsx) it does the
  * smoothing; CSS smoothing on top would ease every frame Lenis writes. */
 html.lenis {

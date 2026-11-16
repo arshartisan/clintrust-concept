@@ -6,7 +6,8 @@ import { container } from "./frame";
 import { Logo } from "./logo";
 
 const linkClass =
-  "rounded-sm text-body-regular text-text-secondary transition-colors duration-150 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring";
+  // inline-flex + min-h-7: a 28px tap target for a 17px line (WCAG 2.2 target size).
+  "inline-flex min-h-7 items-center rounded-sm text-body-regular text-text-secondary transition-colors duration-150 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring";
 
 /**
  * Footer (sprint 4, second version): a logo row, a contact card beside the
@@ -67,7 +68,7 @@ export function SiteFooter() {
             {footer.columns.map((column) => (
               <div key={column.title}>
                 <h2 className="text-body-medium text-text-primary">{column.title}</h2>
-                <ul className="mt-4 flex flex-col gap-2.5">
+                <ul className="mt-3 flex flex-col gap-0.5">
                   {column.links.map((link) => (
                     <li key={link.label}>
                       <Link href={link.href} className={linkClass}>

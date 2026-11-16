@@ -40,7 +40,7 @@ export default function ContactPage() {
                     <a
                       href={`mailto:${channel.email}`}
                       dir="ltr"
-                      className="mt-1 inline-block rounded-sm text-body-medium text-text-primary underline-offset-4 hover:text-accent-600 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
+                      className="mt-0.5 inline-flex min-h-7 items-center rounded-sm text-body-medium text-text-primary underline-offset-4 hover:text-accent-600 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
                     >
                       {channel.email}
                     </a>

@@ -110,12 +110,12 @@ function ReconcileScene() {
   ];
 
   return (
-    <ul className="flex h-full flex-col justify-center gap-2.5 px-7">
+    <ul className="flex h-full flex-col justify-center gap-2.5 px-4 xl:px-7">
       {rows.map((row, index) => (
         <li
           key={row.item}
           style={delay(index * 2000)}
-          className="how-row relative flex items-center gap-3 overflow-hidden rounded-xl border border-border-button-default bg-background-primary-default px-3.5 py-2.5 shadow-card"
+          className="how-row relative flex items-center gap-2.5 overflow-hidden rounded-xl border border-border-button-default bg-background-primary-default px-3 py-2.5 shadow-card"
         >
           {/* The focus tint, faded in while this row has its turn. */}
           <span
@@ -132,7 +132,7 @@ function ReconcileScene() {
           >
             {row.flagged ? <span className="text-caption-1-bold">!</span> : <RiCheckLine className="size-3.5" />}
           </span>
-          <span className="relative min-w-0 flex-1 truncate text-body-medium text-text-primary">{row.item}</span>
+          <span className="relative min-w-0 flex-1 text-body-medium text-text-primary">{row.item}</span>
           <span className="relative text-caption-1-medium whitespace-nowrap text-text-secondary">{row.score}</span>
         </li>
       ))}

@@ -48,7 +48,7 @@ export default async function ArticlePage({ params }: Props) {
         <div className={cx(container, "pt-12 pb-16 lg:pt-16 lg:pb-20")}>
           <Link
             href="/insights"
-            className="group inline-flex items-center gap-1.5 rounded-md text-body-medium text-text-secondary transition-colors duration-150 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
+            className="group inline-flex min-h-7 items-center gap-1.5 rounded-md text-body-medium text-text-secondary transition-colors duration-150 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
           >
             <RiArrowLeftLine className="size-4 transition-transform duration-200 group-hover:-translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:translate-x-0.5" />
             {articleLabels.back}
