@@ -34,11 +34,12 @@ export function Hero() {
         <div className="pt-12 pb-8 lg:pt-14 lg:pb-10">
           <div className="relative z-10 max-w-[560px]">
             <p
-              className="hero-in inline-flex items-center gap-2 rounded-full border border-border-button-default bg-background-full py-1 ps-2.5 pe-3 text-body-2-medium text-text-secondary"
+              className="hero-in inline-flex max-w-full items-center gap-2 rounded-full border border-border-button-default bg-background-full py-1 ps-2.5 pe-3 text-body-2-medium text-text-secondary"
               style={delay(0)}
             >
               <StatusDot color="green" />
-              {hero.status}
+              <span className="sm:hidden">{hero.statusShort}</span>
+              <span className="max-sm:hidden">{hero.status}</span>
             </p>
 
             {/* hero-settle, not hero-in: this is the LCP and must not start invisible. */}

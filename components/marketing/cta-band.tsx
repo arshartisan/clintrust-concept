@@ -10,26 +10,31 @@ import { InView } from "./in-view";
  *
  * One rounded panel on a soft surface: a dot grid, a teal glow in the top
  * right corner and a blue one in the bottom left, a few angular hairlines,
- * and a single action. The glows drift slowly while the panel is on screen.
+ * and a single action. The glows are kept faint (28% teal, 22% blue, toned
+ * down in sprint 7) and drift slowly while the panel is on screen.
  * The form itself lives on /contact, so no form code loads with this panel.
+ *
+ * Phones: smaller glows (full-size ones fill the whole panel and wash out the
+ * text), no hairlines, a fainter dot grid, a 16px lead and tighter padding.
  */
 export function CtaBand() {
   return (
     <section className="border-t border-separator-border">
       <div className={cx(container, "pt-16 lg:pt-24")}>
-        <InView className="relative overflow-hidden rounded-[2rem] border border-border-button-default bg-background-secondary-default px-6 py-20 text-center sm:rounded-[2.5rem] sm:py-28">
+        <InView className="relative overflow-hidden rounded-3xl border border-border-button-default bg-background-secondary-default px-5 py-14 text-center sm:rounded-[2.5rem] sm:px-6 sm:py-28">
           <div aria-hidden="true" className="pointer-events-none absolute inset-0">
             {/* Corner glows. */}
-            <span className="cta-drift absolute -top-40 -end-32 size-[520px] rounded-full [background:radial-gradient(closest-side,color-mix(in_srgb,var(--color-accent-400)_70%,transparent),transparent)]" />
+            <span className="cta-drift absolute -top-28 -end-28 size-[300px] rounded-full sm:-top-40 sm:-end-32 sm:size-[520px] [background:radial-gradient(closest-side,color-mix(in_srgb,var(--color-accent-300)_28%,transparent),transparent)]" />
             <span
-              className="cta-drift absolute -bottom-48 -start-36 size-[560px] rounded-full [background:radial-gradient(closest-side,color-mix(in_srgb,var(--color-brand-blue-400)_55%,transparent),transparent)]"
+              className="cta-drift absolute -bottom-32 -start-32 size-[320px] rounded-full sm:-bottom-48 sm:-start-36 sm:size-[560px] [background:radial-gradient(closest-side,color-mix(in_srgb,var(--color-brand-blue-300)_22%,transparent),transparent)]"
               style={{ animationDelay: "-4s" }}
             />
             {/* Dot grid, strongest toward the two glowing corners. */}
-            <span className="absolute inset-0 [background-image:radial-gradient(var(--color-border-button-hover)_1px,transparent_1px)] [background-size:16px_16px] [mask-image:linear-gradient(115deg,black,transparent_38%,transparent_62%,black)]" />
-            {/* Angular hairlines, like the edges of a circuit board. */}
+            <span className="absolute inset-0 [background-image:radial-gradient(var(--color-border-button-hover)_1px,transparent_1px)] [background-size:16px_16px] [mask-image:linear-gradient(115deg,black,transparent_38%,transparent_62%,black)] max-sm:opacity-50" />
+            {/* Angular hairlines, like the edges of a circuit board. Hidden on
+                phones: stretched to a tall, narrow panel they cut through the text. */}
             <svg
-              className="absolute inset-0 size-full text-border-button-hover"
+              className="absolute inset-0 size-full text-border-button-hover max-sm:hidden"
               viewBox="0 0 1100 460"
               preserveAspectRatio="none"
               fill="none"
@@ -44,8 +49,8 @@ export function CtaBand() {
 
           <div className="relative flex flex-col items-center">
             <h2 className="max-w-[18ch] text-section text-balance text-text-primary">{demo.title}</h2>
-            <p className="mt-5 max-w-[48ch] text-lead text-pretty text-text-secondary">{demo.text}</p>
-            <ButtonLink href="/contact" leadingIcon={RiArrowRightUpLine} className="mt-9">
+            <p className="mt-4 max-w-[48ch] text-headline-regular text-pretty sm:mt-5 sm:text-lead text-text-secondary">{demo.text}</p>
+            <ButtonLink href="/contact" leadingIcon={RiArrowRightUpLine} className="mt-7 sm:mt-9">
               Request a demo
             </ButtonLink>
           </div>

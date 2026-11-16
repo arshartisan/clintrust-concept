@@ -1,3 +1,18 @@
+import {
+  RiBriefcase4Line,
+  RiBuilding2Line,
+  RiCoinsLine,
+  RiFlowChart,
+  RiFocus3Line,
+  RiHospitalLine,
+  RiInformationLine,
+  RiMailLine,
+  RiRoadMapLine,
+  RiShieldCheckLine,
+  RiStackLine,
+  RiTeamLine,
+} from "@remixicon/react";
+
 /**
  * All landing-page copy in one place. Facts and figures are carried over from
  * the previous clintrust.ai site; wording was tightened in sprint 1 and should
@@ -16,31 +31,32 @@ export const brand = {
 
 /**
  * Primary navigation. An entry with `items` is a dropdown menu (a heading and
- * a two-column list of links); one with `href` is a plain link.
+ * a two-column list of links, each with an icon tile and a one-line
+ * description); one with `href` is a plain link.
  */
 export const nav = [
   {
     label: "Our approach",
     heading: "By role",
     items: [
-      { label: "For sponsors", href: "/approach#sponsors" },
-      { label: "For CROs", href: "/approach#cros" },
-      { label: "For sites", href: "/approach#sites" },
-      { label: "How it works", href: "/#how-it-works" },
-      { label: "Capital model", href: "/#capital" },
-      { label: "Platform modules", href: "/#platform" },
+      { label: "For sponsors", href: "/approach#sponsors", icon: RiBuilding2Line, description: "Fund trials against verified work, not forecasts." },
+      { label: "For CROs", href: "/approach#cros", icon: RiBriefcase4Line, description: "Reconcile site payments without the spreadsheets." },
+      { label: "For sites", href: "/approach#sites", icon: RiHospitalLine, description: "Get paid five days after a verified visit." },
+      { label: "How it works", href: "/#how-it-works", icon: RiFlowChart, description: "From a completed visit to a settled payment." },
+      { label: "Capital model", href: "/#capital", icon: RiCoinsLine, description: "Dynamic funding that cuts escrow by 70–80%." },
+      { label: "Platform modules", href: "/#platform", icon: RiStackLine, description: "The pieces sponsors, CROs and sites work in." },
     ],
   },
   {
     label: "Company",
     heading: "About ClinTrust",
     items: [
-      { label: "About", href: "/about" },
-      { label: "Mission", href: "/about#mission" },
-      { label: "Leadership", href: "/about#leadership" },
-      { label: "Roadmap", href: "/about#roadmap" },
-      { label: "How we build", href: "/about#principles" },
-      { label: "Contact", href: "/contact" },
+      { label: "About", href: "/about", icon: RiInformationLine, description: "Who we are and why we’re building ClinTrust." },
+      { label: "Mission", href: "/about#mission", icon: RiFocus3Line, description: "Why trial money should move at trial speed." },
+      { label: "Leadership", href: "/about#leadership", icon: RiTeamLine, description: "The people behind ClinTrust." },
+      { label: "Roadmap", href: "/about#roadmap", icon: RiRoadMapLine, description: "What has shipped and what comes next." },
+      { label: "How we build", href: "/about#principles", icon: RiShieldCheckLine, description: "Audit trails, compliance and privacy first." },
+      { label: "Contact", href: "/contact", icon: RiMailLine, description: "Talk to us or request a demo." },
     ],
   },
   { label: "Insights", href: "/insights" },
@@ -48,6 +64,8 @@ export const nav = [
 
 export const hero = {
   status: "In stealth. Working with a small group of sponsors and CROs.",
+  /** Phones: the full status wraps to two lines inside its pill. */
+  statusShort: "In stealth with select sponsors and CROs.",
   title: "Site payments that settle when the work is done.",
   lead: "ClinTrust is the payment layer between sponsors, CROs and research sites. Every completed visit is verified once, reconciled against the budget, and paid within five days.",
   primaryCta: { label: "Request a demo", href: "/contact" },
@@ -247,7 +265,7 @@ export const footer = {
         { label: "About", href: "/about" },
         { label: "Mission", href: "/about#mission" },
         { label: "Leadership", href: "/about#leadership" },
-        { label: "Contact", href: "/about#contact" },
+        { label: "Contact", href: "/contact" },
       ],
     },
     {

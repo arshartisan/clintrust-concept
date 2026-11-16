@@ -13,7 +13,8 @@ import { LogoMark } from "./logo";
  * Glass pill navbar with dropdown menus.
  *
  * Each dropdown is a glass panel under its button: a small heading, then a
- * two-column list of plain links (after the identyca reference, sprint 5).
+ * two-column list of links. Each link is an icon tile, a title and a one-line
+ * description (after the identyca reference, sprint 5).
  *
  * The menus are plain disclosure buttons (the WAI-ARIA "disclosure navigation"
  * pattern), not BoardUI's dropdown. That component is built on react-aria,
@@ -35,7 +36,10 @@ const itemClass =
   "flex h-9 items-center gap-0.5 rounded-full px-3.5 text-body-medium text-text-secondary transition-colors duration-150 hover:bg-background-secondary-default hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring cursor-pointer";
 
 const menuLinkClass =
-  "block rounded-lg px-3 py-2 text-headline-regular text-text-secondary transition-colors duration-150 hover:bg-background-secondary-default hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring";
+  "group flex items-start gap-3 rounded-2xl p-3 transition-colors duration-150 hover:bg-background-secondary-default outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring";
+
+const menuIconClass =
+  "flex size-10 shrink-0 items-center justify-center rounded-xl border border-border-button-default bg-background-secondary-default text-foreground-icon-secondary transition-colors duration-150 group-hover:border-border-button-hover group-hover:bg-background-primary-default group-hover:text-foreground-icon-primary";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -69,13 +73,16 @@ export function SiteHeader() {
   }, [openMenu]);
 
   return (
-    // Sticky wrapper is click-through; only the pill itself takes pointer events.
-    <header className="pointer-events-none sticky top-3 z-40 mt-3 px-">
+    // Sticky wrapper is click-through; only the bar itself takes pointer events.
+    // The bar is fixed flush to the top of the screen. Below md it is a
+    // square-edged strip; from md up it is the page column's width with only
+    // its bottom corners rounded, hanging from the top edge.
+    <header className="pointer-events-none sticky top-0 z-40 md:px-4">
       <div
         ref={barRef}
-        // A full pill, 1200px: the same width as the page column, so the bar
-        // lines up with the rails.
-        className="nav-glass pointer-events-auto relative mx-auto w-full max-w-[1200px] rounded-full"
+        // 1200px: the same width as the page column, so the bar lines up with
+        // the rails. Flat top, rounded bottom corners (md and up).
+        className="nav-glass nav-bar pointer-events-auto relative mx-auto w-full max-w-[1200px] md:rounded-b-[28px]"
       >
         <div className="flex items-center gap-1 p-2">
           <Link
@@ -133,13 +140,19 @@ export function SiteHeader() {
                     // Centred under its button. pt-4 bridges the gap so the
                     // pointer can travel from the button to the panel.
                     <div id={panelId} className="absolute top-full left-1/2 -translate-x-1/2 pt-4">
-                      <div className="nav-glass nav-menu menu-in w-[520px] origin-top rounded-3xl p-5">
-                        <p className="px-3 text-body-2-medium text-text-secondary">{entry.heading}</p>
-                        <ul className="mt-2 grid grid-cols-2 gap-x-4">
+                      <div className="nav-glass nav-menu menu-in w-[640px] origin-top rounded-3xl p-3">
+                        <p className="px-3 pt-2 text-body-2-medium text-text-tertiary">{entry.heading}</p>
+                        <ul className="mt-1 grid grid-cols-2 gap-1">
                           {entry.items.map((item) => (
                             <li key={item.label}>
                               <Link href={item.href} onClick={() => setOpenMenu(null)} className={menuLinkClass}>
-                                {item.label}
+                                <span aria-hidden="true" className={menuIconClass}>
+                                  <item.icon className="size-5" />
+                                </span>
+                                <span className="flex min-w-0 flex-col gap-0.5">
+                                  <span className="text-headline-medium text-text-primary">{item.label}</span>
+                                  <span className="text-body-2-regular text-text-secondary">{item.description}</span>
+                                </span>
                               </Link>
                             </li>
                           ))}

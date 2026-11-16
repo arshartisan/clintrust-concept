@@ -115,11 +115,12 @@ const styles = sortCx({
   },
 
   variant: {
-    // ClinTrust: the primary button is the "glow" pill (styles/brand.css →
-    // .button-glow), carried over from the Vernius project. Deep accent body,
-    // lit lower rim, soft bloom. It reads the accent ramp, so it is teal here.
+    // ClinTrust: the primary button is the "glow" button (styles/brand.css →
+    // .button-glow), after the imtoken-landing arcade glow: a near-black navy
+    // body lit from below in the logo's teal and blue. Shape per size is in
+    // `pillFit`, shared with secondary.
     // BoardUI's stock primary was: "bg-button-primary text-text-white shadow-xs".
-    primary: "button-glow relative rounded-full px-4 text-text-white disabled:opacity-60 aria-disabled:opacity-60",
+    primary: "button-glow relative text-text-white disabled:opacity-60 aria-disabled:opacity-60",
     danger: [
       "bg-button-danger text-text-white shadow-xs",
       "disabled:text-foreground-disabled-danger disabled:shadow-none",
@@ -127,7 +128,7 @@ const styles = sortCx({
     ].join(" "),
     secondary: [
       // rounded-full + px-3: a pill, to sit beside the primary glow pill.
-      "rounded-full px-4 bg-background-primary-default text-text-primary",
+      "rounded-full bg-background-primary-default text-text-primary",
       "border border-border-button-default shadow-xs",
       "hover:bg-background-primary-hover  hover:border-border-button-hover",
       "active:bg-background-primary-active active:border-border-button-active",
@@ -142,6 +143,16 @@ const styles = sortCx({
     ].join(" "),
   },
 });
+
+/**
+ * ClinTrust: one pill shape for the primary and secondary buttons, per size,
+ * so a pair of buttons side by side has the same height and padding.
+ */
+const pillFit: Record<ButtonSize, string> = {
+  medium: "h-11 rounded-full px-6",
+  small: "h-10 rounded-full px-5",
+  xs: "",
+};
 
 export function Button({
   variant = "primary",
@@ -163,6 +174,7 @@ export function Button({
         styles.base,
         styles.size[size],
         styles.variant[variant],
+        (variant === "primary" || variant === "secondary") && !iconOnly && pillFit[size],
         iconOnly && styles.iconOnlySize[size],
         className,
       )}
@@ -198,6 +210,7 @@ export function ButtonLink({
         styles.base,
         styles.size[size],
         styles.variant[variant],
+        (variant === "primary" || variant === "secondary") && !iconOnly && pillFit[size],
         iconOnly && styles.iconOnlySize[size],
         className,
       )}

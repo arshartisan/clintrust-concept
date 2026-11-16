@@ -20,7 +20,7 @@ export function SiteFooter() {
   return (
     <footer>
       <div className={cx(container, "overflow-hidden pt-12 lg:pt-16")}>
-        <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-b border-separator-border pb-6">
+        <div className="-mx-6 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-b border-separator-border px-6 pb-6 sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
           <Link
             href="/"
             aria-label={`${brand.name} home`}
@@ -84,14 +84,17 @@ export function SiteFooter() {
         {/* Decorative wordmark. Drawn as generated content (::before), not as
             text in the document, so assistive technology and contrast checks
             skip it. Filled with the logo's teal-to-blue gradient (`.wordmark-brand`
-            in styles/brand.css). The legal line sits over its lower edge. */}
+            in styles/brand.css). The legal line sits below it, on its own row,
+            so it never runs into the letters; the letters fade out into the
+            page before they reach it. Its hairline runs rail to rail (the
+            negative margins cancel the container's padding). */}
         <div
           aria-hidden="true"
           data-wordmark={brand.name}
-          className="wordmark-brand pointer-events-none mt-16 -mb-[0.2em] text-center text-wordmark select-none [mask-image:linear-gradient(to_bottom,black_20%,transparent_96%)] lg:mt-20"
+          className="wordmark-brand pointer-events-none mt-16 text-center text-wordmark select-none [mask-image:linear-gradient(to_bottom,black_8%,transparent_82%)] lg:mt-20"
         />
 
-        <p className="relative pb-6 text-body-2-regular text-text-secondary">{footer.legal}</p>
+        <p className="relative -mx-6 border-t border-separator-border px-6 py-6 text-body-2-regular sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12 text-text-secondary">{footer.legal}</p>
       </div>
     </footer>
   );
