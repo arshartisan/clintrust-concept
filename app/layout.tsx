@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { SiteHeader } from "@/components/marketing/site-header";
+import { SmoothScroll } from "@/components/marketing/smooth-scroll";
 import { brand } from "@/content/landing";
+import "lenis/dist/lenis.css";
 import "@/styles/globals.css";
 
 // Inter (variable, with its optical-size axis) for the whole site. With the
@@ -39,6 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <SmoothScroll />
       </body>
     </html>
   );
