@@ -224,3 +224,39 @@ widgets mount and match placeholder height; Lighthouse mobile and desktop.
 Not checked: Safari and Firefox, a real phone or tablet (all checks were
 emulated viewports on a desktop), reduced motion toggled in the OS, and
 Lighthouse against a deployed host.
+
+## Browser and device check (sprint 7)
+
+**Supported browsers** are Tailwind v4's floor: Safari 16.4+, Chrome/Edge
+111+, Firefox 128+. Everything the site uses is inside it (`color-mix`,
+individual `translate`/`scale`, `:has()`, `text-wrap: pretty`). Fallbacks that
+must stay: `-webkit-backdrop-filter` beside `backdrop-filter`, the solid
+`@supports not (backdrop-filter)` navbar, and a `setTimeout` path wherever
+`requestIdleCallback` is used (Safari has none). The scrollbar uses
+`scrollbar-color` where supported and `::-webkit-scrollbar` otherwise.
+
+**Device audit:** `scripts/responsive-audit.mjs` drives headless Chrome over
+the DevTools protocol (a plain headless window cannot be narrower than about
+500px). For each route at 360, 390, 768, 1024 and 1440px it scrolls the page
+(so `InView`/`Reveal` content renders), then reports horizontal overflow and
+the elements causing it, text clipped inside its own box, console errors, and
+links or buttons smaller than 24px (WCAG 2.2 target size) at 390px; it saves
+a full-page screenshot of each. Run it against `next start`, not a long-lived
+`next dev`: see the note below.
+
+```
+npx next build && npx next start -p 3124
+BASE=http://localhost:3124 node scripts/responsive-audit.mjs ./audit-out
+```
+
+Sprint 7 result: no overflow, no clipped text, no console errors and no
+undersized targets on all six page types at all five widths. Fixes it took:
+footer links, contact emails and the article back link given a 28px minimum
+height; the "how it works" match rows given less padding so labels no longer
+truncate between 360 and 1279px.
+
+**Dev server note:** running `next build` while `next dev` is up can leave
+the dev server's generated route types (`.next/dev/types`) half-overwritten,
+after which it serves 404s for dynamic routes such as `/insights/[slug]` and
+`tsc` fails inside `.next/dev/types`. Restart `next dev` to regenerate them.
+

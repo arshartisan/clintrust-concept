@@ -36,6 +36,7 @@ UI fixes from a screenshot review.
 | About | "Get in touch" section removed (the Contact page and the closing call to action cover it); the footer's Contact link now goes to /contact |
 | Advisors heading | "Advisory board" eyebrow and the old site's description line added above the cards |
 | Approach stats | Stats rows rebuilt as animated meters over figure cards (`stat-meters.tsx`); only real percentages are plotted |
+| Browsers and devices | Audit script added (`scripts/responsive-audit.mjs`); tap targets raised to 28px in the footer, contact emails and article back link; "how it works" labels no longer truncate; branded thin scrollbar (teal to blue) |
 | How we build | Rebuilt as staggered cards with line drawings, teal taglines and the old site's fuller text (`principle-cards.tsx`); the old two-column list is gone |
 | Roadmap | Content from the old site added: intro line, phase labels with timing (Phase 1 · Now, Phase 2 · 2026, Phase 3 · 2027 and beyond) and each phase's markets as chips |
 
