@@ -71,9 +71,10 @@ Rules:
 - The name is **ClinTrust**, set in `brand.name` in `content/landing.ts`. The
   registered company name (`brand.legalEntity`) is separate and was not
   changed by the rename.
-- Shown at 28px in the navbar, 32px in the footer. In the isometric scenes it
-  is printed flat on a surface with `<IsoStamp>`. Minimum 24px: below that the
-  helix closes up.
+- Shown at 28px in the navbar, 32px in the footer. It is not printed in the
+  isometric scenes: their hubs carry `<IsoShield>` instead (sprint 7), because
+  the logo's detail closed up at that size and angle. Minimum 24px: below that
+  the helix closes up.
 - Light surfaces only. On a dark section, put it on a white tile (the problem
   diagram does). The blue lower half of the mark has too little contrast
   on navy. A single-colour or reversed version is needed before the logo can
@@ -122,7 +123,7 @@ Two ramps:
 | `text-subsection` | 24px | 1.25 | -0.02em | 500 |
 | `text-lead` | 18px | 1.6 | -0.006em | 400 |
 | `text-figure` | 40 to 64px (fluid) | 1.0 | -0.035em | 500 |
-| `text-wordmark` | 64 to 240px (fluid) | 0.82 | -0.055em | 600 |
+| `text-wordmark` | 80 to 296px (fluid) | 0.82 | -0.055em | 600 |
 
 Rules:
 
@@ -176,7 +177,7 @@ library in the initial bundle (see `05-performance.md` for why).
 | Capital | The sweep, the gauge and the bars draw themselves once on entering the viewport | `.draw-in` (stroke, 1400ms), `.grow-in` (bar, 900ms) |
 | APAC bento | Bars slide, dial needle rocks, dashes flow, dots pulse | `.how-row`, `.how-sway`, `.flow-dash`, `.iso-blink` |
 | Call-to-action panel | Corner glows drift | `.cta-drift`, 8s alternate |
-| Platform cards | Each illustration loops while its card is on screen | `.iso-pulse`, `.iso-blink`, `.iso-float`, `.iso-step` |
+| Platform cards | Each illustration loops while its card is on screen: parts float, light pools breathe, beams pulse | `.iso-pulse`, `.iso-blink`, `.iso-float`, `.iso-step`, `.iso-halo`, `.iso-beam` |
 
 Rules:
 
@@ -211,7 +212,7 @@ them, and each is a few kilobytes of inline SVG with no image request.
 | `IsoBox` | A box with rounded vertical edges (rounded top face and a skirt that follows the same curve). `radius` defaults to 14% of the shorter side. `at` = centre on the ground, `size` = width, depth, height in grid units, `z` = lift |
 | `IsoWire` | A connector along the ground with one travelling pulse. Blue = raw input, accent = verified output |
 | `IsoLabel` | A flat pill label above a point. Hidden below `sm` where it would be unreadable |
-| `IsoStamp` | The logo printed flat on a horizontal surface in true isometric projection: its width runs 30 degrees up-right, its height 30 degrees down-right, so its edges are parallel to the tile's. Do not fake this with a vertical squash, which leaves the logo at 45 degrees to the tile |
+| `IsoShield` | A shield with a tick printed flat on a horizontal surface in true isometric projection (edges parallel to the tile's; do not fake this with a vertical squash). Accent teal by default, meaning "verified"; the hero passes the logo gradient. Used on every hub in place of the logo (`IsoStamp` was removed in sprint 7) |
 | `project`, `isoLine` | Grid point to SVG coordinates; a polyline path |
 
 Tones: `paper` (white top, pale blue sides, blue line: the default), `blue`
@@ -277,8 +278,8 @@ the top left; below and behind it, a large isometric scene.
 - Behind it all, an isometric floor grid: two sets of hairlines at plus and
   minus 30 degrees in CSS, faded toward the edges.
 - The centre tile carries `IsoShield`, not the logo. The logo was tried first
-  (`IsoStamp`); its fine detail closed up at that size and angle. The platform
-  cards' hubs still use the logo.
+  (`IsoStamp`); its fine detail closed up at that size and angle. Since sprint 7
+  the platform cards' hubs use a teal `IsoShield` too.
 - Under the hero, the standards sit in a full-width strip of four cells. A
   floating card version was tried and reverted at the client's request.
 - Toolkit pieces added for this scene: `IsoDisc` (coins), `IsoPanel` (the
@@ -287,10 +288,15 @@ the top left; below and behind it, a large isometric scene.
 
 ### Buttons
 
-The primary button is the **glow pill**, carried over from the Vernius
-project's BoardUI button (`variant="glow"` there): a deep accent body, a lit
-lower rim and a soft bloom, defined as `.button-glow` in `brand.css`. Because
-it reads the accent ramp it is ClinTrust teal with no change to the recipe.
+The primary button is the **glow button** (`.button-glow` in `brand.css`),
+ported in sprint 7 from the "arcade glow" button in the imtoken-landing
+project: a near-black navy body (`navy-950`) lit from below by a stack of
+seven inset shadows. The stack uses the logo's two colours: pale teal at the
+bottom rim, through teal, into the logo's blue at the top of the glow. There
+is no border and no gradient fill. Shape per size is `primaryFit` in
+`button.tsx`. `pillFit` is shared by primary and secondary, so a pair of
+buttons side by side always has the same height and padding: 44px with `px-6`
+at medium, 40px with `px-5` at small (the navbar).
 
 In `components/base/buttons/button.tsx` (BoardUI source, edited):
 
@@ -298,9 +304,104 @@ In `components/base/buttons/button.tsx` (BoardUI source, edited):
   is noted in a comment there if it is ever wanted back.
 - `secondary` is a pill too, so the two sit together.
 - Heights are one step taller than BoardUI's (medium 40px, small 36px) and
-  horizontal padding is `px-4`.
+  horizontal padding is `px-4`, except the primary pill (see above).
 
 Re-installing `button` from BoardUI with overwrite would undo these edits.
+
+### Platform cards
+
+`components/marketing/platform.tsx` and `iso-visuals.tsx` (sprint 7, after a
+"glass devices" reference, set in the light theme at the client's request).
+Six equal cards, three columns on desktop, two on tablets, one on phones.
+Each card is a flat light tile (`.platform-card`: the secondary surface, no
+drop shadow, no light wash): the illustration on top, the name and text underneath on
+the same surface, no divider.
+
+The illustrations use the card tones in `iso.tsx`: `glass` (frosted white top,
+pale blue sides, blue edge), `glow` (teal: verified, paid) and `glowBlue`
+(blue: incoming).
+No glow: the pools of light and the beam were tried and removed at the
+client's request. The only gradient left is the shield's ink fill (ids from
+`useId`, so every drawing has its own).
+
+### Our approach page
+
+`app/approach/page.tsx`, laid out after the previous clintrust.ai/solutions
+page, with our own copy (`approach` in `content/pages.ts`):
+
+- Hero: an accent eyebrow ("Our approach by stakeholder", `PageHero`'s
+  `eyebrow`), title, lead and For sponsors / CROs / sites jump links.
+- Platform overview video, full width of the column in its own section right
+  under the hero (no hairline between them). The "Platform overview" label and
+  the caption sit above the player as an intro row (label left, caption as a
+  lead on the right), not squeezed underneath it. Player:
+  `components/marketing/video-player.tsx`, a dark navy panel with a round glow
+  play button, click to play, `preload="none"`, then the browser's controls.
+  Files in `public/video/`: `clintrust-overview.webm` (VP9, 5.9 MB) first,
+  `clintrust-overview.mp4` (H.264, 34.5 MB) as the fallback.
+- Stats rows (`stat-meters.tsx`, after an "efficiency metrics" reference):
+  each stat is a meter bar above a grey figure card, and the bars fill in,
+  staggered, when the row comes on screen. Only real percentages are plotted
+  on a 0-100% scale with a marker (70-80% shades the range); figures that are
+  not numbers get scale-free indicators: "Real time" a full bar with a moving
+  light, "Day 1" a short bar at the start, "Fewer" a bar that shrinks,
+  "Native" a full "Built in" bar. Set per stat with `meter` in the copy.
+- Each role: label, title and text, the stats row, then an "experience"
+  subheading (`experienceTitle`) over the features:
+  - Sponsors: icon cards two-up beside the **Sponsor command center**
+    (`command-center.tsx`), a product picture with example data from the
+    previous site (`approach.commandCenter`). It sticks while the cards scroll.
+  - CROs: icon cards three-up.
+  - Sites: a numbered 01 to 05 list beside the settlement ledger.
+  Feature icons are set per feature in the copy (`icon`).
+
+### Advisor cards
+
+`components/marketing/advisor-cards.tsx` on `/about`, after a "metric cards"
+reference: four cards two by two, each with the area, a tag pill, an index
+figure (01 to 04: an index, not a metric; no advisor metrics exist), a small
+chart that draws in once on screen (teal and blue in a checkerboard: row 1 teal, blue; row 2 blue, teal) (`.adv-*` in `brand.css`),
+the description, a round arrow to /contact and position dots.
+
+### Insight articles
+
+`app/insights/[slug]/page.tsx`, statically generated for the three slugs.
+Bodies are structured blocks (`intro`, `h2`, `p`) in `content/articles.ts`,
+taken from the previous clintrust.ai/insights page with light tidying; they
+need the client's sign-off. Layout: back link, category and reading time,
+title in `text-hero`, teaser as the lead, tags; then a sticky "In this
+article" contents rail (from `lg`) beside a 65ch reading column; then "More
+insights" (the other two cards) and the closing call to action. The card
+(`article-card.tsx`) is shared by /insights and the article pages; the whole
+card is clickable through the title link.
+
+### Values and roadmap (About)
+
+The four values sit in a hairline grid, each with a 40px teal icon tile
+(`icon` per value in `content/pages.ts`). The roadmap, after the previous
+site: a two-tone heading with an intro line, then three phases on a timeline,
+each labelled "Phase n · when" (Now, 2026, 2027 and beyond) and followed by
+its markets as chips. Country chips carry a small two-letter code instead of
+an emoji flag, because emoji flags do not render on Windows. The current
+phase is in teal; later phases are neutral.
+
+### How we build (About)
+
+`components/marketing/principle-cards.tsx`, after an "automation for
+everyone" reference: an accent eyebrow with a small square, the heading, a
+short intro, then four cards stepping down like a staircase (desktop: intro +
+two cards on the first row, two cards shifted one column left on the second).
+Each card: a thin teal-and-blue line drawing at the top end (draws in once,
+`.adv-draw`), the principle, its short line in teal (`tagline`) and the
+fuller text from the previous site (`text`). The intro line is new copy and
+needs the client's approval.
+
+### Leadership
+
+Four cards on `/about`, four across on desktop, two by two on tablets. The
+Chief Commercial Officer has no name or photo published yet (as on the
+previous site), so that card shows the title and a "C" monogram in the logo's
+teal-to-blue. Add `photo` and the name in `content/pages.ts` when announced.
 
 ### Capital cards
 
@@ -350,23 +451,31 @@ faded wordmark, then the legal line. No social icons: there are no ClinTrust
 social accounts on record to link to. Add them to the logo row when there are.
 
 The wordmark is generated content (`::before`), so it is skipped by assistive
-technology and by contrast checks. It is filled with the logo's teal-to-blue
+technology and by contrast checks. Its lower part fades out into the page
+(mask from 8% to 82%), and the legal line sits on its own row below it, never
+over the letters. Both footer hairlines (under the logo row and above the
+legal line) run rail to rail: negative margins cancel the container padding. It is filled with the logo's teal-to-blue
 gradient at half strength (`.wordmark-brand`). Together with the active-step
 rail this is one of the few places the logo gradient is used outside the logo.
 
 ### Navbar
 
-`components/marketing/site-header.tsx`. A full pill, sticky 12px from the top,
-as wide as the page column (1200px) so it lines up with the rails. Its glass
+`components/marketing/site-header.tsx`. Sticky, flush to the top of the
+screen at every size, with no top border. From `md` up it is as wide as the
+page column (1200px, so it lines up with the rails) with only its bottom
+corners rounded (28px), hanging from the top edge. Below `md` it is a
+square-edged full-width strip with a bottom hairline (`.nav-glass.nav-bar`
+in `brand.css`). Sprint 7 replaced the floating pill, which sat 12px down. Its glass
 surface is `.nav-glass` in `brand.css`: 66 to 80% opaque with a 22px blur and
 a bright top rim. Do not make it more transparent: below that the links are
 unreadable while the bar passes over a dark section. Entries with `items` in
 `nav` (`content/landing.ts`) are dropdowns.
 
-A dropdown is a 520px glass panel centred under its button: a small heading
-(`heading` in the nav data) and a two-column list of plain text links, after
-the identyca reference. An earlier version had an icon tile and a description
-per row. The panel is nearly opaque (`.nav-glass.nav-menu`), not blurred: it
+A dropdown is a 640px glass panel centred under its button: a small heading
+(`heading` in the nav data) and a two-column list of rows, after the identyca
+reference. Each row is a 40px icon tile (`icon`), a title and a one-line
+description (`description`), all set per item in `nav`. On hover the row takes
+the secondary surface and the tile lifts to the primary surface. The panel is nearly opaque (`.nav-glass.nav-menu`), not blurred: it
 sits inside the bar, which is already a backdrop-filter surface, and a nested
 backdrop-filter cannot see the page behind its parent. There is no "Log in"
 item, because the site has no login.

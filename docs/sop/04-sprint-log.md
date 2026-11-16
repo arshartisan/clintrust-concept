@@ -5,6 +5,58 @@ checked, what is open.
 
 ---
 
+## Sprint 7: navbar menus, smooth scroll, phone fixes (2026-11-16)
+
+UI fixes from a screenshot review.
+
+### Shipped
+
+| Area | Change |
+| --- | --- |
+| Navbar dropdowns | Each row is now an icon tile, a title and a one-line description (identyca reference). Icons and descriptions live in `nav` in `content/landing.ts`. Panel 640px (was 520) |
+| Navbar, phones | Below `md` the bar is a square-edged full-width strip with a bottom hairline, not a floating pill. Also fixed a broken `px-` class on the header (now `md:px-4`) |
+| Navbar, desktop | No longer a floating pill: flush to the top edge, no top border, bottom corners rounded only |
+| Smooth scroll | Lenis (`lenis@1.3`), loaded after idle by `smooth-scroll.tsx`, mounted in `app/layout.tsx`. Reduced motion and touch keep native scrolling; hash links glide and respect `scroll-mt-16`; stops while the drawer locks the page |
+| Platform cards | Hub tiles print a teal `IsoShield` instead of the logo. `IsoStamp` deleted |
+| Hero status pill | Phones show `hero.statusShort` so the pill stays on one line |
+| Footer | Wordmark larger (up to 296px) and fades out into the page; legal line on its own row; both hairlines run rail to rail |
+| Call to action, phones | Smaller glows, no circuit hairlines, fainter dot grid, 16px lead, tighter padding |
+| Platform cards | Rebuilt after a "glass devices" reference: six equal cards (3 x 2), new glowing isometric scenes for all six modules, new `glass`/`glow`/`glowBlue` tones and `.iso-halo`/`.iso-beam` animations. The old bento layout is gone. First built dark, then switched to the light theme at the client's request |
+| Primary button | Ported the imtoken-landing "arcade glow" button: navy-950 body lit from below by stacked inset glows in the logo's teal and blue. A pill, 48px with 26px sides (navbar: 40px). A gradient-border version was tried first and rejected |
+| Platform overview video | On `/approach`, full width under the hero (first tried on the homepage, then beside the hero title). WebM (5.9 MB) with the MP4 (34.5 MB) as fallback; ffmpeg was installed with winget for the conversion. Click to play, `preload="none"`. `video-player.tsx` |
+| Our approach page | Layout from the old clintrust.ai/solutions page with our copy: hero eyebrow and jump links, "experience" subheadings, icon feature cards, a Sponsor command center mockup (example data from the old site), a numbered list for sites |
+| About | Advisory areas rebuilt as four metric-style cards with drawn charts (`advisor-cards.tsx`). Leadership has a fourth card: Chief Commercial Officer, no name or photo yet, monogram avatar |
+| Buttons | Primary and secondary share one size (`pillFit`): same height and padding side by side |
+| Platform cards | Drop shadow, light wash, light pools and beams removed: flat tiles, no glow |
+| Insights | Article pages at `/insights/[slug]` with the full text of the three articles from the old site (`content/articles.ts`), contents rail and "More insights"; cards on /insights link to them |
+| Call to action | Corner glows toned down (teal 70% to 28%, blue 55% to 22%) |
+| Leadership cards | Padding reduced (`p-7` to `p-5`) |
+| About values | Icon tile on each of the four values |
+| Contact page | Form panel shadow removed. Contact details from the old site added beside the form: headquarters, general inquiries (info@), business development (partnerships@), security and compliance (security@), each with an icon tile; emails are `mailto:` links kept left to right (`contact.channels`) |
+| About | "Get in touch" section removed (the Contact page and the closing call to action cover it); the footer's Contact link now goes to /contact |
+| Advisors heading | "Advisory board" eyebrow and the old site's description line added above the cards |
+| Approach stats | Stats rows rebuilt as animated meters over figure cards (`stat-meters.tsx`); only real percentages are plotted |
+| How we build | Rebuilt as staggered cards with line drawings, teal taglines and the old site's fuller text (`principle-cards.tsx`); the old two-column list is gone |
+| Roadmap | Content from the old site added: intro line, phase labels with timing (Phase 1 · Now, Phase 2 · 2026, Phase 3 · 2027 and beyond) and each phase's markets as chips |
+
+### How it was checked
+
+- `npx tsc --noEmit`, `eslint` on `app`, `components`, `content`, `npm run build`: all pass.
+- All five routes return 200 from the dev server, and the new markup is present.
+- Headless Chrome screenshots at 1400px: platform cards, the video panel and
+  the hero button were looked at and adjusted.
+
+Not checked: the dropdown panel, the phone navbar, the CTA band and the cards
+at phone width, and the scroll feel (the Chrome extension was not connected);
+bundle sizes and Lighthouse were not measured.
+
+Open: confirm the Chief Commercial Officer's name and photo; confirm the
+example figures in the Sponsor command center are fine to show; client
+sign-off on the article text and the new "How we build" intro line; a react-aria "no visible label" console warning
+seen in dev, source not yet traced.
+
+---
+
 ## Sprint 6: client review pass (2026-11-15)
 
 Small changes from a screenshot-by-screenshot review with the client.

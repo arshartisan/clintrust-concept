@@ -42,6 +42,7 @@ site of this kind) can start from here instead of from scratch.
 | `/` | Landing page | `content/landing.ts` |
 | `/approach` | Sponsors, CROs, sites | `content/pages.ts` |
 | `/about` | Mission, leadership, roadmap, principles | `content/pages.ts` |
-| `/insights` | Three article summaries (no article pages yet) | `content/pages.ts` |
+| `/insights` | Three article cards, each linking to its article | `content/pages.ts` |
+| `/insights/[slug]` | Article pages (static), with an "In this article" contents rail and "More insights" | `content/articles.ts` (bodies), `content/pages.ts` (titles, teasers, slugs) |
 | `/contact` | Contact and demo form | `content/pages.ts` |
 | `/api/demo-request` | Form endpoint. Validates and logs only | |

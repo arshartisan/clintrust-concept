@@ -125,6 +125,16 @@ Rules for adding one:
 5. Before reaching for a react-aria control in something that is on every
    page (header, footer), consider whether a plain element will do. The
    navbar dropdowns are disclosure buttons for exactly this reason.
+6. Smooth scrolling (Lenis, about 5 KB gzip) is fetched after the page is
+   idle by `components/marketing/smooth-scroll.tsx`, never in the first load.
+   It is skipped under `prefers-reduced-motion`, and touch keeps native
+   scrolling. Until it loads, CSS `scroll-behavior: smooth` covers anchors;
+   `html.lenis` turns that off so the two do not stack.
+7. The platform overview video (`/approach`) never autoplays and uses
+   `preload="none"`: the file costs nothing until the visitor presses play.
+   Serve WebM (VP9) first and H.264 MP4 as the fallback: 5.9 MB against
+   34.5 MB at 1080p. Re-encode with
+   `ffmpeg -i in.mp4 -c:v libvpx-vp9 -crf 34 -b:v 0 -row-mt 1 -c:a libopus -b:a 96k out.webm`.
 
 ### 3. The largest text is painted in the first frame
 
