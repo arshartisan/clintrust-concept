@@ -104,6 +104,7 @@ const STROKE = 1.25;
 /**
  * Tones. Blueprint style: white tops, pale blue sides, blue line work.
  * "accent" marks whatever is verified or paid; "wire" is an outline only.
+ * "glass", "glow" and "glowBlue" are the platform cards' frosted, lit set.
  */
 const TONES = {
   paper: {
@@ -129,6 +130,26 @@ const TONES = {
     left: "fill-chart-8-active",
     right: "fill-chart-8-active",
     stroke: "stroke-chart-8-active",
+  },
+  // The platform cards (sprint 7): frosted white bodies with cool blue
+  // sides and lit edges, and parts that glow teal (verified) or blue (incoming).
+  glass: {
+    top: "fill-background-primary-default",
+    left: "fill-brand-blue-50",
+    right: "fill-brand-blue-100",
+    stroke: "stroke-brand-blue-300",
+  },
+  glow: {
+    top: "fill-accent-300",
+    left: "fill-accent-500",
+    right: "fill-accent-700",
+    stroke: "stroke-accent-200",
+  },
+  glowBlue: {
+    top: "fill-brand-blue-300",
+    left: "fill-brand-blue-500",
+    right: "fill-brand-blue-700",
+    stroke: "stroke-brand-blue-200",
   },
   wire: {
     top: "fill-transparent",
@@ -339,43 +360,6 @@ interface IsoLabelProps {
   className?: string;
 }
 
-interface IsoStampProps {
-  /** Grid point at the centre of the stamp (use the top of the surface for z). */
-  at: Point3;
-  scale: number;
-  /** Width of the logo along the surface, in px (before projection). */
-  width: number;
-}
-
-/**
- * The logo printed flat on a horizontal surface, in true isometric
- * projection: its edges run parallel to the edges of the tile it sits on.
- *
- * The image's own axes are mapped onto the two ground axes of the drawing.
- * Its width runs up-and-right (30 degrees above horizontal) and its height
- * runs down-and-right (30 degrees below), the standard orientation for
- * artwork on the top face of an isometric object. Both axis vectors have
- * length 1, so the logo keeps its size along the surface.
- *
- * (Sprint 3 first shipped this as a plain vertical squash, which kept the
- * logo upright on screen and so at 45 degrees to the tile. That was wrong.)
- */
-export function IsoStamp({ at, scale, width }: IsoStampProps) {
-  const [x, y] = project(at, scale);
-  const height = width * (80 / 77);
-  const c = r(COS * 1000) / 1000;
-  return (
-    <image
-      href="/logo.webp"
-      width={width}
-      height={r(height)}
-      // Read right to left: centre the image on its own origin, lay it on
-      // the ground plane, then move it to the stamp point.
-      transform={`translate(${x} ${y}) matrix(${c} ${-SIN} ${c} ${SIN} 0 0) translate(${r(-width / 2)} ${r(-height / 2)})`}
-    />
-  );
-}
-
 /** A flat pill label floating above a grid point. Not skewed, so it stays readable. */
 export function IsoLabel({
   at,
@@ -494,8 +478,8 @@ interface IsoShieldProps {
 }
 
 /**
- * A shield with a tick, printed flat on a horizontal surface with the same
- * projection as IsoStamp. A plain icon reads more clearly than the full logo
+ * A shield with a tick, printed flat on a horizontal surface in true isometric
+ * projection: its edges run parallel to the edges of the tile it sits on. A plain icon reads more clearly than the full logo
  * at this size and angle, where the logo's fine detail closes up.
  */
 export function IsoShield({ at, scale, size, fill }: IsoShieldProps) {

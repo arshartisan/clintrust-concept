@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { modules } from "@/content/landing";
-import { cx } from "@/utils/cx";
 import { Section, SectionHeading } from "./frame";
 import { InView } from "./in-view";
 import {
@@ -14,20 +13,19 @@ import {
 import { Reveal } from "./reveal";
 
 /**
- * Bento layout. Same order as `modules` in content/landing.ts.
- *   lg (6 columns):  2 + 4  /  3 + 3  /  2 + 4
- *   md (2 columns):  the two wide tiles span both columns; `grid-flow-dense`
- *                    lets the next narrow tile fill the gap beside the first.
- *   below md:        one column.
- * The two wide tiles hold the flow diagrams, which need the width.
+ * Six equal dark cards, after a "glass devices" reference (sprint 7):
+ *   lg: three columns, two rows.  md: two columns.  Below md: one column.
+ * Same order as `modules` in content/landing.ts. Each card is a light tile
+ * (`.platform-card`) washed with faint teal and blue light: the illustration
+ * on top, the name and text underneath on the same surface, no divider.
  */
-const TILES: { visual: ReactNode; span: string }[] = [
-  { visual: <BudgetVisual />, span: "lg:col-span-2" },
-  { visual: <CaptureVisual />, span: "md:col-span-2 lg:col-span-4" },
-  { visual: <ReconcileVisual />, span: "lg:col-span-3" },
-  { visual: <PayableVisual />, span: "lg:col-span-3" },
-  { visual: <FundingVisual />, span: "lg:col-span-2" },
-  { visual: <PayoutVisual />, span: "md:col-span-2 lg:col-span-4" },
+const VISUALS: ReactNode[] = [
+  <BudgetVisual key="budget" />,
+  <CaptureVisual key="capture" />,
+  <ReconcileVisual key="reconcile" />,
+  <PayableVisual key="payable" />,
+  <FundingVisual key="funding" />,
+  <PayoutVisual key="payout" />,
 ];
 
 export function Platform() {
@@ -40,16 +38,13 @@ export function Platform() {
         />
       </Reveal>
 
-      <ul className="mt-14 grid grid-flow-dense gap-4 md:grid-cols-2 lg:grid-cols-6">
+      <ul className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {modules.map((module, index) => (
-          <li key={module.name} className={cx("min-w-0", TILES[index].span)}>
-            {/* A plain card: no border glow here. InView switches the
-                illustration's animation on while the card is visible. */}
-            <InView className="flex h-full flex-col overflow-hidden rounded-3xl border border-border-button-default bg-background-full">
-              <div className="h-52 border-b border-separator-border bg-background-secondary-default px-4 py-3">
-                {TILES[index].visual}
-              </div>
-              <div className="p-6 sm:p-7">
+          <li key={module.name} className="min-w-0">
+            {/* InView switches the illustration's animation on while the card is visible. */}
+            <InView className="platform-card flex h-full flex-col overflow-hidden rounded-3xl border border-border-button-default">
+              <div className="h-60 px-4 pt-6 pb-2">{VISUALS[index]}</div>
+              <div className="px-6 pb-7 sm:px-7">
                 <h3 className="text-headline-medium text-text-primary">{module.name}</h3>
                 <p className="mt-1.5 max-w-[46ch] text-body-regular text-text-secondary">{module.text}</p>
               </div>
