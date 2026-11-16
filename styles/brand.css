@@ -610,7 +610,8 @@ html.lenis {
 /* Platform cards (sprint 7): a flat light tile. The teal/blue light wash and
  * the drop shadow were removed at the client's request. */
 .platform-card {
-  background: var(--color-background-secondary-default);
+  /* Half way between the secondary surface and white: a faint tint. */
+  background: color-mix(in srgb, var(--color-background-secondary-default) 45%, var(--color-background-primary-default));
 }
 
 /* Advisor cards on /about (sprint 7). The charts draw in once while the card
