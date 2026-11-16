@@ -16,7 +16,7 @@ const LazyToaster = lazy(() => loadToast().then((module) => ({ default: module.T
 
 /** Shared by the form and its loading placeholder so both are one size. */
 export const demoFormClass =
-  "min-h-[860px] rounded-3xl border border-border-button-default bg-background-primary-default p-6 shadow-lg sm:min-h-[646px] sm:p-8";
+  "min-h-[860px] rounded-3xl border border-border-button-default bg-background-primary-default p-6 sm:min-h-[646px] sm:p-8";
 
 /** The contact / demo request form. Loaded on demand: see lazy-widgets.tsx. */
 export function DemoForm() {

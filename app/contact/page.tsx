@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { container } from "@/components/marketing/frame";
 import { LazyDemoForm } from "@/components/marketing/lazy-widgets";
-import { about, contact } from "@/content/pages";
+import { contact } from "@/content/pages";
 import { cx } from "@/utils/cx";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 // Must match `demoFormClass` in components/marketing/demo-form.tsx. Repeated
 // here rather than imported so this server page does not pull the form's chunk.
 const placeholderClass =
-  "min-h-[860px] rounded-3xl border border-border-button-default bg-background-primary-default p-6 shadow-lg sm:min-h-[646px] sm:p-8";
+  "min-h-[860px] rounded-3xl border border-border-button-default bg-background-primary-default p-6 sm:min-h-[646px] sm:p-8";
 
 export default function ContactPage() {
   return (
@@ -24,12 +24,37 @@ export default function ContactPage() {
             {contact.hero.lead}
           </p>
 
-          <address className="mt-12 border-t border-separator-border pt-6 not-italic">
-            <p className="text-body-medium text-text-primary">Head office</p>
-            {about.contact.office.map((line) => (
-              <p key={line} className="text-body-regular text-text-secondary">
-                {line}
-              </p>
+          {/* Ways to reach the team. Emails stay left-to-right in any layout. */}
+          <address className="mt-12 grid gap-6 border-t border-separator-border pt-8 not-italic">
+            {contact.channels.map((channel) => (
+              <div key={channel.label} className="flex gap-4">
+                <span
+                  aria-hidden="true"
+                  className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-accent-200 bg-accent-50 text-accent-600"
+                >
+                  <channel.icon className="size-5" />
+                </span>
+                <div>
+                  <p className="text-caption-1-semibold tracking-wide text-text-tertiary uppercase">{channel.label}</p>
+                  {"email" in channel ? (
+                    <a
+                      href={`mailto:${channel.email}`}
+                      dir="ltr"
+                      className="mt-1 inline-block rounded-sm text-body-medium text-text-primary underline-offset-4 hover:text-accent-600 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
+                    >
+                      {channel.email}
+                    </a>
+                  ) : (
+                    <div className="mt-1">
+                      {channel.lines.map((line) => (
+                        <p key={line} className="text-body-medium text-text-primary">
+                          {line}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
             ))}
           </address>
         </div>
