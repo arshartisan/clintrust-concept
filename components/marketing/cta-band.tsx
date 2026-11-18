@@ -1,27 +1,29 @@
-import { RiArrowRightUpLine } from "@remixicon/react";
-import { ButtonLink } from "@/components/base/buttons/button";
 import { demo } from "@/content/landing";
 import { cx } from "@/utils/cx";
+import { demoFormClass } from "./demo-form-class";
 import { container } from "./frame";
 import { InView } from "./in-view";
+import { LazyDemoForm } from "./lazy-widgets";
 
 /**
- * Closing call to action (sprint 5, light version).
+ * Closing call to action with the demo form (sprint 8: "Bring us your
+ * messiest reconciliation." and the form itself, in place of a link to
+ * /contact). Every "Request a demo" button on the landing page scrolls here.
  *
  * One rounded panel on a soft surface: a dot grid, a teal glow in the top
- * right corner and a blue one in the bottom left, a few angular hairlines,
- * and a single action. The glows are kept faint (28% teal, 22% blue, toned
- * down in sprint 7) and drift slowly while the panel is on screen.
- * The form itself lives on /contact, so no form code loads with this panel.
+ * right corner and a blue one in the bottom left, and a few angular
+ * hairlines. The glows are kept faint (28% teal, 22% blue) and drift slowly
+ * while the panel is on screen. The form's code loads only as it nears the
+ * viewport (lazy-widgets.tsx); a same-size placeholder holds its place.
  *
  * Phones: smaller glows (full-size ones fill the whole panel and wash out the
  * text), no hairlines, a fainter dot grid, a 16px lead and tighter padding.
  */
 export function CtaBand() {
   return (
-    <section className="border-t border-separator-border">
+    <section id="demo" className="scroll-mt-16 border-t border-separator-border">
       <div className={cx(container, "pt-16 lg:pt-24")}>
-        <InView className="relative overflow-hidden rounded-3xl border border-border-button-default bg-background-secondary-default px-5 py-14 text-center sm:rounded-[2.5rem] sm:px-6 sm:py-28">
+        <InView className="relative overflow-hidden rounded-3xl border border-border-button-default bg-background-secondary-default p-3 sm:rounded-[2.5rem] sm:p-8 lg:p-12">
           <div aria-hidden="true" className="pointer-events-none absolute inset-0">
             {/* Corner glows. */}
             <span className="cta-drift absolute -top-28 -end-28 size-[300px] rounded-full sm:-top-40 sm:-end-32 sm:size-[520px] [background:radial-gradient(closest-side,color-mix(in_srgb,var(--color-accent-300)_28%,transparent),transparent)]" />
@@ -47,12 +49,16 @@ export function CtaBand() {
             </svg>
           </div>
 
-          <div className="relative flex flex-col items-center">
-            <h2 className="max-w-[18ch] text-section text-balance text-text-primary">{demo.title}</h2>
-            <p className="mt-4 max-w-[48ch] text-headline-regular text-pretty sm:mt-5 sm:text-lead text-text-secondary">{demo.text}</p>
-            <ButtonLink href="/contact" leadingIcon={RiArrowRightUpLine} className="mt-7 sm:mt-9">
-              Request a demo
-            </ButtonLink>
+          <div className="relative grid gap-10 text-start lg:grid-cols-12 lg:gap-12">
+            <div className="px-3 pt-6 sm:px-0 sm:pt-0 lg:col-span-5 lg:pt-4">
+              <h2 className="max-w-[16ch] text-section text-balance text-text-primary">{demo.title}</h2>
+              <p className="mt-4 max-w-[44ch] text-headline-regular text-pretty sm:mt-5 sm:text-lead text-text-secondary">{demo.text}</p>
+            </div>
+            <LazyDemoForm
+              source="landing"
+              className="lg:col-span-7"
+              fallback={<div className={demoFormClass} aria-hidden="true" />}
+            />
           </div>
         </InView>
       </div>

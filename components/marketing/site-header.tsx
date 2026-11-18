@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { RiArrowDownSLine, RiMenuLine } from "@remixicon/react";
 import { Button, ButtonLink } from "@/components/base/buttons/button";
-import { brand, nav } from "@/content/landing";
+import { brand, demoCta, nav } from "@/content/landing";
 import { cx } from "@/utils/cx";
 import { LogoMark } from "./logo";
 
@@ -165,8 +165,14 @@ export function SiteHeader() {
             })}
           </nav>
 
-          <ButtonLink href="/contact" size="small" className="ms-auto md:ms-1">
-            Request a demo
+          <ButtonLink
+            href={demoCta.href}
+            size="small"
+            className="ms-auto md:ms-1"
+            data-track="request_demo_click"
+            data-track-location="header"
+          >
+            {demoCta.label}
           </ButtonLink>
           <Button
             className="md:hidden"

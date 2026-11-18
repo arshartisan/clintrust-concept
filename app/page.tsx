@@ -1,22 +1,21 @@
 import { Audiences } from "@/components/marketing/audiences";
-import { Capital } from "@/components/marketing/capital";
 import { CtaBand } from "@/components/marketing/cta-band";
 import { Hero } from "@/components/marketing/hero";
 import { HowItWorks } from "@/components/marketing/how-it-works";
-import { Platform } from "@/components/marketing/platform";
-import { Problem } from "@/components/marketing/problem";
-import { Region } from "@/components/marketing/region";
+import { PainPicker } from "@/components/marketing/pain-picker";
+import { Proof } from "@/components/marketing/proof";
+import { WaitingCounter } from "@/components/marketing/waiting-counter";
 
+/** Page flow from the client brief (docs/feedback, sprint 8). */
 export default function Home() {
   return (
     <>
       <Hero />
-      <Problem />
-      <HowItWorks />
-      <Capital />
+      <PainPicker />
+      <WaitingCounter />
       <Audiences />
-      <Platform />
-      <Region />
+      <HowItWorks />
+      <Proof />
       <CtaBand />
     </>
   );

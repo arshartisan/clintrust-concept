@@ -178,8 +178,8 @@ export function SettlementLedger({ className }: { className?: string }) {
           <p className="text-title-2-medium tabular-nums text-text-primary">{usd.format(paid)}</p>
         </div>
         <div className="bg-background-primary-default px-5 py-4">
-          <p className="text-body-2-regular text-text-secondary">Visit to settlement</p>
-          <p className="text-title-2-medium tabular-nums text-text-primary">T+5 days</p>
+          <p className="text-body-2-regular text-text-secondary">Final invoice</p>
+          <p className="text-title-2-medium tabular-nums text-text-primary">T+5</p>
         </div>
       </div>
     </figure>

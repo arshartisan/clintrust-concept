@@ -5,6 +5,52 @@ checked, what is open.
 
 ---
 
+## Sprint 8: client brief, new landing flow, Resend (2026-11-18)
+
+Worked from `docs/feedback/ClinTrust Website Redesign.docx`. Scope agreed
+with the user: content and page structure inside the current visual system.
+The brief's new palette (yellow, coral, teal), doodles, photos of real people,
+confetti and the 2 to 3 hero concepts for review are **not** done yet.
+
+### Shipped
+
+| Area | Change |
+| --- | --- |
+| Page flow | Hero, Which one is you?, Waiting time, Audience tabs, How it works, Proof, Closing panel with the demo form (the brief's order) |
+| Hero | Rotating question headline (4 questions, then the answer), pause button, "Yes, that's me" (to `#pain`) and "Request a demo" (to `#demo`). Stealth pill and standards strip removed |
+| Which one is you? | Four worries in a BoardUI accordion beside the heading (user request: its smooth expand), each with a one-line fix |
+| Waiting time | Old way 90 to 140 days against the ClinTrust way, animated counters and bars |
+| Audiences | Tabs with questions and one benefit each (replaces the three columns) |
+| How it works | Plain-language Record / Reconcile / Pay; Pay card reads "Final invoice sent, T+5" |
+| Proof | One figure ($15M released on $100M) with its basis |
+| Removed | Problem flow, capital cards, platform modules, APAC bento, and their CSS |
+| Must-fix | Jargon cut ("payment orchestration", "CTMS and EDC ingestion", "Native EDC and CTMS integration"); T+5 now means the final invoice after a 5-day review, never "paid in five days" (landing, nav, ledger on /approach, metadata); standards once (footer); legal name "ClinTrust Pte. Ltd." |
+| Demo form | `/api/demo-request` sends through Resend (reply-to the visitor) and optionally to `CRM_WEBHOOK_URL`. Honeypot field, `source` field (landing / contact). Returns 503 if `RESEND_API_KEY` or `CONTACT_TO_EMAIL` is missing |
+| Tracking | `data-track` attributes + `instrumentation-client.ts`, events into `window.dataLayer` |
+
+### Checked
+
+`tsc`, `eslint`, `next build` clean. Landing HTML has every section, no
+"stealth" / "orchestration" / "within five days", and one visible standards
+row. API returns 503 until `CONTACT_TO_EMAIL` is set. Not yet checked in a
+browser this sprint: run `scripts/responsive-audit.mjs` and check the hero at
+1024, 1280 and 1536 (the rotating headline is taller than the old title and
+sits over the scene).
+
+### Open
+
+- Confirm with the client: legal entity name, SOC 2 in the footer, the
+  "35 days, visit to final invoice" figure in `waiting.newWay`, and the
+  "~80%" and "70 to 80%" figures.
+- A real quote and photo for Proof (`proof.quote`).
+- Set `CONTACT_TO_EMAIL`; verify a sending domain in Resend and set
+  `CONTACT_FROM_EMAIL` (the test sender only delivers to the account owner).
+- Connect an analytics provider (GTM reads `dataLayer` as is) and the CRM.
+- Visual redesign from the brief (palette, doodles, photos, confetti, hero concepts).
+- Lighthouse 90+ check on a phone profile.
+
+---
+
 ## Sprint 7: navbar menus, smooth scroll, phone fixes (2026-11-16)
 
 UI fixes from a screenshot review.

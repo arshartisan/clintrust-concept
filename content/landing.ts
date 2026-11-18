@@ -1,16 +1,20 @@
 import {
   RiBriefcase4Line,
   RiBuilding2Line,
-  RiCoinsLine,
+  RiFileList3Line,
   RiFlowChart,
   RiFocus3Line,
   RiHospitalLine,
   RiInformationLine,
+  RiLineChartLine,
   RiMailLine,
+  RiQuestionLine,
   RiRoadMapLine,
   RiShieldCheckLine,
-  RiStackLine,
+  RiStethoscopeLine,
   RiTeamLine,
+  RiTimeLine,
+  RiTimerLine,
 } from "@remixicon/react";
 
 /**
@@ -20,13 +24,13 @@ import {
  */
 
 /**
- * The product and site name is "ClinTrust" (renamed from "ClinTrust.ai" in
- * sprint 2). `legalEntity` is the registered company name and is deliberately
- * NOT changed by the rename: update it only if the company itself is renamed.
+ * The name is spelled exactly "ClinTrust" everywhere, with no suffix (client
+ * feedback, sprint 8). That now includes the legal line: confirm with the
+ * client that the registered entity is "ClinTrust Pte. Ltd.".
  */
 export const brand = {
   name: "ClinTrust",
-  legalEntity: "ClinTrust.ai Pte. Ltd.",
+  legalEntity: "ClinTrust Pte. Ltd.",
 } as const;
 
 /**
@@ -41,10 +45,10 @@ export const nav = [
     items: [
       { label: "For sponsors", href: "/approach#sponsors", icon: RiBuilding2Line, description: "Fund trials against verified work, not forecasts." },
       { label: "For CROs", href: "/approach#cros", icon: RiBriefcase4Line, description: "Reconcile site payments without the spreadsheets." },
-      { label: "For sites", href: "/approach#sites", icon: RiHospitalLine, description: "Get paid five days after a verified visit." },
-      { label: "How it works", href: "/#how-it-works", icon: RiFlowChart, description: "From a completed visit to a settled payment." },
-      { label: "Capital model", href: "/#capital", icon: RiCoinsLine, description: "Dynamic funding that cuts escrow by 70–80%." },
-      { label: "Platform modules", href: "/#platform", icon: RiStackLine, description: "The pieces sponsors, CROs and sites work in." },
+      { label: "For sites", href: "/approach#sites", icon: RiHospitalLine, description: "One clean invoice a month, no chasing." },
+      { label: "How it works", href: "/#how-it-works", icon: RiFlowChart, description: "Record, reconcile, pay. Three plain steps." },
+      { label: "Which one is you?", href: "/#pain", icon: RiQuestionLine, description: "Pick your worry and see the fix." },
+      { label: "Waiting time", href: "/#waiting", icon: RiTimerLine, description: "90\u2013140 days against one clean invoice a month." },
     ],
   },
   {
@@ -62,189 +66,180 @@ export const nav = [
   { label: "Insights", href: "/insights" },
 ] as const;
 
+/** The site-wide "Request a demo" action (header, mobile menu). */
+export const demoCta = { label: "Request a demo", href: "/contact" } as const;
+
 export const hero = {
-  status: "In stealth. Working with a small group of sponsors and CROs.",
-  /** Phones: the full status wraps to two lines inside its pill. */
-  statusShort: "In stealth with select sponsors and CROs.",
-  title: "Site payments that settle when the work is done.",
-  lead: "ClinTrust is the payment layer between sponsors, CROs and research sites. Every completed visit is verified once, reconciled against the budget, and paid within five days.",
-  primaryCta: { label: "Request a demo", href: "/contact" },
-  secondaryCta: { label: "See how it works", href: "/#how-it-works" },
-  compliance: [
-    "21 CFR Part 11",
-    "ICH E6(R3) aligned",
-    "GDPR compliant",
-    "Immutable audit trails",
+  /**
+   * The headline rotates through these questions (one every `intervalMs`),
+   * then flips to `answer`, then starts again. Visitors can pause it. Under
+   * reduced motion it does not rotate: the first question shows, with the
+   * answer under it.
+   */
+  questions: [
+    "Is your investigator grant payment late again?",
+    "Do you actually know your cash flow for the next 90 days?",
+    "Dreading reconciliation month-end?",
+    "Still chasing invoices 140 days later?",
   ],
+  answer: "One verified record. A clean invoice every month. Paid faster than 90–140 days.",
+  intervalMs: 4000,
+  /** The answer stays up a little longer than a question. */
+  answerMs: 6000,
+  /** ClinTrust in one line, under the headline. */
+  lead: "ClinTrust keeps one record of trial work that sponsors, CROs and sites all agree on, and turns it into a clean invoice every month.",
+  pauseLabel: "Pause the rotating questions",
+  playLabel: "Play the rotating questions",
+  primaryCta: { label: "Yes, that’s me", href: "#pain" },
+  secondaryCta: { label: "Request a demo", href: "#demo" },
 };
 
-export const problem = {
-  title: "The money moves slower than the trial.",
-  continuation:
-    "Each handoff between sponsor, CRO and site adds an advance, a spreadsheet and a wait.",
-  // Today's chain, in order.
-  chain: [
-    { name: "Sponsor advances funds", text: "$100M+ sits in large upfront advances." },
-    { name: "CRO holds escrow", text: "Money waits while it is reconciled by hand." },
-    { name: "Site sends an invoice", text: "Completed visits are billed after the fact." },
-    { name: "Payment arrives", text: "90\u2013140 days after the work was done." },
+/** "Which one is you?": four tappable worries, each opening a one-line fix. */
+export const pains = {
+  title: "Which one is you?",
+  continuation: "Tap the one that keeps you up at night.",
+  items: [
+    {
+      id: "cash-flow",
+      label: "Cash flow",
+      icon: RiLineChartLine,
+      worry: "I can’t see what’s coming in next quarter.",
+      fix: "See what you have earned and when it lands, visit by visit, so the next 90 days stop being a guess.",
+    },
+    {
+      id: "investigator-grants",
+      label: "Investigator grants",
+      icon: RiStethoscopeLine,
+      worry: "Our investigators are paid late. Again.",
+      fix: "Each completed visit is recorded once and billed on the next monthly invoice, so grants stop slipping.",
+    },
+    {
+      id: "reconciliation",
+      label: "Reconciliation",
+      icon: RiFileList3Line,
+      worry: "Month-end means a week of spreadsheets.",
+      fix: "Visits are matched to the budget as they happen, so month-end becomes a quick review, not a rebuild.",
+    },
+    {
+      id: "late-payments",
+      label: "Late payments",
+      icon: RiTimeLine,
+      worry: "I’m still chasing invoices from months ago.",
+      fix: "One clean invoice goes out every month after a 5-day review. Nothing left to chase.",
+    },
   ],
-  flow: {
-    inputsLabel: "Today",
-    inputs: ["Upfront advances", "Manual reconciliation", "Invoices after the fact", "A 90\u2013140 day wait"],
-    core: ["One verified record", "Dynamic funding"],
-    results: [
-      { who: "Sponsors", figure: "70\u201380% less escrow", text: "Funding follows verified work, not forecasts." },
-      { who: "Sites", figure: "Paid at T+5", text: "Five days after a visit is verified." },
-    ],
+  cta: { label: "Fix mine: request a demo", href: "#demo" },
+};
+
+/**
+ * Waiting-time counter: the old way against the ClinTrust way, on one day scale.
+ *
+ * T+5 means the final invoice is sent each month after the sponsor or CRO has
+ * had 5 days to review the pre-invoice. It is NOT a payment date. The
+ * ClinTrust bar therefore measures visit to final invoice: a visit early in
+ * the month waits at most a month for the pre-invoice, plus 5 days of review.
+ * Confirm `newWay.days` with the ClinTrust team.
+ */
+export const waiting = {
+  title: "Your cash flow called.",
+  continuation: "It wants to know why it waits 140 days.",
+  scaleDays: 140,
+  oldWay: {
+    label: "The old way",
+    prefix: "90–",
+    days: 140,
+    from: 90,
+    unit: "days",
+    text: "From a completed visit to money in the bank. Invoices go out after the fact, get queried, then wait in a queue.",
   },
+  newWay: {
+    label: "The ClinTrust way",
+    prefix: "≤ ",
+    days: 35,
+    unit: "days",
+    text: "From a completed visit to a clean final invoice. A pre-invoice goes out each month, the sponsor or CRO has 5 days to review it (T+5), then the invoice is sent.",
+  },
+  note: "T+5 is the 5-day review window before the monthly invoice is sent. It is not a promise of payment in five days.",
 };
 
 export const steps = [
   {
     id: "record",
     name: "Record",
-    text: "Sites log completed visits and procedures. Each entry is checked against EDC data, so every party works from the same record.",
+    text: "Your team logs a completed visit once. We check it against the trial data, so everyone works from the same record.",
   },
   {
     id: "reconcile",
     name: "Reconcile",
-    text: "An AI engine matches visits to protocol milestones and budget lines. Every match carries a confidence score and its full audit lineage.",
+    text: "We match each visit to the budget for you. Anything that doesn’t fit is flagged for a person to check.",
   },
   {
     id: "pay",
     name: "Pay",
-    text: "Verified payables trigger funding instructions and pay out over FX rails in the site's own currency, settling at T+5.",
+    text: "Each month the sponsor or CRO reviews a pre-invoice for 5 days. Then the final invoice goes out and the site is paid in its own currency.",
   },
 ] as const;
 
-export const capital = {
-  title: "Stop funding forecasts.",
-  continuation: "Fund the work that has been verified, and release the rest.",
-  aside: {
-    lead: "Less capital locked, faster site payments,",
-    rest: "and one record that sponsor, CRO and site all trust.",
-  },
-  // Each card: a sentence (accented lead + rest), a label and a figure.
-  cards: [
-    {
-      lead: "Upfront advances",
-      rest: "sit in escrow long before the visits they pay for have happened.",
-      label: "Idle on a $100M portfolio",
-      figure: "$15–25M",
-    },
-    {
-      lead: "Dynamic funding",
-      rest: "sizes the buffer to verified activity instead of a forecast.",
-      label: "Less escrow required",
-      figure: "70–80%",
-    },
-    {
-      lead: "A small buffer",
-      rest: "replaces the large advance, and the difference goes back to research.",
-      label: "Capital released on $100M",
-      figure: "$15M",
-    },
-  ],
-  bars: [
-    { label: "Escrow today", value: "$20M", percent: 100 },
-    { label: "Buffer with ClinTrust", value: "$5M", percent: 25 },
-  ],
-  note: "Illustrative model for a $100M portfolio: a 20% escrow advance today against a 5% dynamic buffer, the midpoints of the typical 15–25% escrow range and a 70–80% reduction.",
-};
-
+/** Audience tabs: each role gets its own questions and one benefit. */
 export const audiences = [
   {
     id: "sponsors",
     label: "Sponsors",
-    stat: "70\u201380%",
-    statLabel: "less capital held in escrow",
-    summary: "See what you owe as the work happens, and fund only that.",
-    points: [
-      "Real-time accrual visibility across studies",
-      "Lower escrow requirements",
-      "CRO-neutral orchestration",
-      "21 CFR Part 11 audit trails",
-      "Budget versus actuals at study level",
+    questions: [
+      "Is money sitting in escrow while sites wait to be paid?",
+      "Do you know what you actually owe this month?",
     ],
-    cta: "Request a demo",
-    href: "/contact",
+    benefit: "Fund the work that has been done, not a forecast, and hold far less cash in escrow.",
+    stat: "70–80%",
+    statLabel: "less capital held in escrow",
+    cta: "More for sponsors",
+    href: "/approach#sponsors",
   },
   {
     id: "cros",
     label: "CROs",
+    questions: [
+      "Is your finance team rebuilding the same spreadsheet every month?",
+      "How many site payment disputes are open right now?",
+    ],
+    benefit: "Visits arrive already matched to the budget, so reconciliation shrinks to a review and every dispute comes with the evidence attached.",
     stat: "~80%",
     statLabel: "less manual reconciliation",
-    summary: "Take reconciliation off your finance team's desk.",
-    points: [
-      "Fewer payment disputes",
-      "Payment status dashboards",
-      "CTMS and EDC ingestion",
-      "Multiple sponsors and protocols",
-      "Audit-ready reporting",
-    ],
-    cta: "See the CRO view",
+    cta: "More for CROs",
     href: "/approach#cros",
   },
   {
     id: "sites",
     label: "Sites",
-    stat: "T+5",
-    statLabel: "days from verified visit to payment",
-    summary: "Know what you have earned, and when it lands.",
-    points: [
-      "Earned versus paid, always visible",
-      "No invoice chasing",
-      "Predictable cash flow",
-      "Dashboards for each investigator",
-      "Disputes resolved with full data lineage",
+    questions: [
+      "Do you know what you’ve earned but not yet been paid?",
+      "How many hours a week go on chasing invoices?",
     ],
-    cta: "See the site view",
+    benefit: "See earned versus paid for every visit, and get one clean invoice every month without the chasing.",
+    stat: "Monthly",
+    statLabel: "clean invoice, sent after a 5-day review",
+    cta: "More for sites",
     href: "/approach#sites",
   },
 ] as const;
 
-export const modules = [
-  {
-    name: "Budget Intelligence Engine",
-    text: "Turns study budgets and site contracts into structured, payable line items.",
-  },
-  {
-    name: "Multi-Source Execution Capture",
-    text: "Brings in visit activity from EDC, CTMS and site logs.",
-  },
-  {
-    name: "AI-Assisted Reconciliation",
-    text: "Matches activity to budget lines and scores every match.",
-  },
-  {
-    name: "Continuous Payable Formation",
-    text: "Builds payables as work is verified, not when an invoice arrives.",
-  },
-  {
-    name: "Dynamic Funding Model",
-    text: "Sizes funding to verified activity in place of large upfront advances.",
-  },
-  {
-    name: "Fintech Payment Orchestration",
-    text: "Pays out in local currency over regional rails, with transparent FX.",
-  },
-] as const;
-
-export const region = {
-  title: "Built in Singapore for trials across APAC.",
-  continuation:
-    "Cross-border studies are where site payments break down most often, so that is where we started.",
-  points: [
-    { name: "Local regulatory expertise", text: "Requirements differ in every market a study runs in. We work to each of them." },
-    { name: "Regional payment rails", text: "Payouts are routed over the fastest local rail available in each market." },
-    { name: "Transparent cross-border FX", text: "Sites see the rate and the amount in their own currency before it lands." },
-  ],
+/**
+ * Proof. The brief asks for one short quote or number, ideally with a real
+ * face. No customer quote is cleared for publication yet, so this shows one
+ * number with its basis. When a quote is approved, fill `quote` and the
+ * section shows it beside the number.
+ */
+export const proof = {
+  title: "Less money waiting, more money working.",
+  figure: "$15M",
+  label: "of capital released on a $100M trial portfolio",
+  basis: "ClinTrust model: a 20% escrow advance today against a 5% buffer sized to verified work.",
+  quote: null as null | { text: string; name: string; role: string; photo: string | null },
 };
 
 export const demo = {
-  title: "See it on your own payment flow.",
-  text: "A 45-minute walkthrough. We review how your site payments run today and model the capital you could release. Implementation support is included.",
+  title: "Bring us your messiest reconciliation.",
+  text: "A 45-minute walkthrough on your own numbers. We look at how your site payments run today and show you what changes.",
   roles: [
     "Sponsor",
     "CRO operations or finance",
@@ -279,10 +274,10 @@ export const footer = {
     {
       title: "Platform",
       links: [
-        { label: "The problem", href: "/#problem" },
+        { label: "Which one is you?", href: "/#pain" },
+        { label: "Waiting time", href: "/#waiting" },
         { label: "How it works", href: "/#how-it-works" },
-        { label: "Capital model", href: "/#capital" },
-        { label: "Modules", href: "/#platform" },
+        { label: "Request a demo", href: "/#demo" },
       ],
     },
     {
@@ -290,6 +285,8 @@ export const footer = {
       links: [{ label: "All insights", href: "/insights" }],
     },
   ],
+  // The one place the standards appear on any page (client feedback: once, in
+  // one tidy row). Confirm SOC 2 with the ClinTrust team before launch.
   certifications: ["21 CFR Part 11", "ICH E6(R3)", "GDPR", "SOC 2"],
   legal: `© 2026 ${brand.legalEntity}, Singapore.`,
 };

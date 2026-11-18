@@ -102,9 +102,11 @@ downloaded if a visitor submits the demo form.
 
 ### 2. Form controls load on demand
 
-The capital slider (home) and the contact form (`/contact`) are the only
-things that need react-aria (about 75 KB gzip). Neither is on screen at load.
-(Sprint 3 removed the audience switch, and moved the form off the homepage.) Each is split
+The "Which one is you?" accordion (home) and the demo form (home closing
+panel and `/contact`) are the only things that need react-aria (about 75 KB
+gzip). Neither is on screen at load. (Sprint 8 added both to the homepage; the
+accordion's placeholder draws the same collapsed rows, see pain-picker.tsx.
+The audience tabs are hand-built ARIA tabs for this reason.) Each is split
 into its own chunk and mounted by `components/marketing/lazy-widgets.tsx`:
 
 - when it comes within 800px of the viewport, or

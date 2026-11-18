@@ -22,10 +22,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: `${brand.name} | Clinical trial site payments, settled on verified work`,
+    default: `${brand.name} | One verified record. A clean invoice every month.`,
     template: `%s | ${brand.name}`,
   },
-  description: `${brand.name} is the payment orchestration layer between sponsors, CROs and research sites. One verified record of trial activity, continuous reconciliation, and site payments that settle at T+5.`,
+  description: `${brand.name} keeps one verified record of clinical trial work that sponsors, CROs and research sites all agree on, and turns it into a clean invoice every month.`,
 };
 
 export const viewport: Viewport = {

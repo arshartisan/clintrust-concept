@@ -18,6 +18,7 @@ import {
   RiStackLine,
   RiTimerLine,
 } from "@remixicon/react";
+import { brand } from "./landing";
 
 /**
  * Copy for the inner pages (About, Our approach, Insights, Contact).
@@ -255,7 +256,7 @@ export const approach = {
         { figure: "~80%", label: "less manual reconciliation", meter: { kind: "percent", value: 80 } },
         { figure: "Fewer", label: "site payment disputes and queries", meter: { kind: "down" } },
         { figure: "Real time", label: "payment status for every study", meter: { kind: "live" } },
-        { figure: "Native", label: "EDC and CTMS integration", meter: { kind: "full" } },
+        { figure: "Plugs in", label: "to the trial systems you already run", meter: { kind: "full" } },
       ],
       features: [
         { name: "Smoother invoice generation", icon: RiFileList3Line, text: "Execution-triggered payables let sites raise invoices for completed visits quickly. The AI engine closes the reconciliation loop." },
@@ -324,7 +325,7 @@ export const contact = {
   },
   /** Ways to reach the team, from the previous site's contact block. */
   channels: [
-    { icon: RiMapPin2Line, label: "Headquarters", lines: ["ClinTrust.ai Pte. Ltd.", "Singapore 048946"] },
+    { icon: RiMapPin2Line, label: "Headquarters", lines: [brand.legalEntity, "Singapore 048946"] },
     { icon: RiMailLine, label: "General inquiries", email: "info@clintrust.ai" },
     { icon: RiBriefcase4Line, label: "Business development", email: "partnerships@clintrust.ai" },
     { icon: RiLockLine, label: "Security and compliance", email: "security@clintrust.ai" },

@@ -256,8 +256,15 @@ prefix.
 
 ### Hero
 
-`components/marketing/hero.tsx` + `hero-scene.tsx`. A compact text block at
-the top left; below and behind it, a large isometric scene.
+`components/marketing/hero.tsx` + `hero-intro.tsx` + `hero-scene.tsx`. A
+compact text block at the top left; below and behind it, a large isometric scene.
+
+Sprint 8: the headline is a rotating question (`hero.questions`, then
+`hero.answer` in teal), every ~4s, with a pause button and clickable progress dots (each jumps to its line). All
+lines sit stacked in one grid cell, so the block is as tall as the longest
+line and nothing moves as it rotates. Reduced motion: no auto-rotation. The
+"in stealth" pill and the standards strip are gone; the standards appear once,
+in the footer.
 
 - On `lg` and up the scene is 70% of the column wide (`lg:w-[70%]`), held
   against the right edge, and pulled up under the text with `-mt-[240px]`.
@@ -280,8 +287,6 @@ the top left; below and behind it, a large isometric scene.
 - The centre tile carries `IsoShield`, not the logo. The logo was tried first
   (`IsoStamp`); its fine detail closed up at that size and angle. Since sprint 7
   the platform cards' hubs use a teal `IsoShield` too.
-- Under the hero, the standards sit in a full-width strip of four cells. A
-  floating card version was tried and reverted at the client's request.
 - Toolkit pieces added for this scene: `IsoDisc` (coins), `IsoPanel` (the
   upright cards, whose text is sheared with the panel so it stays legible; keep
   text inside the panel width, it does not wrap or clip), and `IsoShield`.
@@ -308,7 +313,37 @@ In `components/base/buttons/button.tsx` (BoardUI source, edited):
 
 Re-installing `button` from BoardUI with overwrite would undo these edits.
 
-### Platform cards
+### Landing sections added in sprint 8
+
+- **Which one is you?** (`pain-picker.tsx`, `pain-accordion.tsx`): heading
+  and demo button on the left, BoardUI `Accordion` (contained, plus
+  indicator, one open at a time) on the right. Loaded lazily; the placeholder
+  copies the contained variant's collapsed classes, so keep the two in step
+  if the accordion is reinstalled.
+- **Waiting time** (`waiting-counter.tsx`): two cards on one 0 to 140 day
+  scale. Counts roll up once on first view; the ClinTrust bar ends in a
+  "sent" tick. Server HTML shows the finished numbers.
+- **Audience tabs** (`audiences.tsx`): Sponsors / CROs / Sites, questions on
+  the left, figure and benefit on a teal card on the right.
+- **Proof** (`proof.tsx`): one figure with its basis. Fill `proof.quote` to
+  add a quote with a face.
+- **Closing panel** (`cta-band.tsx`, `id="demo"`): the demo form sits inside
+  the call-to-action panel. Every landing "Request a demo" scrolls here.
+
+Removed in sprint 8 (not in the brief's page flow): problem flow, capital
+cards, platform cards (module jargon), APAC bento. Their notes below are kept
+as history; the code is in git before sprint 8.
+
+### Tracking
+
+`utils/track.ts` pushes events to `window.dataLayer`. Add
+`data-track="event"` (plus `data-track-location`, `data-track-label`) to any
+link or button; `instrumentation-client.ts` picks up the click. Tracked now:
+`request_demo_click` (every demo button), `pain_card_click`,
+`hero_yes_thats_me`, `hero_rotation_toggle`, `hero_question_pick`, `audience_tab`,
+`demo_form_submit`. No analytics provider is connected yet.
+
+### Platform cards (removed in sprint 8)
 
 `components/marketing/platform.tsx` and `iso-visuals.tsx` (sprint 7, after a
 "glass devices" reference, set in the light theme at the client's request).
@@ -403,7 +438,7 @@ Chief Commercial Officer has no name or photo published yet (as on the
 previous site), so that card shows the title and a "C" monogram in the logo's
 teal-to-blue. Add `photo` and the name in `content/pages.ts` when announced.
 
-### Capital cards
+### Capital cards (removed in sprint 8)
 
 `components/marketing/capital.tsx`. Three result cards stepping down from
 left to right, each with a sentence, a label, a figure and a small chart
@@ -412,7 +447,7 @@ colours. Light section. This replaced the slider calculator, and with it the
 last react-aria control on the homepage. The assumptions line under the cards
 stays: it explains the $15M figure.
 
-### APAC bento
+### APAC bento (removed in sprint 8)
 
 `components/marketing/region.tsx`. Dark section, centred heading, four plain
 tiles: a tall tile (regulatory), a figure tile (T+5, payment rails), a small
@@ -424,7 +459,8 @@ thing each tile is about.
 
 `components/marketing/cta-band.tsx`. A light rounded panel: dot grid, a teal
 glow top right and a blue glow bottom left that drift slowly, a few angular
-hairlines, one button. It was a dark panel in sprints 3 and 4.
+hairlines. Since sprint 8 it holds the demo form beside the heading instead of
+a single button. It was a dark panel in sprints 3 and 4.
 
 ### Step cards (How it works)
 

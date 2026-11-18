@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { demoFormClass } from "@/components/marketing/demo-form-class";
 import { container } from "@/components/marketing/frame";
 import { LazyDemoForm } from "@/components/marketing/lazy-widgets";
 import { contact } from "@/content/pages";
@@ -9,10 +10,6 @@ export const metadata: Metadata = {
   description: "Request a demo of ClinTrust or get in touch with the team.",
 };
 
-// Must match `demoFormClass` in components/marketing/demo-form.tsx. Repeated
-// here rather than imported so this server page does not pull the form's chunk.
-const placeholderClass =
-  "min-h-[860px] rounded-3xl border border-border-button-default bg-background-primary-default p-6 sm:min-h-[646px] sm:p-8";
 
 export default function ContactPage() {
   return (
@@ -61,7 +58,8 @@ export default function ContactPage() {
 
         <LazyDemoForm
           className="lg:col-span-7"
-          fallback={<div className={placeholderClass} aria-hidden="true" />}
+          source="contact"
+          fallback={<div className={demoFormClass} aria-hidden="true" />}
         />
       </div>
     </section>

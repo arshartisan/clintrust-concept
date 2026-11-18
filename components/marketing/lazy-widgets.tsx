@@ -6,10 +6,10 @@ import { useInView } from "@/hooks/use-in-view";
 /**
  * Deferred interactive widgets.
  *
- * The contact form is the only part of the
- * site that needs the form-control library (react-aria, ~75 KB compressed).
- * It is not on screen at load, so its code is split into a separate
- * chunk and fetched later: when the widget comes within 800px of the
+ * The contact form and the landing page's "Which one is you?" accordion are
+ * the only parts of the site that need react-aria (~75 KB compressed).
+ * Neither is on screen at load, so their code is split into separate
+ * chunks and fetched later: when the widget comes within 800px of the
  * viewport, or once the browser is idle after load, whichever is first.
  *
  * Until then the server-rendered `fallback` holds the widget's place at the
@@ -17,6 +17,7 @@ import { useInView } from "@/hooks/use-in-view";
  */
 
 const DemoForm = lazy(() => import("./demo-form").then((m) => ({ default: m.DemoForm })));
+const PainAccordion = lazy(() => import("./pain-accordion").then((m) => ({ default: m.PainAccordion })));
 
 const IDLE_FALLBACK_MS = 2500;
 
@@ -66,10 +67,18 @@ function LazyMount({ fallback, className, children }: LazyProps & { children: Re
   );
 }
 
-export function LazyDemoForm(props: LazyProps) {
+export function LazyDemoForm({ source, ...props }: LazyProps & { source?: string }) {
   return (
     <LazyMount {...props}>
-      <DemoForm />
+      <DemoForm source={source} />
+    </LazyMount>
+  );
+}
+
+export function LazyPainAccordion(props: LazyProps) {
+  return (
+    <LazyMount {...props}>
+      <PainAccordion />
     </LazyMount>
   );
 }

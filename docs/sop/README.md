@@ -13,6 +13,7 @@ site of this kind) can start from here instead of from scratch.
 
 ## Ground rules (short version)
 
+0. **Client brief.** `docs/feedback/ClinTrust Website Redesign.docx` is the current brief (sprint 8). Its must-fix list (no jargon, T+5 wording, no stealth banner, standards once, "ClinTrust" with no suffix) applies to every page.
 1. **BoardUI first.** Check `components/base/` and the BoardUI MCP (`list_components`)
    before building any control. Install, do not rebuild.
 2. **Semantic tokens only.** No hex values and no raw palette classes in components.
@@ -45,4 +46,4 @@ site of this kind) can start from here instead of from scratch.
 | `/insights` | Three article cards, each linking to its article | `content/pages.ts` |
 | `/insights/[slug]` | Article pages (static), with an "In this article" contents rail and "More insights" | `content/articles.ts` (bodies), `content/pages.ts` (titles, teasers, slugs) |
 | `/contact` | Contact and demo form | `content/pages.ts` |
-| `/api/demo-request` | Form endpoint. Validates and logs only | |
+| `/api/demo-request` | Form endpoint. Validates, emails the team through Resend, and posts to a CRM webhook if `CRM_WEBHOOK_URL` is set. Env vars in `.env.example` | |

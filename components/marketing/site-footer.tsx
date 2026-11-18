@@ -46,6 +46,9 @@ export function SiteFooter() {
             <h2 className="text-body-medium text-text-primary">Reach out to us</h2>
             <Link
               href="/contact"
+              data-track="request_demo_click"
+              data-track-location="footer"
+              data-track-label="Request a demo"
               className="group mt-4 flex max-w-[340px] items-center gap-3 rounded-2xl border border-accent-200 bg-accent-50 p-3 transition-colors duration-150 hover:border-accent-300 hover:bg-accent-100 outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
             >
               <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent-500 text-text-white">

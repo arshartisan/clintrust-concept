@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ButtonLink } from "@/components/base/buttons/button";
 import { Drawer, DrawerBody, DrawerFooter, DrawerHeader } from "@/components/base/drawer/drawer";
-import { brand, hero, nav } from "@/content/landing";
+import { brand, demoCta, nav } from "@/content/landing";
 import { cx } from "@/utils/cx";
 import { LogoMark } from "./logo";
 
@@ -73,8 +73,14 @@ export function MobileNav({ isOpen, onOpenChange, pathname }: MobileNavProps) {
         </nav>
       </DrawerBody>
       <DrawerFooter>
-        <ButtonLink href={hero.primaryCta.href} onClick={close} className="w-full">
-          {hero.primaryCta.label}
+        <ButtonLink
+          href={demoCta.href}
+          onClick={close}
+          className="w-full"
+          data-track="request_demo_click"
+          data-track-location="mobile-nav"
+        >
+          {demoCta.label}
         </ButtonLink>
       </DrawerFooter>
     </Drawer>

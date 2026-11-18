@@ -27,8 +27,8 @@ export function HowItWorks() {
     <Section id="how-it-works">
       <Reveal>
         <SectionHeading
-          title="From completed visit to settled payment."
-          continuation="Three steps, one record, no invoices to chase."
+          title="Record, reconcile, pay."
+          continuation="Three plain steps. One record. Nothing to chase."
         />
       </Reveal>
 
@@ -140,17 +140,17 @@ function ReconcileScene() {
   );
 }
 
-/** Pay: the verified payable goes out in the site's own currency. */
+/** Pay: after the 5-day review (T+5) the final invoice goes out, paid in the site's own currency. */
 function PayScene() {
   const currencies = ["USD", "KRW", "SGD", "AUD", "THB"];
 
   return (
     <div className="flex h-full flex-col items-center justify-center">
       <div className="w-[210px] max-w-[80%] rounded-xl border border-border-button-default bg-background-primary-default px-4 py-3 shadow-md">
-        <p className="text-body-medium text-text-primary">Payment settled</p>
+        <p className="text-body-medium text-text-primary">Final invoice sent</p>
         <p className="mt-0.5 flex items-center justify-between gap-3 text-body-2-regular text-text-secondary">
           <span className="tabular-nums">S$3,611.03</span>
-          <span>Day 5</span>
+          <span>T+5</span>
         </p>
       </div>
       <span aria-hidden="true" className="h-6 w-px bg-accent-300" />
