@@ -126,16 +126,14 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
         </div>
       </div>
 
-      <p
-        className={cx(
-          "hero-settle mt-6 max-w-[52ch] text-headline-regular text-pretty text-text-secondary",
-          centered && "mx-auto max-w-[46ch] text-center text-lead",
-        )}
-      >
-        {hero.lead}
-      </p>
+      {/* The centred hero carries only what the brief lists: the questions,
+          the answer and the two buttons. The answer line already says what
+          ClinTrust is, so the lead is left out there. */}
+      {centered ? null : (
+        <p className="hero-settle mt-6 max-w-[52ch] text-headline-regular text-pretty text-text-secondary">{hero.lead}</p>
+      )}
 
-      <div className={cx("hero-in mt-7 flex flex-wrap items-center gap-3", centered && "justify-center")} style={{ "--d": "120ms" } as CSSProperties}>
+      <div className={cx("hero-in flex flex-wrap items-center gap-3", centered ? "mt-9 justify-center" : "mt-7")} style={{ "--d": "120ms" } as CSSProperties}>
         <StarBorderLink
           href={hero.primaryCta.href}
           onClick={() => track("hero_yes_thats_me", context)}
