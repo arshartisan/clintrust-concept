@@ -64,6 +64,20 @@ with pointers, a tilted "pre-invoice ready" card), soft yellow and coral
 glows over a faint grid. Cards are lg-and-up only. Role labels, not invented
 customer names. `hero-stickers.tsx` is no longer used on the home page.
 
+### Hero answer and pain flip cards
+
+- The hero follows the brief literally: each question shows for 4 s, then
+  flips to the answer for 4 s, then the next question (was: all four
+  questions, then the answer once). One dot per question. The hero carries
+  only the questions, the answer and the two buttons (no lead line).
+- Under reduced motion the rotation does not run, so a static copy of the
+  answer shows under the first question (`motion-reduce:` in CSS, so server
+  and client match and nothing shifts).
+- "Which one is you?" is four tappable flip cards (`pain-cards.tsx`) instead
+  of the accordion: the front shows the worry, tapping turns the card over in
+  3D to a yellow back with the one-line fix. Under reduced motion the faces
+  swap without turning. `pain-accordion.tsx` and its lazy loader removed.
+
 ### Lighthouse and accessibility (brief: 90+ and WCAG AA)
 
 Production build, mobile, 2026-11-18: **100 / 100 / 100 / 100** on `/`,
