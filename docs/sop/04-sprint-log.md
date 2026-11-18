@@ -26,6 +26,7 @@ confetti and the 2 to 3 hero concepts for review are **not** done yet.
 | Removed | Problem flow, capital cards, platform modules, APAC bento, and their CSS |
 | Must-fix | Jargon cut ("payment orchestration", "CTMS and EDC ingestion", "Native EDC and CTMS integration"); T+5 now means the final invoice after a 5-day review, never "paid in five days" (landing, nav, ledger on /approach, metadata); standards once (footer); legal name "ClinTrust Pte. Ltd." |
 | Demo form | `/api/demo-request` sends through Resend (reply-to the visitor) and optionally to `CRM_WEBHOOK_URL`. Honeypot field, `source` field (landing / contact). Returns 503 if `RESEND_API_KEY` or `CONTACT_TO_EMAIL` is missing |
+| Star border CTA | Hero primary and header "Request a demo" now use `StarBorderLink` (ring with sweeping light, after fd-libra). CSS only, off under reduced motion |
 | Tracking | `data-track` attributes + `instrumentation-client.ts`, events into `window.dataLayer` |
 
 ### Checked

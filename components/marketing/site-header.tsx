@@ -4,7 +4,8 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { RiArrowDownSLine, RiMenuLine } from "@remixicon/react";
-import { Button, ButtonLink } from "@/components/base/buttons/button";
+import { Button } from "@/components/base/buttons/button";
+import { StarBorderLink } from "@/components/base/buttons/star-border-button";
 import { brand, demoCta, nav } from "@/content/landing";
 import { cx } from "@/utils/cx";
 import { LogoMark } from "./logo";
@@ -165,15 +166,15 @@ export function SiteHeader() {
             })}
           </nav>
 
-          <ButtonLink
+          <StarBorderLink
             href={demoCta.href}
             size="small"
-            className="ms-auto md:ms-1"
+            wrapperClassName="ms-auto md:ms-1"
             data-track="request_demo_click"
             data-track-location="header"
           >
             {demoCta.label}
-          </ButtonLink>
+          </StarBorderLink>
           <Button
             className="md:hidden"
             variant="secondary"

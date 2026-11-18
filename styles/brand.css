@@ -576,6 +576,75 @@ html.lenis {
   }
 }
 
+/* Star border CTA (components/base/buttons/star-border-button.tsx), after the
+ * fd-libra star-border-button. A pill ring a few px wider than the button;
+ * two soft points of light run along its top and bottom edges in opposite
+ * directions, so light appears to circle the button. Only `translate` and
+ * `opacity` animate. Reduced motion: no stars, just the hairline ring. */
+.star-border {
+  --star-color: var(--color-accent-400);
+  --star-speed: 6s;
+  --star-thickness: 2px;
+  position: relative;
+  display: inline-flex;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 9999px;
+  padding: var(--star-thickness);
+  background: color-mix(in oklab, var(--star-color) 18%, transparent);
+}
+.star-border-star {
+  position: absolute;
+  z-index: 0;
+  width: 300%;
+  height: 50%;
+  border-radius: 9999px;
+  opacity: 0.7;
+  background: radial-gradient(circle, var(--star-color), transparent 10%);
+  pointer-events: none;
+}
+.star-border-star[data-edge="bottom"] {
+  bottom: -11px;
+  right: -250%;
+}
+.star-border-star[data-edge="top"] {
+  top: -10px;
+  left: -250%;
+}
+@keyframes star-bottom {
+  from {
+    translate: 0 0;
+    opacity: 1;
+  }
+  to {
+    translate: -100% 0;
+    opacity: 0;
+  }
+}
+@keyframes star-top {
+  from {
+    translate: 0 0;
+    opacity: 1;
+  }
+  to {
+    translate: 100% 0;
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .star-border-star[data-edge="bottom"] {
+    animation: star-bottom var(--star-speed) linear infinite alternate;
+  }
+  .star-border-star[data-edge="top"] {
+    animation: star-top var(--star-speed) linear infinite alternate;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .star-border-star {
+    display: none;
+  }
+}
+
 /* Advisor cards on /about (sprint 7). The charts draw in once while the card
  * is on screen; without motion (or before InView runs) they rest finished.
  * The round arrow buttons are small glossy spheres in the logo's teal and

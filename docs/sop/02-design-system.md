@@ -313,6 +313,15 @@ In `components/base/buttons/button.tsx` (BoardUI source, edited):
 
 Re-installing `button` from BoardUI with overwrite would undo these edits.
 
+**Star border CTA** (`components/base/buttons/star-border-button.tsx`, after
+the fd-libra star-border-button): `StarBorderButton` / `StarBorderLink` wrap
+the normal pill in a 2px ring with two points of light sweeping round it in
+opposite directions (`.star-border` in `brand.css`, `translate` and `opacity`
+only). Props on top of Button's: `starColor` (default `accent-400`), `speed`
+(default `6s`), `thickness` (px), `wrapperClassName` (margins go here, not on
+`className`). Reduced motion: plain ring, no stars. Used on the main action
+only: the hero's "Yes, that's me" and the header's "Request a demo".
+
 ### Landing sections added in sprint 8
 
 - **Which one is you?** (`pain-picker.tsx`, `pain-accordion.tsx`): heading

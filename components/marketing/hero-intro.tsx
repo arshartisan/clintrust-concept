@@ -3,6 +3,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { RiPauseLine, RiPlayLine } from "@remixicon/react";
 import { Button, ButtonLink } from "@/components/base/buttons/button";
+import { StarBorderLink } from "@/components/base/buttons/star-border-button";
 import { hero } from "@/content/landing";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cx } from "@/utils/cx";
@@ -113,12 +114,12 @@ export function HeroIntro() {
       <p className="hero-settle mt-6 max-w-[52ch] text-headline-regular text-pretty text-text-secondary">{hero.lead}</p>
 
       <div className="hero-in mt-7 flex flex-wrap items-center gap-3" style={{ "--d": "120ms" } as CSSProperties}>
-        <ButtonLink
+        <StarBorderLink
           href={hero.primaryCta.href}
           onClick={() => track("hero_yes_thats_me", context)}
         >
           {hero.primaryCta.label}
-        </ButtonLink>
+        </StarBorderLink>
         <ButtonLink
           href={hero.secondaryCta.href}
           variant="secondary"
