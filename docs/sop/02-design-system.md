@@ -3,6 +3,17 @@
 BoardUI supplies the components, the semantic tokens and the motion language.
 ClinTrust adds a thin brand layer on top. This file describes that layer.
 
+> **Sprint 9 change (overrides older notes below where they disagree).**
+> The accent is now **sunny yellow**, not teal (client brief). The old teal
+> ramp lives on as `teal-*`; coral is `coral-*`. Every card and button is a
+> **sticker**: `border-2 border-text-primary` plus `shadow-sticker-sm`,
+> `shadow-sticker` or `shadow-sticker-lg` (hard, unblurred offset shadows).
+> No dark surfaces: the glow card, dark video panel and frosted nav are gone.
+> Never put white text on `accent-300` to `accent-500`; use ink
+> (`text-text-primary`). Accent-coloured text uses `accent-600` or darker.
+> Type: Figtree for body, Bricolage Grotesque for every heading and display
+> style (set by a base-layer rule in `styles/brand.css`).
+
 ## Where things live
 
 | Concern | File |

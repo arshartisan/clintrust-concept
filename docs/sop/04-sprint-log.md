@@ -5,6 +5,110 @@ checked, what is open.
 
 ---
 
+## Sprint 9: narrower content (2026-11-18)
+
+Client feedback on sprint 8: "she wants it more narrow content-wise;
+currently the content looks the same". Read as: the site still had the old
+site's breadth (inner pages, two dropdown menus) and long, old-site copy.
+
+### What changed
+
+| Area | Change |
+| --- | --- |
+| Nav | Dropdowns replaced by three anchors into the home page (Which one is you?, Waiting time, How it works). Dropdown support stays in `site-header.tsx` |
+| Request a demo | Header, phone menu and footer now go to `/#demo` (the form at the foot of the page), not `/contact` |
+| Footer | One "On this page" column instead of four |
+| Inner pages | `/approach`, `/about`, `/insights`, `/contact` still build but nothing links to them. Delete or redirect once the client confirms |
+| Copy | Every fix, step, waiting-time and demo line cut to one short sentence. Hero lead shortened |
+| Audience tabs | Shorter questions; the escrow/reconciliation figures dropped; one benefit line and a "Show me how" link to the form (tracked) |
+| Proof | One number (70 to 80% less capital in escrow) instead of two; $15M dropped |
+
+### Theme: sunny accent and sticker shapes
+
+Client feedback on the concepts: the sunny accent should replace the old
+teal/navy theme everywhere (the glow buttons, the teal footer card and the
+dark Proof card did not suit it), and every card should take the concepts'
+sticker look. Also: no dark panels, and no circuit-board lines in the demo
+panel.
+
+| Area | Change |
+| --- | --- |
+| Accent ramp | BoardUI's accent is now sunny yellow (`styles/brand.css` section 1); 600+ deepened to amber so accent text passes contrast. Teal kept as `teal-*` |
+| Buttons | Primary (`.button-glow`) is a yellow sticker with ink text; secondary a white sticker. Both press into their shadow on hover. Star border ring and stars switched off |
+| Cards | Ink outline + hard offset shadow (`shadow-sticker*` tokens) on every card: pain accordion, waiting rows, audience cards, how-it-works, Proof, demo panel and form, footer card, ledger, article/advisor/principle cards, video panel, nav bar and menu |
+| Dark | Proof's dark glow card is now yellow; the video panel is pale yellow; the nav is solid white, not frosted glass |
+| Demo panel | Dot grid, corner glows and circuit hairlines removed; plain pale-yellow panel (`.cta-drift` CSS is now unused) |
+| Footer | Teal card and badges restyled as stickers; wordmark gradient yellow, coral, teal |
+
+### Type, imagery, motion (brief: colour and type, imagery, motion)
+
+| Area | Change |
+| --- | --- |
+| Type | Site-wide: Figtree body (`--font-brand`, was Inter) and Bricolage Grotesque headlines (`--font-headline`, `font-display`), loaded in `app/layout.tsx`. A base-layer rule in `styles/brand.css` sets every `h1`-`h3` and display text style in Bricolage; the marketing ramp weights went up to 700-800 ("big chunky headlines") |
+| Hero imagery | The isometric platform scene and floor grid are replaced by `hero-stickers.tsx`: three people on photo stickers (site coordinator, finance lead, investigator) with tags, over doodles and a PAID stamp. `hero-scene.tsx` and `iso.tsx` are no longer used on the home page |
+| Shared parts | `doodles.tsx`, `photo-sticker.tsx` and `confetti.tsx` moved from `components/concepts/` to `components/marketing/` |
+| Motion | Confetti burst from the demo form's button on a successful send; Proof's figure counts up on first view (`count-up.tsx`). Existing: heading reveals on scroll, waiting-time count-up and tick, sticker press on hover. All off under reduced motion |
+| Inner pages | Back in reach from a "More" footer column (Our approach, About, Insights, Contact); the main nav stays three anchors |
+
+Hero photos: three free Unsplash stock photos in `public/people/` (credits and source links beside `hero.people` in `content/landing.ts`). Still open: real team or customer photos to replace them.
+
+Demo email sender: clintrust.ai (`website@clintrust.ai` in `.env.example`). `.env.local` keeps the Resend test sender until the domain is verified.
+
+### Centred hero (client reference)
+
+The home hero now follows the client's reference ("mindset health"): the
+rotating question centred and large (`HeroIntro centered`), lead and buttons
+centred, sticker cards floating round it (`hero-cards.tsx`: site
+coordinator and finance lead progress cards, investigator and sponsor pills
+with pointers, a tilted "pre-invoice ready" card), soft yellow and coral
+glows over a faint grid. Cards are lg-and-up only. Role labels, not invented
+customer names. `hero-stickers.tsx` is no longer used on the home page.
+
+### Lighthouse and accessibility (brief: 90+ and WCAG AA)
+
+Production build, mobile, 2026-11-18: **100 / 100 / 100 / 100** on `/`,
+`/approach`, `/about`, `/insights`, `/contact`; desktop `/` 100 / 100.
+LCP 1.1 to 1.2 s, CLS 0. (`/concepts` SEO 60 is the intended noindex.)
+
+Fixed on the way: accent-600 deepened to `#8f5c00` (was 4.4:1);
+`text-tertiary` moved to a new `navy-450` (`#5e6c8a`, was 3.1:1); hero
+question dots widened to 24px targets; stat meters' `<dl>` markup; two
+inner-page labels that used accent-500 or opacity for text.
+
+### Hero concepts for review
+
+The brief's first deliverable ("two or three hero concepts first for
+review"), built in the brief's new look and kept on their own routes:
+
+| Route | Concept |
+| --- | --- |
+| `/concepts` | Index: one card per concept |
+| `/concepts/big-question` | A. One huge rotating question, yellow highlighter, doodles; the answer gets a PAID stamp and confetti |
+| `/concepts/your-cash-flow-called` | B. Worries arrive as chat messages from "your cash flow"; ClinTrust replies in teal; two photo-slot stickers |
+| `/concepts/invoice-flip` | C. A yellow invoice card that flips to the answer, stamped PAID; a day counter runs 140 down to 35 |
+
+- New tokens in `styles/brand.css` section 6: `sun-*` and `coral-*` ramps, `font-display` (Bricolage Grotesque) and `font-friendly` (Figtree), loaded in `app/concepts/layout.tsx` only; `text-poster`, `text-poster-sm`, `text-counter` (mirrored in `utils/cx.ts`).
+- Copy in `heroConcepts` (`content/landing.ts`); the questions and answer are the same `hero` copy as the live page.
+- Shared parts in `components/concepts/` (rotation controls, doodles, PAID stamp, confetti, photo stickers, sticker buttons) and `hooks/use-rotation.ts`.
+- Pausable, reduced-motion safe (no rotation, flip or confetti), tracked with `location: concept-a|b|c`. Pages are `noindex` and not linked from the site.
+- Photo slots show a silhouette and "Photo to come": no photos of real coordinators, finance leads or investigators are cleared yet.
+
+### How it was checked
+
+`npx tsc --noEmit`, `npm run lint`, `npm run build`: all pass. The concept
+routes return 200 from the production server. Not yet viewed in a browser
+(the Chrome extension was not connected).
+
+### Open
+
+- Confirm with the client that "narrow" means one page, then delete or redirect the inner pages.
+- Confirm the one Proof number, or supply a quote.
+- Client picks a hero concept; move its tokens and fonts into the main theme and build the full page in that direction.
+- Photos of real people for the concept photo slots.
+- Still open from sprint 8: visual redesign (palette, doodles, photos, confetti, hero concepts), Lighthouse on a phone profile, real Resend/CRM settings.
+
+---
+
 ## Sprint 8: client brief, new landing flow, Resend (2026-11-18)
 
 Worked from `docs/feedback/ClinTrust Website Redesign.docx`. Scope agreed

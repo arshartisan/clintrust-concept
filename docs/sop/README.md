@@ -19,7 +19,7 @@ site of this kind) can start from here instead of from scratch.
 2. **Semantic tokens only.** No hex values and no raw palette classes in components.
    Brand literals live in exactly one file: `styles/brand.css`.
 3. **Copy lives in `content/landing.ts`.** Components do not hold marketing copy.
-4. **One staged animation in the hero** (the isometric scene). Below it, card
+4. **One staged animation in the hero** (the photo stickers settling in; was the isometric scene). Below it, card
    illustrations may loop quietly while on screen; everything else moves only
    in response to the visitor (scrolling, hovering, clicking).
    Timings come from `.claude/skills/boardui/references/motion.md`.
@@ -34,16 +34,17 @@ site of this kind) can start from here instead of from scratch.
 - Tailwind CSS v4 via `@tailwindcss/turbopack`
 - BoardUI (source-owned components under `components/`, free tier)
 - CSS for all page animation (no animation library in the initial bundle), `@remixicon/react` for icons
-- Inter (variable with optical sizing, self-hosted by `next/font`)
+- Figtree (body) and Bricolage Grotesque (headlines), self-hosted by `next/font` (sprint 9; was Inter)
 
 ## Site map
 
 | Route | Content | Source of the copy |
 | --- | --- | --- |
-| `/` | Landing page | `content/landing.ts` |
-| `/approach` | Sponsors, CROs, sites | `content/pages.ts` |
-| `/about` | Mission, leadership, roadmap, principles | `content/pages.ts` |
-| `/insights` | Three article cards, each linking to its article | `content/pages.ts` |
+| `/` | Landing page. Since sprint 9 the only linked page: nav and footer are anchors into it | `content/landing.ts` |
+| `/approach` | Sponsors, CROs, sites (unlinked since sprint 9) | `content/pages.ts` |
+| `/about` | (unlinked since sprint 9) Mission, leadership, roadmap, principles | `content/pages.ts` |
+| `/insights` | (unlinked since sprint 9) Three article cards, each linking to its article | `content/pages.ts` |
 | `/insights/[slug]` | Article pages (static), with an "In this article" contents rail and "More insights" | `content/articles.ts` (bodies), `content/pages.ts` (titles, teasers, slugs) |
-| `/contact` | Contact and demo form | `content/pages.ts` |
+| `/contact` | Contact and demo form (unlinked since sprint 9) |
+| `/concepts`, `/concepts/big-question`, `/concepts/your-cash-flow-called`, `/concepts/invoice-flip` | Hero concepts for client review (sprint 9). Noindex, unlinked | `content/landing.ts` (`heroConcepts`) | `content/pages.ts` |
 | `/api/demo-request` | Form endpoint. Validates, emails the team through Resend, and posts to a CRM webhook if `CRM_WEBHOOK_URL` is set. Env vars in `.env.example` | |
