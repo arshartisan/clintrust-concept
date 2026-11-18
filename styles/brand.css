@@ -17,7 +17,7 @@
  * --------------------------------------------------------------------------- */
 
 @theme {
-  /* 0. Typeface: Figtree (sprint 9; was Inter), loaded in app/layout.tsx as
+  /* 0. Typeface: Manrope (sprint 9; was Figtree, then Inter before that), loaded in app/layout.tsx as
    * --font-brand. Overrides BoardUI's --font-sans, so every BoardUI component
    * and every utility picks it up. Headlines use Bricolage Grotesque
    * (`font-display`, section 6 and the heading rule below). To change a font,

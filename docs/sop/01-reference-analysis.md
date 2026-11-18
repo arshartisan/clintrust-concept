@@ -71,7 +71,7 @@ was supplied for each section in turn. What each asked for, and what was built:
 | Audiences | A three-plan pricing panel: one column on a tinted ground, two in a raised white card | The panel-in-panel structure; icon tile, big figure, bullet list, button per column | Sponsors (the buyer) on the tint with the primary button; CROs and sites in the white card. The figure is each audience's headline number |
 | Closing call to action and footer | Nexiron: a dark rounded panel with one button, then a floating footer card over a huge faded wordmark | All three parts | The demo form moved to `/contact`, since the panel has only a button |
 | Navbar | A floating pill with dropdown menus (icon, title, description per row) | The pill, the dropdown rows | Light theme. Two dropdowns (Our approach, Company) and one plain link |
-| Typeface | Google Sans, then Figtree | Whole site | Figtree is the current face; it replaces Inter Display |
+| Typeface | Google Sans, then Figtree, now Manrope | Whole site body | Manrope is the current body face (headlines: Bricolage Grotesque) |
 
 Sprint 4 added three more:
 

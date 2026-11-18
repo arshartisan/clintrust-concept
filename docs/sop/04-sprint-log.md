@@ -101,6 +101,8 @@ customer names. `hero-stickers.tsx` is no longer used on the home page.
   the headline font (Bricolage Grotesque, bold).
 - All motion off under reduced motion. Lighthouse mobile still 100 / 100,
   CLS 0.
+- Body font: Manrope replaces Figtree (client request). Headlines stay
+  Bricolage Grotesque. One import in `app/layout.tsx`.
 
 ### Lighthouse and accessibility (brief: 90+ and WCAG AA)
 

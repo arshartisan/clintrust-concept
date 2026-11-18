@@ -34,7 +34,7 @@ site of this kind) can start from here instead of from scratch.
 - Tailwind CSS v4 via `@tailwindcss/turbopack`
 - BoardUI (source-owned components under `components/`, free tier)
 - CSS for all page animation (no animation library in the initial bundle), `@remixicon/react` for icons
-- Figtree (body) and Bricolage Grotesque (headlines), self-hosted by `next/font` (sprint 9; was Inter)
+- Manrope (body) and Bricolage Grotesque (headlines), self-hosted by `next/font` (sprint 9)
 
 ## Site map
 

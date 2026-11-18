@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Figtree } from "next/font/google";
+import { Bricolage_Grotesque, Manrope } from "next/font/google";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SmoothScroll } from "@/components/marketing/smooth-scroll";
@@ -8,13 +8,13 @@ import "lenis/dist/lenis.css";
 import "@/styles/globals.css";
 
 // Sprint 9, client brief: "big chunky headlines, friendly body font".
-//   Figtree              body text, as --font-brand (Tailwind's --font-sans)
+//   Manrope              body text, as --font-brand (Tailwind's --font-sans)
 //   Bricolage Grotesque  headlines, as --font-headline (`font-display`); its
 //                        optical-size axis gives the tighter cut at large sizes
 // next/font downloads both at build time and serves them from this site:
 // latin-subset variable files, and no request to Google at runtime.
 // styles/brand.css maps the variables to the font utilities.
-const body = Figtree({
+const body = Manrope({
   variable: "--font-brand",
   subsets: ["latin"],
   display: "swap",

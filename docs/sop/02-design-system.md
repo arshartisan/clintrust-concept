@@ -11,7 +11,7 @@ ClinTrust adds a thin brand layer on top. This file describes that layer.
 > No dark surfaces: the glow card, dark video panel and frosted nav are gone.
 > Never put white text on `accent-300` to `accent-500`; use ink
 > (`text-text-primary`). Accent-coloured text uses `accent-600` or darker.
-> Type: Figtree for body, Bricolage Grotesque for every heading and display
+> Type: Manrope for body, Bricolage Grotesque for every heading and display
 > style (set by a base-layer rule in `styles/brand.css`).
 
 ## Where things live
@@ -116,8 +116,8 @@ the CSS variable `--font-brand`; `styles/brand.css` points Tailwind's
 optical-size axis is loaded, so the browser uses Inter's display drawing at
 large sizes and its text drawing at small ones without any setting.
 
-The typeface changed four times in five sprints (Inter Display, Google Sans,
-Figtree, Inter), each time by changing that one import. Nothing else in the
+The typeface changed six times in nine sprints (Inter Display, Google Sans,
+Figtree, Inter, Figtree, Manrope), each time by changing that one import. Nothing else in the
 codebase names a font.
 
 Two ramps:

@@ -43,7 +43,7 @@ Then wire it up:
 
 1. `app/layout.tsx` imports `@/styles/globals.css` (delete `app/globals.css`).
 2. Load the site font with `next/font/google` and put its variable class on
-   `<html>`. This site uses `Figtree` as `--font-brand`; `brand.css` maps
+   `<html>`. This site uses `Manrope` as `--font-brand`; `brand.css` maps
    `--font-sans` to it. (BoardUI's own default is Inter as `--font-inter`.)
 3. Read `.claude/skills/boardui/references/motion.md` before writing any animation.
 
