@@ -9,48 +9,65 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cx } from "@/utils/cx";
 import { track } from "@/utils/track";
 
-const ITEMS = [...hero.questions, hero.answer];
-const ANSWER = ITEMS.length - 1;
+const QUESTIONS = hero.questions;
+/** Question 1, answer, question 2, answer, … : two steps per question. */
+const STEPS = QUESTIONS.length * 2;
 
 /**
- * The hero's text block: a headline that rotates through the visitor's
- * worries and then flips to the answer, the one-line explanation, and the
- * two actions.
+ * The hero's text block. Per the brief, "one large question rotates every ~4
+ * seconds, then flips to its answer": each question shows for `intervalMs`,
+ * flips to the answer for `answerMs`, then the next question comes in. Below
+ * it, the two actions (and, in the left-aligned layout, the lead).
  *
  * Every line is in the DOM, stacked in one grid cell, so the block is always
- * as tall as its longest line and nothing below it moves as it rotates. Only
+ * as tall as its tallest line and nothing below it moves as it rotates. Only
  * the current line is visible and exposed to assistive technology.
  *
  * The first question is painted in the first frame (it is the page's LCP).
  * Rotation can be paused (WCAG 2.2.2) and does not start under reduced
- * motion; the play button still steps through the lines there.
+ * motion. So that the answer is never hidden there, a static copy of it sits
+ * under the question whenever the visitor asks for reduced motion. That copy
+ * is switched on by CSS (`motion-reduce:`), not script, so server and client
+ * render the same thing and nothing shifts on load.
  *
  * `centered`: the centred hero (sprint 9). Bigger, chunkier headline, and
  * every row centred.
  */
 export function HeroIntro({ centered = false }: { centered?: boolean }) {
-  const [index, setIndex] = useState(0);
+  const [step, setStep] = useState(0);
   // null until the visitor presses the button; until then reduced motion decides.
   const [userPaused, setUserPaused] = useState<boolean | null>(null);
   const reducedMotion = useReducedMotion();
   const paused = userPaused ?? reducedMotion;
 
+  const question = Math.floor(step / 2);
+  const showingAnswer = step % 2 === 1;
+
   useEffect(() => {
     if (paused) return;
     const timer = window.setTimeout(
-      () => setIndex((current) => (current + 1) % ITEMS.length),
-      index === ANSWER ? hero.answerMs : hero.intervalMs,
+      () => setStep((current) => (current + 1) % STEPS),
+      showingAnswer ? hero.answerMs : hero.intervalMs,
     );
     return () => window.clearTimeout(timer);
-  }, [index, paused]);
+  }, [step, paused, showingAnswer]);
 
   const togglePaused = () => {
-    track("hero_rotation_toggle", { action: paused ? "play" : "pause", question: index + 1 });
+    track("hero_rotation_toggle", { action: paused ? "play" : "pause", question: question + 1 });
     setUserPaused(!paused);
   };
 
   // Which line was showing when an action was clicked.
-  const context = { location: "hero", question: index === ANSWER ? "answer" : index + 1 };
+  const context = { location: "hero", question: showingAnswer ? "answer" : question + 1 };
+
+  const lineClass = (active: boolean) =>
+    cx(
+      "col-start-1 row-start-1 transition-[opacity,translate,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+      // Centred hero: each line sits in the middle of the slot, so spare
+      // space splits evenly above and below.
+      centered && "self-center",
+      active ? "opacity-100" : "pointer-events-none translate-y-3 opacity-0 blur-[2px]",
+    );
 
   return (
     <>
@@ -60,30 +77,37 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
           centered && "mx-auto max-w-[16ch] justify-items-center text-center text-poster",
         )}
       >
-        {ITEMS.map((line, lineIndex) => {
-          const active = lineIndex === index;
+        {QUESTIONS.map((line, index) => {
+          const active = !showingAnswer && index === question;
           return (
-            <span
-              key={line}
-              aria-hidden={!active}
-              className={cx(
-                "col-start-1 row-start-1 transition-[opacity,translate,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
-                lineIndex === ANSWER && "text-accent-600",
-                // Centred hero: the slot is as tall as the tallest line, so the
-                // long answer is set one size down (it would otherwise reserve
-                // four poster lines under every two-line question), and each
-                // line sits in the middle of the slot so spare space splits
-                // evenly above and below.
-                centered && "self-center",
-                centered && lineIndex === ANSWER && "text-section",
-                active ? "opacity-100" : "pointer-events-none translate-y-3 opacity-0 blur-[2px]",
-              )}
-            >
+            <span key={line} aria-hidden={!active} className={lineClass(active)}>
               {line}
             </span>
           );
         })}
+        {/* The answer, set one size down in the centred hero: it is the
+            longest line and would otherwise make the slot (and the gap under
+            every short question) much taller. */}
+        <span
+          aria-hidden={!showingAnswer}
+          className={cx(lineClass(showingAnswer), "text-accent-600", centered && "text-section")}
+        >
+          {hero.answer}
+        </span>
       </h1>
+
+      {/* Reduced motion: the rotation does not run, so show the answer under
+          the question. Hidden again once the visitor presses play. */}
+      {userPaused === false ? null : (
+        <p
+          className={cx(
+            "hero-settle mt-4 hidden text-headline-semibold text-pretty text-accent-700 motion-reduce:block",
+            centered && "mx-auto max-w-[40ch] text-center",
+          )}
+        >
+          {hero.answer}
+        </p>
+      )}
 
       <div className={cx("mt-5 flex items-center gap-3", centered && "justify-center")}>
         <Button
@@ -95,20 +119,21 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
           aria-pressed={paused}
           onClick={togglePaused}
         />
-        {/* Each dot jumps to its line. The button is a 24px tap target around
-            the small visible dot; picking a line restarts that line's timer. */}
+        {/* One dot per question; the answer belongs to whichever question is
+            current. The button is a 24px tap target round the small dot;
+            picking one restarts from that question. */}
         <div className="flex" role="group" aria-label="Choose a question">
-          {ITEMS.map((line, lineIndex) => {
-            const current = lineIndex === index;
+          {QUESTIONS.map((line, index) => {
+            const current = index === question;
             return (
               <button
                 key={line}
                 type="button"
-                aria-label={lineIndex === ANSWER ? "Show the answer" : `Show question ${lineIndex + 1}`}
+                aria-label={`Show question ${index + 1}`}
                 aria-current={current}
                 onClick={() => {
-                  track("hero_question_pick", { location: "hero", question: lineIndex === ANSWER ? "answer" : lineIndex + 1 });
-                  setIndex(lineIndex);
+                  track("hero_question_pick", { location: "hero", question: index + 1 });
+                  setStep(index * 2);
                 }}
                 className="group/dot flex h-6 min-w-6 cursor-pointer items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
               >
@@ -116,7 +141,7 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
                   className={cx(
                     "h-1.5 rounded-full transition-[width,background-color] duration-300",
                     current
-                      ? "w-6 bg-accent-500"
+                      ? cx("w-6", showingAnswer ? "bg-accent-600" : "bg-accent-500")
                       : "w-1.5 bg-background-tertiary-default group-hover/dot:w-3 group-hover/dot:bg-accent-200",
                   )}
                 />
@@ -127,24 +152,19 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
       </div>
 
       {/* The centred hero carries only what the brief lists: the questions,
-          the answer and the two buttons. The answer line already says what
-          ClinTrust is, so the lead is left out there. */}
+          the answer and the two buttons. */}
       {centered ? null : (
         <p className="hero-settle mt-6 max-w-[52ch] text-headline-regular text-pretty text-text-secondary">{hero.lead}</p>
       )}
 
-      <div className={cx("hero-in flex flex-wrap items-center gap-3", centered ? "mt-9 justify-center" : "mt-7")} style={{ "--d": "120ms" } as CSSProperties}>
-        <StarBorderLink
-          href={hero.primaryCta.href}
-          onClick={() => track("hero_yes_thats_me", context)}
-        >
+      <div
+        className={cx("hero-in flex flex-wrap items-center gap-3", centered ? "mt-9 justify-center" : "mt-7")}
+        style={{ "--d": "120ms" } as CSSProperties}
+      >
+        <StarBorderLink href={hero.primaryCta.href} onClick={() => track("hero_yes_thats_me", context)}>
           {hero.primaryCta.label}
         </StarBorderLink>
-        <ButtonLink
-          href={hero.secondaryCta.href}
-          variant="secondary"
-          onClick={() => track("request_demo_click", context)}
-        >
+        <ButtonLink href={hero.secondaryCta.href} variant="secondary" onClick={() => track("request_demo_click", context)}>
           {hero.secondaryCta.label}
         </ButtonLink>
       </div>

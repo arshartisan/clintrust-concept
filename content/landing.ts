@@ -43,10 +43,11 @@ export const demoCta = { label: "Request a demo", href: "/#demo" } as const;
 
 export const hero = {
   /**
-   * The headline rotates through these questions (one every `intervalMs`),
-   * then flips to `answer`, then starts again. Visitors can pause it. Under
-   * reduced motion it does not rotate: the first question shows, with the
-   * answer under it.
+   * Each question shows for `intervalMs`, then flips to `answer` for
+   * `answerMs`, then the next question comes in (the brief: "one large
+   * question rotates every ~4 seconds, then flips to its answer"). Visitors
+   * can pause it. Under reduced motion it does not rotate: the first question
+   * shows, with the answer under it.
    */
   questions: [
     "Is your investigator grant payment late again?",
@@ -56,8 +57,8 @@ export const hero = {
   ],
   answer: "One verified record. A clean invoice every month. Paid faster than 90–140 days.",
   intervalMs: 4000,
-  /** The answer stays up a little longer than a question. */
-  answerMs: 6000,
+  /** How long the answer stays up after each question. */
+  answerMs: 4000,
   /** ClinTrust in one line, under the headline. */
   lead: "ClinTrust: one record of trial work everyone agrees on, and a clean invoice from it every month.",
   pauseLabel: "Pause the rotating questions",
@@ -105,6 +106,8 @@ export const hero = {
 export const pains = {
   title: "Which one is you?",
   continuation: "Tap the one that keeps you up at night.",
+  cardHint: "Tap to see the fix",
+  cardOpenHint: "Tap again to close",
   items: [
     {
       id: "cash-flow",
