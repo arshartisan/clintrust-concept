@@ -55,6 +55,11 @@ export const hero = {
     "Dreading reconciliation month-end?",
     "Still chasing invoices 140 days later?",
   ],
+  /**
+   * One phrase of each question, set on a tilted sticker box (chunky titles,
+   * sprint 9). Must appear in its question exactly as written.
+   */
+  questionMarks: ["late again", "90 days", "month-end", "140 days"],
   answer: "One verified record. A clean invoice every month. Paid faster than 90–140 days.",
   /** The same answer, split at its full stops: the hero builds it as a checklist, row by row. */
   answerParts: ["One verified record.", "A clean invoice every month.", "Paid faster than 90–140 days."],
@@ -84,6 +89,16 @@ export const hero = {
   photoNote: "Photo to come",
   /** The starburst sticker in the hero. */
   burst: "No more chasing!",
+  /** The text ring that turns round the starburst. Decorative. */
+  ring: "Paid faster • One record • Clean invoices • ",
+  /** Typed out on the hero's 3D keycaps, one letter per key. */
+  keys: "paid",
+  /**
+   * The keycap strip under the hero (after overflow.sui.io's keycap marquee):
+   * short phrases that loop sideways. Decorative; the page says each of these
+   * in full elsewhere.
+   */
+  marquee: ["Paid on time", "One record", "Clean invoices", "No more chasing", "Month-end, done", "Grants on time"],
   primaryCta: { label: "Yes, that’s me", href: "#pain" },
   secondaryCta: { label: "Request a demo", href: "#demo" },
 };
@@ -92,6 +107,8 @@ export const hero = {
 export const pains = {
   title: "Which one is you?",
   continuation: "Tap the one that keeps you up at night.",
+  /** Set on a sticker box in the heading. */
+  mark: "at night",
   cardHint: "Tap to see the fix",
   cardOpenHint: "Tap again to close",
   items: [
@@ -139,6 +156,8 @@ export const pains = {
 export const waiting = {
   title: "Your cash flow called.",
   continuation: "It wants to know why it waits 140 days.",
+  /** Set on a sticker box in the heading. */
+  mark: "140 days",
   scaleDays: 140,
   oldWay: {
     label: "The old way",
@@ -163,16 +182,20 @@ export const steps = [
     id: "record",
     name: "Record",
     text: "Your team logs a finished visit once. Everyone works from that one record.",
+    /** The scalloped badge on the card's corner (after the Moxie cards). */
+    badge: "logged.",
   },
   {
     id: "reconcile",
     name: "Reconcile",
     text: "We match it to the budget. Anything odd is flagged for a person.",
+    badge: "checked.",
   },
   {
     id: "pay",
     name: "Pay",
     text: "Pre-invoice each month, 5 days to review, then the final invoice. Paid in your currency.",
+    badge: "paid.",
   },
 ] as const;
 
@@ -200,6 +223,14 @@ export const audiences = [
 
 /** The action at the foot of each audience panel. */
 export const audienceCta = { label: "Show me how", href: "#demo" } as const;
+
+/** Labels on the audience panel (after the Moxie curriculum layout). */
+export const audienceLabels = {
+  /** Small caps line over the benefit: "For sponsors · 01". */
+  eyebrow: "For",
+  /** The text ring turning round the panel number. Decorative. */
+  ring: "Role by role ✱ role by role ✱ ",
+} as const;
 
 /**
  * Proof. The brief asks for one short quote or number, ideally with a real
@@ -264,6 +295,12 @@ export const footer = {
   // one tidy row). Confirm SOC 2 with the ClinTrust team before launch.
   certifications: ["21 CFR Part 11", "ICH E6(R3)", "GDPR", "SOC 2"],
   legal: `© 2026 ${brand.legalEntity}, Singapore.`,
+  /** Small pill labels over each footer column (after the truus footer reference). */
+  contactLabel: "Reach out",
+  contactLine: "A 45-minute walkthrough of your payment flow.",
+  standardsLabel: "Built to",
+  /** Short lines on the stickers stuck to the footer wordmark. Decorative. */
+  stickers: { burst: "On time!", stamp: "Paid" },
 };
 
 /**

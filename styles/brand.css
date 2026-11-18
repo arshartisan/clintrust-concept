@@ -466,6 +466,149 @@ html.lenis {
   to   { opacity: 1; transform: none; }
 }
 
+/* Hero keycaps and bubble (components/marketing/hero-keys.tsx, sprint 9,
+ * after the client's keyboard reference). One 5s cycle shared by all three
+ * parts, starting after the hero's entrance:
+ *   keys    P, A, I, D press into their side layers 300ms apart
+ *   cursor  slides onto the D and clicks as it goes down
+ *   bubble  shows typing dots, then a tick just after the D press
+ * translate / scale / opacity only, gated on [data-inview="true"]. At rest
+ * (reduced motion, off screen) the keys are up and the bubble shows its tick. */
+.hk-dots {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-inview="true"] .hk-key {
+    animation: hk-press 5s cubic-bezier(0.22, 1, 0.36, 1) calc(1400ms + var(--i, 0) * 300ms) infinite both;
+  }
+  [data-inview="true"] .hk-cursor {
+    transform-origin: 10% 10%;
+    animation: hk-cursor 5s cubic-bezier(0.22, 1, 0.36, 1) 2300ms infinite both;
+  }
+  /* The bubble's cycle starts 1s earlier than the cursor's, so it has a
+   * second of typing before the D goes down (28% of 5s after its start). */
+  [data-inview="true"] .hk-dots {
+    animation: hk-dots 5s ease-out 1300ms infinite both;
+  }
+  [data-inview="true"] .hk-tick {
+    animation: hk-tick 5s cubic-bezier(0.34, 1.56, 0.64, 1) 1300ms infinite both;
+  }
+  [data-inview="true"] .hk-dot {
+    animation: hk-dot 900ms ease-in-out calc(var(--i, 0) * 150ms) infinite;
+  }
+}
+@keyframes hk-press {
+  0%, 7%, 18%, 100% { translate: 0 0; }
+  9%, 13%           { translate: 5px 7px; }
+}
+@keyframes hk-cursor {
+  0%        { translate: 14px 18px; opacity: 0; }
+  6%        { translate: 0 0; opacity: 1; scale: 1; }
+  9%, 12%   { scale: 0.84; }
+  16%, 45%  { translate: 0 0; opacity: 1; scale: 1; }
+  60%, 100% { translate: 14px 18px; opacity: 0; }
+}
+@keyframes hk-dots {
+  0%, 26%  { opacity: 1; }
+  29%, 92% { opacity: 0; }
+  96%, 100% { opacity: 1; }
+}
+@keyframes hk-tick {
+  0%, 28%   { opacity: 0; scale: 0.4; }
+  34%, 88%  { opacity: 1; scale: 1; }
+  93%, 100% { opacity: 0; scale: 0.4; }
+}
+@keyframes hk-dot {
+  0%, 60%, 100% { translate: 0 0; }
+  30%           { translate: 0 -5px; }
+}
+
+/* Keycap strip under the hero (components/marketing/keycap-marquee.tsx,
+ * after overflow.sui.io's keycap marquee). The track holds the phrases twice,
+ * so sliding it by half its width loops without a seam. Pauses on hover; at
+ * rest (reduced motion, off screen) it is a still row of keys. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-inview="true"] .km-track {
+    animation: km-slide 42s linear infinite;
+  }
+  .km-band:hover .km-track {
+    animation-play-state: paused;
+  }
+}
+@keyframes km-slide {
+  to { translate: -50% 0; }
+}
+
+/* Rolling link label (after overflow.sui.io's nav): on hover the label rolls
+ * up and a copy of it rolls in from below. The copy is generated content, so
+ * it stays out of the accessibility tree. Put `.roll-host` on the link and
+ * `.roll` + data-text on a span inside it. */
+.roll {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+.roll > span,
+.roll::after {
+  display: block;
+  transition: translate 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.roll::after {
+  content: attr(data-text);
+  position: absolute;
+  inset-inline-start: 0;
+  top: 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .roll-host:hover .roll > span,
+  .roll-host:hover .roll::after,
+  .roll-host:focus-visible .roll > span,
+  .roll-host:focus-visible .roll::after {
+    translate: 0 -100%;
+  }
+}
+
+/* Footer wordmark and stickers (components/marketing/site-footer.tsx, after
+ * the truus reference). Once the panel is on screen the letters rise in one
+ * after another, the stickers pop on after them, then bob. Translate / scale /
+ * opacity only; at rest every letter and sticker is in place. */
+@media (prefers-reduced-motion: no-preference) {
+  .ft-letter,
+  .ft-sticker {
+    opacity: 0;
+  }
+  [data-inview="true"] .ft-letter {
+    animation: ft-letter 800ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 60ms) both;
+  }
+  [data-inview="true"] .ft-sticker {
+    animation: concept-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) calc(600ms + var(--i, 0) * 110ms) both;
+  }
+  [data-inview="true"] .ft-bob {
+    animation: concept-float 6s ease-in-out infinite;
+  }
+}
+@media (scripting: none) {
+  .ft-letter,
+  .ft-sticker {
+    opacity: 1;
+  }
+}
+/* Rotating text ring round the hero starburst (after the Moxie reference's
+ * "six weeks · one take a day" badge). One slow turn; still under reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-inview="true"] .ring-spin {
+    animation: ring-spin 22s linear infinite;
+  }
+}
+@keyframes ring-spin {
+  to { rotate: 360deg; }
+}
+@keyframes ft-letter {
+  from { opacity: 0; translate: 0 45%; }
+  to   { opacity: 1; translate: 0 0; }
+}
+
 /* Scroll-driven motion (sprint 9, brief: "scroll-driven animation"). Pure
  * CSS scroll timelines: browsers without them, and reduced motion, get the
  * still page.
@@ -579,6 +722,18 @@ html.lenis {
   }
 }
 
+/* How-it-works badges (sprint 9, after the Moxie cards): the scalloped badge
+ * pops on as its card scrolls in, then its scalloped disc turns slowly behind
+ * the word. Off under reduced motion; at rest the badge simply sits there. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-inview="true"] > .step-badge {
+    animation: concept-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--d, 300ms) both;
+  }
+  [data-inview="true"] .step-badge-disc {
+    animation: ring-spin 24s linear infinite;
+  }
+}
+
 /* The corner glows in the closing call-to-action panel drift slowly. */
 @keyframes cta-drift {
   from {
@@ -626,6 +781,10 @@ html.lenis {
   background: var(--color-accent-300);
   border: 2px solid var(--color-text-primary);
   box-shadow: 3px 3px 0 0 var(--color-text-primary);
+  /* The display face (Bricolage Grotesque), chunky, like the headlines
+   * (sprint 9, client feedback: "for the CTA use funky font"). */
+  font-family: var(--font-display);
+  font-weight: 700;
   letter-spacing: -0.01em;
   transition:
     translate 150ms ease,
@@ -889,29 +1048,8 @@ html.lenis {
   box-shadow: 6px 6px 0 0 var(--color-text-primary);
 }
 
-/* The bar hangs from the top edge: no top border at any size. */
-.nav-glass.nav-bar {
-  border-top-width: 0;
-}
-/* Phones and small tablets: a full-width strip with only a bottom outline. */
-@media (width < 48rem) {
-  .nav-glass.nav-bar {
-    border-width: 0 0 2px;
-    box-shadow: 0 3px 0 0 var(--color-text-primary);
-  }
-}
 
 
-/* Footer wordmark, filled with the logo's own teal-to-blue gradient. The
- * text is generated content, so it stays out of the accessibility tree. */
-.wordmark-brand::before {
-  content: attr(data-wordmark);
-  background: linear-gradient(100deg, var(--color-accent-400) 8%, var(--color-coral-400) 55%, var(--color-teal-400) 92%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  opacity: 0.6;
-}
 
 /* ---------------------------------------------------------------------------
  * 6. Hero concepts (sprint 9, /concepts only)
@@ -963,6 +1101,19 @@ html.lenis {
   --text-poster--letter-spacing: -0.035em;
   --text-poster--font-weight: 800;
 
+  /* The chunky hero headline, a little under text-poster. Mirror in
+   * utils/cx.ts. */
+  --text-chunky: clamp(2.25rem, 1rem + 3.9vw, 4.4rem);
+  --text-chunky--line-height: 1;
+  --text-chunky--letter-spacing: -0.03em;
+  --text-chunky--font-weight: 800;
+
+  /* The hero answer's checklist rows, in the same chunky caps. */
+  --text-chunky-sm: clamp(1.5rem, 0.8rem + 2vw, 2.4rem);
+  --text-chunky-sm--line-height: 1.05;
+  --text-chunky-sm--letter-spacing: -0.03em;
+  --text-chunky-sm--font-weight: 800;
+
   /* The question on concept C's invoice card. */
   --text-poster-sm: clamp(1.75rem, 1.1rem + 2.4vw, 2.75rem);
   --text-poster-sm--line-height: 1.05;
@@ -974,6 +1125,39 @@ html.lenis {
   --text-counter--line-height: 1;
   --text-counter--letter-spacing: -0.03em;
   --text-counter--font-weight: 800;
+}
+
+/* Chunky titles (sprint 9, after the Moxie reference): Bricolage Grotesque
+ * (the display face; client: titles only in Bricolage), extra-bold, set
+ * tight, in sentence case (client: no capitals). Section headings, the hero headline and the step cards.
+ * Size still comes from a text-* utility (text-section, text-chunky). Unlayered,
+ * so it wins over the text style's own tracking and weight. */
+.title-chunky {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+/* One phrase of a chunky title on a tilted sticker box (the reference's
+ * "DOESN'T"). Colour from a bg-* class on the element. It pops in when its
+ * heading reveals or a hero line changes; still under reduced motion. */
+.title-mark {
+  display: inline-block;
+  rotate: -2deg;
+  margin-inline: 0.06em;
+  padding: 0.02em 0.22em 0.06em;
+  border: 0.06em solid var(--color-text-primary);
+  border-radius: 0.22em;
+  box-shadow: 0.08em 0.08em 0 0 var(--color-text-primary);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .title-mark {
+    animation: concept-pop 450ms cubic-bezier(0.34, 1.56, 0.64, 1) 250ms both;
+  }
+  .reveal:not([data-inview="true"]) .title-mark {
+    animation: none;
+  }
 }
 
 /* Yellow highlighter under a line of text; the swipe draws in left to right. */

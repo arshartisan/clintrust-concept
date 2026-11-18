@@ -1,105 +1,158 @@
+import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
-import { RiArrowRightUpLine, RiMailSendLine } from "@remixicon/react";
+import { RiArrowRightUpLine } from "@remixicon/react";
 import { brand, demoCta, footer } from "@/content/landing";
 import { cx } from "@/utils/cx";
+import { CoinDoodle, PaidStamp, SparkleDoodle, SquiggleDoodle, TickDoodle } from "./doodles";
 import { container } from "./frame";
-import { Logo } from "./logo";
+import { InView } from "./in-view";
+import { LogoMark } from "./logo";
 
-const linkClass =
-  // inline-flex + min-h-7: a 28px tap target for a 17px line (WCAG 2.2 target size).
-  "inline-flex min-h-7 items-center rounded-sm text-body-regular text-text-secondary transition-colors duration-150 hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring";
+/** A small white pill over each column (the reference's "office", "contact"). */
+function Label({ children }: { children: ReactNode }) {
+  return (
+    <h2 className="inline-flex rounded-full border-2 border-text-primary bg-background-primary-default px-3 py-0.5 text-caption-1-semibold text-text-primary">
+      {children}
+    </h2>
+  );
+}
+
+// Big display links. The label rolls up on hover (.roll in brand.css).
+const bigLink =
+  "roll-host inline-flex min-h-7 items-center rounded-md font-display text-title-2-bold text-text-white outline-none focus-visible:ring-2 focus-visible:ring-text-white sm:text-title-1-bold";
+
+/** A sticker on the wordmark: enters as the footer scrolls in, then bobs. */
+function Sticker({ className, index, children }: { className: string; index: number; children: ReactNode }) {
+  return (
+    <span className={cx("ft-sticker absolute", className)} style={{ "--i": index } as CSSProperties}>
+      <span className="ft-bob block" style={{ animationDelay: `${index * -1.3}s` }}>
+        {children}
+      </span>
+    </span>
+  );
+}
+
+/** The footer's starburst, smaller than the hero's. */
+function Burst({ label }: { label: string }) {
+  const points = Array.from({ length: 24 }, (_, index) => {
+    const angle = (Math.PI * 2 * index) / 24 - Math.PI / 2;
+    const radius = index % 2 === 0 ? 50 : 40;
+    return `${(50 + radius * Math.cos(angle)).toFixed(2)},${(50 + radius * Math.sin(angle)).toFixed(2)}`;
+  }).join(" ");
+  return (
+    <span className="relative flex size-20 -rotate-12 items-center justify-center sm:size-28">
+      <svg viewBox="0 0 100 100" className="absolute inset-0 size-full overflow-visible" aria-hidden="true">
+        <polygon points={points} className="fill-coral-500 stroke-text-primary" strokeWidth="2.5" strokeLinejoin="round" />
+      </svg>
+      <span className="relative font-display text-caption-1-semibold text-text-white sm:text-body-semibold">{label}</span>
+    </span>
+  );
+}
 
 /**
- * Footer (sprint 4, second version): a logo row, a contact card beside the
- * link columns, a large faded wordmark, then the legal line.
+ * Footer (sprint 9, after the client's "truus" footer reference): one bold
+ * rounded panel in the logo's blue. Small white pill labels sit over big
+ * display links; the bottom of the panel is a huge cream wordmark, cropped by
+ * the panel's edge, with stickers stuck on it (the brief's coins, ticks, a
+ * PAID stamp and a starburst).
  *
- * There is no social-media row: ClinTrust has no public social accounts on
- * record to link to. The standards the platform is built to sit there instead.
- * Every link points at a page or section that exists.
+ * The wordmark's letters rise in one after another as the footer scrolls into
+ * view, and the stickers pop on and then bob (`.ft-*` in styles/brand.css,
+ * gated on InView, off under reduced motion). At rest everything is in place.
+ * Wordmark and stickers are decorative: hidden from assistive technology.
+ *
+ * No social row: ClinTrust has no public social accounts on record. The
+ * standards the platform is built to sit in the contact column instead.
  */
 export function SiteFooter() {
   return (
-    <footer>
-      <div className={cx(container, "overflow-hidden pt-12 lg:pt-16")}>
-        <div className="-mx-6 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-b border-separator-border px-6 pb-6 sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12">
-          <Link
-            href="/"
-            aria-label={`${brand.name} home`}
-            className="inline-flex rounded-md outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
-          >
-            <Logo />
-          </Link>
-          <ul className="flex flex-wrap items-center gap-2" aria-label="Standards">
-            {footer.certifications.map((item) => (
-              <li
-                key={item}
-                className="rounded-full border-2 border-text-primary px-2.5 py-1 text-caption-1-semibold text-text-primary"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
+    <footer className={cx(container, "pt-12 pb-6 lg:pt-16")}>
+      <InView once className="relative overflow-hidden rounded-[2rem] border-2 border-text-primary bg-brand-blue-500 shadow-sticker-lg">
+        <div className="grid gap-10 p-6 sm:grid-cols-2 sm:p-10 lg:grid-cols-3 lg:p-12">
+          {footer.columns.map((column) => (
+            <nav key={column.title} aria-label={column.title}>
+              <Label>{column.title}</Label>
+              <ul className="mt-4 flex flex-col gap-1">
+                {column.links.map((link) => (
+                  <li key={link.label}>
+                    <Link href={link.href} className={bigLink}>
+                      <span className="roll" data-text={link.label}>
+                        <span>{link.label}</span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
 
-        <div className="grid gap-12 pt-8 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <h2 className="text-body-medium text-text-primary">Reach out to us</h2>
+          <div>
+            <Label>{footer.contactLabel}</Label>
             <Link
               href={demoCta.href}
               data-track="request_demo_click"
               data-track-location="footer"
-              data-track-label="Request a demo"
-              className="group mt-4 flex max-w-[340px] items-center gap-3 rounded-2xl border-2 border-text-primary shadow-sticker bg-accent-100 p-3 transition-[translate,box-shadow,background-color] duration-150 hover:translate-x-px hover:translate-y-px hover:bg-accent-200 hover:shadow-sticker-sm outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
+              data-track-label={demoCta.label}
+              className={cx(bigLink, "mt-4 flex w-fit gap-1.5")}
             >
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-text-primary bg-accent-300 text-text-primary">
-                <RiMailSendLine className="size-5" aria-hidden="true" />
+              <span className="roll" data-text={demoCta.label}>
+                <span>{demoCta.label}</span>
               </span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-body-medium text-text-primary">Request a demo</span>
-                <span className="block text-body-2-regular text-text-secondary">
-                  A 45-minute walkthrough of your payment flow
-                </span>
-              </span>
-              <RiArrowRightUpLine
-                className="size-5 shrink-0 text-foreground-icon-secondary transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                aria-hidden="true"
-              />
+              <RiArrowRightUpLine className="size-6 shrink-0" aria-hidden="true" />
             </Link>
-          </div>
+            <SquiggleDoodle aria-hidden="true" className="mt-1 w-32 text-accent-300" />
+            <p className="mt-2 max-w-[30ch] text-body-2-regular text-brand-blue-100">{footer.contactLine}</p>
 
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4 lg:col-span-7">
-            {footer.columns.map((column) => (
-              <div key={column.title}>
-                <h2 className="text-body-medium text-text-primary">{column.title}</h2>
-                <ul className="mt-3 flex flex-col gap-0.5">
-                  {column.links.map((link) => (
-                    <li key={link.label}>
-                      <Link href={link.href} className={linkClass}>
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </nav>
+            <h2 className="mt-8 text-caption-1-semibold text-brand-blue-100">{footer.standardsLabel}</h2>
+            <ul className="mt-2 flex flex-wrap gap-2" aria-label="Standards">
+              {footer.certifications.map((item) => (
+                <li key={item} className="rounded-full border-2 border-text-white/70 px-2.5 py-0.5 text-caption-1-semibold text-text-white">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        {/* Decorative wordmark. Drawn as generated content (::before), not as
-            text in the document, so assistive technology and contrast checks
-            skip it. Filled with the logo's teal-to-blue gradient (`.wordmark-brand`
-            in styles/brand.css). The legal line sits below it, on its own row,
-            so it never runs into the letters; the letters fade out into the
-            page before they reach it. Its hairline runs rail to rail (the
-            negative margins cancel the container's padding). */}
-        <div
-          aria-hidden="true"
-          data-wordmark={brand.name}
-          className="wordmark-brand pointer-events-none mt-16 text-center text-wordmark select-none [mask-image:linear-gradient(to_bottom,black_8%,transparent_82%)] lg:mt-20"
-        />
+        {/* The wordmark, one span per letter so they can rise in turn. Pulled
+            down so the panel's edge crops the bottoms of the letters. */}
+        <div aria-hidden="true" className="pointer-events-none relative mt-14 select-none sm:-mt-4">
+          <div dir="ltr" className="flex translate-y-[16%] justify-center text-wordmark text-accent-50">
+            {brand.name.split("").map((letter, index) => (
+              <span key={`${letter}-${index}`} className="ft-letter inline-block" style={{ "--i": index } as CSSProperties}>
+                {letter}
+              </span>
+            ))}
+          </div>
 
-        <p className="relative -mx-6 border-t border-separator-border px-6 py-6 text-body-2-regular sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12 text-text-secondary">{footer.legal}</p>
-      </div>
+          <Sticker index={0} className="start-[3%] top-[2%] max-sm:-top-[38%]">
+            <Burst label={footer.stickers.burst} />
+          </Sticker>
+          <Sticker index={1} className="start-[27%] -top-[6%] max-sm:hidden">
+            <span className="flex size-14 items-center justify-center rounded-full border-2 border-text-primary bg-accent-300 shadow-sticker sm:size-20">
+              <CoinDoodle className="size-9 text-text-primary sm:size-12" />
+            </span>
+          </Sticker>
+          <Sticker index={2} className="start-[48%] top-[30%] max-sm:hidden">
+            <PaidStamp label={footer.stickers.stamp} className="rotate-[-8deg] bg-coral-100 text-headline-semibold sm:text-title-2-semibold" />
+          </Sticker>
+          <Sticker index={3} className="end-[22%] top-[0%] max-sm:-top-[30%] max-sm:end-[8%]">
+            <span className="flex size-14 rotate-6 items-center justify-center rounded-2xl border-2 border-text-primary bg-teal-300 shadow-sticker sm:size-20">
+              <TickDoodle className="size-9 text-text-primary sm:size-12" />
+            </span>
+          </Sticker>
+          <Sticker index={4} className="end-[4%] top-[34%] max-sm:hidden">
+            <span className="flex size-12 items-center justify-center rounded-full border-2 border-text-primary bg-background-primary-default shadow-sticker sm:size-16">
+              <LogoMark className="h-7 sm:h-9" />
+            </span>
+          </Sticker>
+          <Sticker index={5} className="start-[16%] top-[58%] max-sm:hidden">
+            <SparkleDoodle className="size-10 text-accent-300" />
+          </Sticker>
+        </div>
+      </InView>
+
+      <p className="mt-5 px-2 text-body-2-regular text-text-secondary">{footer.legal}</p>
     </footer>
   );
 }

@@ -7,8 +7,9 @@ import { brand, demoCta, nav } from "@/content/landing";
 import { LogoMark } from "./logo";
 
 /**
- * The phone menu: BoardUI's Drawer, sliding in from the end edge over a
- * dimmed page. The drawer traps focus, stops the page scrolling, closes on
+ * The phone menu: BoardUI's Drawer, dropping down from the top over a dimmed
+ * page. A top drawer is as tall as its content (sprint 9: the full-height
+ * side drawer was mostly empty space for three links). The drawer traps focus, stops the page scrolling, closes on
  * Escape or a press on the backdrop, and returns focus to the menu button.
  *
  * Kept in its own file because Drawer is built on react-aria (about 75 KB
@@ -29,7 +30,7 @@ export function MobileNav({ isOpen, onOpenChange, pathname }: MobileNavProps) {
   const close = () => onOpenChange(false);
 
   return (
-    <Drawer isOpen={isOpen} onOpenChange={onOpenChange} placement="end" size="sm">
+    <Drawer isOpen={isOpen} onOpenChange={onOpenChange} placement="top">
       <DrawerHeader
         closeLabel="Close menu"
         className="items-center"

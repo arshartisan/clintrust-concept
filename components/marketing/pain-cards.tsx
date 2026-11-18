@@ -10,11 +10,24 @@ const face =
   "flex h-full flex-col rounded-3xl border-2 border-text-primary p-5 text-start shadow-sticker transition-[translate,box-shadow] duration-150 group-hover:translate-x-px group-hover:translate-y-px group-hover:shadow-sticker-sm group-active:translate-x-[3px] group-active:translate-y-[3px] group-active:shadow-none motion-reduce:transition-none sm:p-6";
 
 /**
+ * One colour per card (sprint 9, client feedback: the four backs were all
+ * teal). `back` fills the fix face; `tile` tints the front's icon tile in the
+ * same hue, so each front hints at the colour it turns over to. Ink text
+ * reads on all four.
+ */
+const CARD_TONES = [
+  { back: "bg-teal-300", tile: "bg-teal-100" },
+  { back: "bg-accent-300", tile: "bg-accent-100" },
+  { back: "bg-coral-300", tile: "bg-coral-100" },
+  { back: "bg-brand-blue-200", tile: "bg-brand-blue-100" },
+] as const;
+
+/**
  * "Which one is you?" as four tappable flip cards (sprint 9, per the brief:
  * "Four tappable pain cards … Each opens a one-line fix").
  *
  * Each card is a toggle button with two faces: the front shows the worry, the
- * back (sunny yellow) shows the fix. Tapping turns the card over in 3D (the
+ * back (each card its own colour, CARD_TONES) shows the fix. Tapping turns the card over in 3D (the
  * `.concept-flip` recipe in styles/brand.css: perspective, preserved 3D,
  * hidden back faces, 800ms ease-out); tapping again turns it back. Both faces
  * share one grid cell, so the card is the height of the taller face and
@@ -37,8 +50,9 @@ export function PainCards({ className }: { className?: string }) {
 
   return (
     <ul className={cx("grid gap-4 sm:grid-cols-2", className)}>
-      {pains.items.map((pain) => {
+      {pains.items.map((pain, index) => {
         const isOpen = open.has(pain.id);
+        const tone = CARD_TONES[index % CARD_TONES.length];
         return (
           <li key={pain.id} className="scroll-pop flex">
             <button
@@ -51,7 +65,7 @@ export function PainCards({ className }: { className?: string }) {
                 {/* Front: the worry. */}
                 <span aria-hidden={isOpen} className={cx(face, "bg-background-primary-default")}>
                   <span className="flex items-center justify-between gap-3">
-                    <span className="flex size-11 items-center justify-center rounded-2xl border-2 border-text-primary bg-coral-100">
+                    <span className={cx("flex size-11 items-center justify-center rounded-2xl border-2 border-text-primary", tone.tile)}>
                       <pain.icon className="size-5 text-text-primary" aria-hidden="true" />
                     </span>
                     <span
@@ -67,7 +81,7 @@ export function PainCards({ className }: { className?: string }) {
                 </span>
 
                 {/* Back: the fix. */}
-                <span aria-hidden={!isOpen} className={cx(face, "bg-teal-300")}>
+                <span aria-hidden={!isOpen} className={cx(face, tone.back)}>
                   <span className="flex items-center justify-between gap-3">
                     <span className="flex size-11 items-center justify-center rounded-2xl border-2 border-text-primary bg-text-primary text-text-white">
                       <RiCheckLine className="size-5" aria-hidden="true" />

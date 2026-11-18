@@ -16,7 +16,7 @@ export function PainPicker() {
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
         <div className="flex flex-col items-start lg:col-span-5">
           <Reveal>
-            <SectionHeading title={pains.title} continuation={pains.continuation} />
+            <SectionHeading title={pains.title} continuation={pains.continuation} mark={pains.mark} markTone="coral" />
           </Reveal>
           <ButtonLink
             href={pains.cta.href}

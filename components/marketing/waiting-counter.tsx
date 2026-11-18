@@ -52,7 +52,7 @@ export function WaitingCounter() {
   return (
     <Section id="waiting">
       <Reveal>
-        <SectionHeading title={waiting.title} continuation={waiting.continuation} />
+        <SectionHeading title={waiting.title} continuation={waiting.continuation} mark={waiting.mark} markTone="sun" />
       </Reveal>
 
       <div ref={ref} className="mt-14 grid gap-4 lg:grid-cols-2">

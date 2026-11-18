@@ -11,7 +11,8 @@ import { cx } from "@/utils/cx";
 import { LogoMark } from "./logo";
 
 /**
- * Glass pill navbar with dropdown menus.
+ * Navbar (sprint 9: logo, centred link pill, CTA; see the comment in the
+ * markup), with dropdown menus.
  *
  * Each dropdown is a glass panel under its button: a small heading, then a
  * two-column list of links. Each link is an icon tile, a title and a one-line
@@ -34,7 +35,7 @@ const MobileNav = lazy(loadMobileNav);
 const preloadMobileNav = () => void loadMobileNav();
 
 const itemClass =
-  "flex h-9 items-center gap-0.5 rounded-full px-3.5 text-body-medium text-text-secondary transition-colors duration-150 hover:bg-background-secondary-default hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring cursor-pointer";
+  "flex h-9 items-center gap-0.5 rounded-full px-4 text-body-medium text-text-primary transition-colors duration-150 hover:bg-background-secondary-default hover:text-text-primary outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring cursor-pointer";
 
 const menuLinkClass =
   "group flex items-start gap-3 rounded-2xl p-3 transition-colors duration-150 hover:bg-background-secondary-default outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring";
@@ -74,28 +75,28 @@ export function SiteHeader() {
   }, [openMenu]);
 
   return (
-    // Sticky wrapper is click-through; only the bar itself takes pointer events.
-    // The bar is fixed flush to the top of the screen. Below md it is a
-    // square-edged strip; from md up it is the page column's width with only
-    // its bottom corners rounded, hanging from the top edge.
-    <header className="pointer-events-none sticky top-0 z-40 md:px-4">
+    // Sprint 9, after the client's Moxie navbar: a solid strip in the page
+    // colour (content never shows behind it), holding the plain logo on the
+    // start side, the links in a centred sticker pill (ink outline, hard
+    // shadow) and the yellow CTA on the end side.
+    // Below lg (1024px) the pill does not fit beside the CTA: phones get the
+    // logo and the menu button, tablets the logo, CTA and menu button.
+    <header className="sticky top-0 z-40 bg-background-primary-default px-4 py-3 sm:px-6 lg:py-4">
       <div
         ref={barRef}
-        // 1200px: the same width as the page column, so the bar lines up with
-        // the rails. Flat top, rounded bottom corners (md and up).
-        className="nav-glass nav-bar pointer-events-auto relative mx-auto w-full max-w-[1200px] md:rounded-b-[28px]"
+        // 1200px: the page column's width, so the pieces line up with the rails.
+        className="mx-auto flex w-full max-w-[1200px] items-center justify-between gap-3 lg:grid lg:grid-cols-[1fr_auto_1fr]"
       >
-        <div className="flex items-center gap-1 p-2">
           <Link
             href="/"
             aria-label={`${brand.name} home`}
-            className="me-1 flex h-9 items-center gap-2 rounded-full ps-2.5 pe-3 outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
+            className="flex h-11 items-center gap-2 justify-self-start rounded-full outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
           >
             <LogoMark className="h-7" />
             <span className="font-display text-title-2-bold tracking-tight text-text-primary">{brand.name}</span>
           </Link>
 
-          <nav aria-label="Primary" className="hidden flex-1 items-center justify-center gap-0.5 md:flex">
+          <nav aria-label="Primary" className="nav-glass hidden items-center gap-0.5 rounded-full p-1.5 lg:flex">
             {nav.map((entry) => {
               if (!("items" in entry)) {
                 return (
@@ -103,9 +104,12 @@ export function SiteHeader() {
                     key={entry.label}
                     href={entry.href}
                     aria-current={pathname === entry.href ? "page" : undefined}
-                    className={cx(itemClass, pathname === entry.href && "text-text-primary")}
+                    className={cx(itemClass, "roll-host", pathname === entry.href && "text-text-primary")}
                   >
-                    {entry.label}
+                    {/* The label rolls up on hover (.roll in brand.css). */}
+                    <span className="roll" data-text={entry.label}>
+                      <span>{entry.label}</span>
+                    </span>
                   </Link>
                 );
               }
@@ -166,35 +170,37 @@ export function SiteHeader() {
             })}
           </nav>
 
-          <StarBorderLink
-            href={demoCta.href}
-            size="small"
-            wrapperClassName="ms-auto md:ms-1"
-            data-track="request_demo_click"
-            data-track-location="header"
-          >
-            {demoCta.label}
-          </StarBorderLink>
-          <Button
-            className="md:hidden"
-            variant="secondary"
-            size="small"
-            iconOnly
-            leadingIcon={RiMenuLine}
-            aria-label="Open menu"
-            aria-haspopup="dialog"
-            aria-expanded={mobileOpen}
-            // Start fetching the drawer as soon as a press looks likely.
-            onPointerEnter={preloadMobileNav}
-            onTouchStart={preloadMobileNav}
-            onFocus={preloadMobileNav}
-            onClick={() => {
-              setMobileLoaded(true);
-              setMobileOpen(true);
-            }}
-          />
-        </div>
-
+          <div className="flex items-center gap-2 justify-self-end">
+            <StarBorderLink
+              href={demoCta.href}
+              // Bigger than the default: the reference's chunky end-side CTA.
+              className="h-12 px-6 text-headline-semibold"
+              // Phones: the drawer carries this link; the logo needs the room.
+              wrapperClassName="max-sm:hidden"
+              data-track="request_demo_click"
+              data-track-location="header"
+            >
+              {demoCta.label}
+            </StarBorderLink>
+            <Button
+              className="lg:hidden"
+              variant="secondary"
+              size="small"
+              iconOnly
+              leadingIcon={RiMenuLine}
+              aria-label="Open menu"
+              aria-haspopup="dialog"
+              aria-expanded={mobileOpen}
+              // Start fetching the drawer as soon as a press looks likely.
+              onPointerEnter={preloadMobileNav}
+              onTouchStart={preloadMobileNav}
+              onFocus={preloadMobileNav}
+              onClick={() => {
+                setMobileLoaded(true);
+                setMobileOpen(true);
+              }}
+            />
+          </div>
       </div>
 
       {/* Phones: every link, grouped, in a drawer. Mounted on first use. */}

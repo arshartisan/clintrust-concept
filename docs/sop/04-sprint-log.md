@@ -154,6 +154,43 @@ routes return 200 from the production server. Not yet viewed in a browser
 - Photos of real people for the concept photo slots.
 - Still open from sprint 8: visual redesign (palette, doodles, photos, confetti, hero concepts), Lighthouse on a phone profile, real Resend/CRM settings.
 
+### Animated pieces and footer after the client's references (2026-11-18)
+
+References: a keyboard-keycap hackathon hero (Sui Overflow) and its live site,
+the Moxie course hero, and the truus footer. Taken: the chunky extruded
+keycap look, the keycap marquee, rolling link labels, a rotating text badge,
+and the footer's bold panel with a sticker-covered wordmark. Left out: the
+framed tab-bar layout and the preloader (the hero is the LCP and must paint
+at once).
+
+| Area | Change |
+| --- | --- |
+| Hero | Added `hero-keys.tsx`: four keycaps typing PAID with a clicking cursor (right), and a chat bubble that goes from typing dots to a tick (left). Every existing sticker and doodle kept; the starburst moved down 3% to make room, and got a turning text ring |
+| Under the hero | `keycap-marquee.tsx`: phrases on keycaps loop on a tilted yellow band |
+| Header | Plain nav links roll their label on hover |
+| Footer | Rebuilt as a blue panel with pill labels, big links and a cropped cream wordmark carrying stickers. The gradient `.wordmark-brand` rule was removed |
+| Navbar | After the Moxie reference: no full-width bar. Logo on the start side (white backing, no outline), links in a centred sticker pill, yellow CTA on the end side. Phones: logo and menu button only (the drawer carries the CTA). The announcement strip from the reference was left out: the brief removed our banner and there is no approved copy for one |
+| Chunky titles | After the Moxie reference: section headings, the hero question and answer, and the step names in Bricolage Grotesque, extra-bold, sentence case (capitals tried, then dropped at the client's request) (`.title-chunky`, `text-chunky`, `text-chunky-sm`). One short phrase per title sits on a tilted sticker box (`MarkedText` in `frame.tsx`, `.title-mark`); the box never wraps and keeps trailing punctuation with it. Archivo Expanded was tried and dropped: the client wants Bricolage for titles |
+| How it works | Moxie-style cards: yellow, ink and teal fills, "01" numbers, the scene on a white panel, chunky step names, and a scalloped corner badge (`steps[].badge`) that pops on and turns slowly (`.step-badge`) |
+| Audience tabs | After the Moxie curriculum layout: folder tabs ("01 Sponsors") on one panel tinted per role (pale yellow, mint, pale coral), the active tab in the panel tint; inside, an eyebrow, the benefit as a chunky title, the questions as a numbered list, a yellow "Show me how", and a turning "role by role" badge in the corner (a photo was tried and removed at the client's request). The tab row does not scroll. Same ARIA tabs and keyboard handling as before |
+| Navbar, second pass | Solid strip in the page colour (content no longer shows behind it), plain logo, bigger CTA (48px, headline type). The link pill and three-part grid start at `lg`; below that, logo, CTA (from `sm`) and the menu button |
+| Responsive pass | Checked at 360, 390, 768, 1024, 1280 and 1440: no horizontal overflow at any width. Hero sticker scatter now starts at `xl` (it crowded the headline at 1024), with the photo row below that; the hero headline is capped at 600px from `xl` so it wraps to three lines clear of the stickers; step cards go three-up only from `xl`; the audience corner badge is hidden on phones so the title gets the full width |
+| Page frame | Hairline rails down the column sides and hairlines between sections removed (client feedback: "remove the lines"). `container` and `Section` in `frame.tsx`, and the demo section |
+| Phone menu | BoardUI Drawer `placement="top"`: as tall as its content, not the full screen |
+| CTA buttons | Every yellow primary (`.button-glow`) is set in the display face, bold |
+| Pain cards | Each fix face has its own colour (teal, yellow, coral, light blue) and the front icon tile is tinted to match (`CARD_TONES`) |
+| Phone hero | Answer highlighter follows the words instead of filling the row; PAID stamp hidden below `sm` (it covered the dots; confetti still plays); people stickers spaced with a gap, no tags |
+| Copy | `hero.keys`, `hero.ring`, `hero.marquee`, and the footer's labels and sticker lines, all in `content/landing.ts` |
+
+The 3D pieces are drawn in the sticker language (ink outline, down-right
+offset "side" layer) rather than true isometric, so they sit with the photo
+stickers. Their sides carry a two-colour gradient from the brand ramps.
+
+Checked: `tsc`, `lint`, production build; headless Chrome at 1440, 1024 and
+390 px, with and without reduced motion; key presses sampled from computed
+styles (P, A, I, D each reach the full 5px 7px press in turn). Not checked:
+Safari, Firefox, a screen reader.
+
 ---
 
 ## Sprint 8: client brief, new landing flow, Resend (2026-11-18)

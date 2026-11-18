@@ -17,7 +17,7 @@ import { LazyDemoForm } from "./lazy-widgets";
  */
 export function CtaBand() {
   return (
-    <section id="demo" className="scroll-mt-16 border-t border-separator-border">
+    <section id="demo" className="scroll-mt-16">
       <div className={cx(container, "pt-16 lg:pt-24")}>
         <InView className="relative rounded-3xl border-2 border-text-primary bg-accent-100 p-3 shadow-sticker-lg sm:rounded-[2.5rem] sm:p-8 lg:p-12">
           <div className="relative grid gap-10 text-start lg:grid-cols-12 lg:gap-12">

@@ -19,7 +19,7 @@ site of this kind) can start from here instead of from scratch.
 2. **Semantic tokens only.** No hex values and no raw palette classes in components.
    Brand literals live in exactly one file: `styles/brand.css`.
 3. **Copy lives in `content/landing.ts`.** Components do not hold marketing copy.
-4. **One staged animation in the hero** (the photo stickers settling in; was the isometric scene). Below it, card
+4. **One staged animation in the hero** (the photo stickers settling in; was the isometric scene). The hero's small 3D pieces (keys, bubble, ring) loop quietly on one shared cycle. Below it, card
    illustrations may loop quietly while on screen; everything else moves only
    in response to the visitor (scrolling, hovering, clicking).
    Timings come from `.claude/skills/boardui/references/motion.md`.

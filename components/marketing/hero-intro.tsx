@@ -10,8 +10,11 @@ import { cx } from "@/utils/cx";
 import { track } from "@/utils/track";
 import { Confetti } from "./confetti";
 import { PaidStamp } from "./doodles";
+import { MarkedText, type MarkTone } from "./frame";
 
 const QUESTIONS = hero.questions;
+/** Sticker-box colour for each question's highlighted phrase. */
+const MARK_ORDER: MarkTone[] = ["coral", "sun", "teal", "coral"];
 /** Question 1, answer, question 2, answer, … : two steps per question. */
 const STEPS = QUESTIONS.length * 2;
 
@@ -76,14 +79,20 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
       <h1
         className={cx(
           "hero-settle grid text-hero text-balance text-text-primary",
-          centered && "mx-auto max-w-[16ch] justify-items-center text-center text-poster",
+          centered && "title-chunky mx-auto max-w-[18ch] justify-items-center text-center text-chunky xl:max-w-[600px]",
         )}
       >
         {QUESTIONS.map((line, index) => {
           const active = !showingAnswer && index === question;
           return (
             <span key={line} aria-hidden={!active} className={lineClass(active)}>
-              {line}
+              {/* Keyed on `active` so the sticker box pops in each time its line shows. */}
+              <MarkedText
+                key={String(active)}
+                text={line}
+                mark={centered ? hero.questionMarks[index] : undefined}
+                tone={MARK_ORDER[index % MARK_ORDER.length]}
+              />
             </span>
           );
         })}
@@ -94,7 +103,9 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
             the slot stays the height of the longest question. */}
         <span
           aria-hidden={!showingAnswer}
-          className={cx(lineClass(showingAnswer), "text-section text-start", centered && "justify-self-center")}
+          // Chunky caps like the questions, a size down (text-chunky-sm) so the
+          // PAID stamp beside it clears the keycaps.
+          className={cx(lineClass(showingAnswer), centered ? "text-chunky-sm" : "text-section", "text-start", centered && "justify-self-center")}
         >
           <span key={showingAnswer ? `answer-${step}` : "answer"} className="relative flex flex-col gap-2 sm:gap-3">
             {hero.answerParts.map((part, index) => (
@@ -106,7 +117,11 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
                 <span className="answer-tick flex size-8 shrink-0 items-center justify-center rounded-full border-2 border-text-primary bg-teal-400 text-text-primary sm:size-10">
                   <RiCheckLine className="size-4 sm:size-5" aria-hidden="true" />
                 </span>
-                <span className={cx(index === hero.answerParts.length - 1 && "concept-highlight")}>{part}</span>
+                {/* Inline inner span: the highlighter follows the words, line by
+                    line, instead of filling the row to the screen edge. */}
+                <span>
+                  <span className={cx(index === hero.answerParts.length - 1 && "concept-highlight")}>{part}</span>
+                </span>
               </span>
             ))}
             {/* The brief's "paid tick or confetti moment": once the last row
@@ -115,7 +130,9 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
             {showingAnswer ? (
               <span aria-hidden="true" className="answer-paid pointer-events-none absolute end-0 -bottom-14 sm:end-auto sm:start-full sm:bottom-0 sm:ms-4">
                 <Confetti />
-                <PaidStamp className="concept-pop -rotate-12 text-headline-semibold sm:text-title-2-semibold" />
+                {/* Phones: no room beside the rows, and below them it would
+                    cover the progress dots, so only the confetti plays. */}
+                <PaidStamp className="concept-pop -rotate-12 text-headline-semibold max-sm:hidden sm:text-title-2-semibold" />
               </span>
             ) : null}
           </span>

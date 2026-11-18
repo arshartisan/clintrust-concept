@@ -1,20 +1,62 @@
 "use client";
 
 import { useRef, useState, type KeyboardEvent } from "react";
-import { RiFundsLine, RiHospitalLine, RiQuestionLine, RiTeamLine } from "@remixicon/react";
-import { audienceCta, audiences } from "@/content/landing";
+import { RiArrowRightUpLine } from "@remixicon/react";
+import { ButtonLink } from "@/components/base/buttons/button";
+import { audienceCta, audienceLabels, audiences } from "@/content/landing";
 import { cx } from "@/utils/cx";
 import { track } from "@/utils/track";
-import { ArrowLink } from "./arrow-link";
 import { Section, SectionHeading } from "./frame";
+import { InView } from "./in-view";
 import { Reveal } from "./reveal";
 
-const ICONS = { sponsors: RiFundsLine, cros: RiTeamLine, sites: RiHospitalLine } as const;
+/**
+ * One light tint per role (client: lighter panel colours). The panel and its
+ * active tab share `panel`; an inactive tab previews its role in `tab`, a step
+ * deeper. `accent` colours the eyebrow and the numbers (AA on the tint).
+ */
+const TONES = [
+  { panel: "bg-accent-100", tab: "bg-accent-200", hover: "hover:bg-accent-100", accent: "text-accent-700" },
+  { panel: "bg-teal-100", tab: "bg-teal-200", hover: "hover:bg-teal-100", accent: "text-teal-700" },
+  { panel: "bg-coral-100", tab: "bg-coral-200", hover: "hover:bg-coral-100", accent: "text-coral-700" },
+] as const;
+
+const number = (index: number) => String(index + 1).padStart(2, "0");
+
+/** The panel's number in its top corner, with a ring of text turning round it. */
+function RingBadge({ id, value }: { id: string; value: string }) {
+  return (
+    <InView className="absolute end-8 top-8 size-28 max-sm:hidden lg:size-32">
+      <span aria-hidden="true" className="absolute inset-0 rounded-full border-2 border-text-primary bg-background-primary-default" />
+      <svg viewBox="0 0 200 200" className="ring-spin absolute inset-0 size-full overflow-visible" aria-hidden="true">
+        <defs>
+          <path id={`ring-${id}`} d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0" />
+        </defs>
+        <text className="fill-text-primary font-display text-[19px] font-bold tracking-[0.2em] uppercase">
+          <textPath href={`#ring-${id}`} textLength="455" lengthAdjust="spacing">
+            {audienceLabels.ring}
+          </textPath>
+        </text>
+      </svg>
+      <span className="absolute inset-[30%] flex items-center justify-center rounded-full border-2 border-text-primary bg-accent-300 font-display text-title-3-bold text-text-primary">
+        {value}
+      </span>
+    </InView>
+  );
+}
 
 /**
  * Audience tabs (sprint 8; replaces the three side-by-side columns): Sponsors,
  * CROs and Sites, each with its own questions and one benefit (the figures
  * were dropped in sprint 9 to narrow the content).
+ *
+ * Sprint 9 layout, after the client's Moxie curriculum reference: folder tabs
+ * ("01 Sponsors") sitting on one big panel, lightly tinted per role (TONES);
+ * the active tab takes the panel's tint so it reads as the front folder. Inside: an eyebrow, the
+ * benefit as a chunky title, the questions as a numbered list, a yellow
+ * action on the start side, the questions as a numbered list on the end
+ * side, and a turning "role by role" badge in the top corner. (A photo was
+ * tried there and removed at the client's request.)
  *
  * A hand-built ARIA tabs pattern rather than BoardUI's segmented control: the
  * segmented control rides on react-aria, which the site deliberately keeps out
@@ -51,17 +93,21 @@ export function Audiences() {
   return (
     <Section id="audiences">
       <Reveal>
-        <SectionHeading title="Sponsor, CRO or site?" continuation="Same record, different headaches." />
+        <SectionHeading title="Sponsor, CRO or site?" continuation="Same record, different headaches." mark="headaches" markTone="teal" />
       </Reveal>
 
+      {/* Folder tabs. The row overlaps the panel's top border by its 2px
+          (-mb-0.5): inactive tabs keep their bottom border, which lands on
+          the panel's; the active tab has none and its fill covers the
+          panel's border, so it joins the panel. The first tab is flush with
+          the panel's start edge, whose top corner is square. */}
       <div
         role="tablist"
         aria-label="Who you are"
         onKeyDown={onKeyDown}
-        className="mt-12 inline-flex max-w-full gap-1 overflow-x-auto rounded-full border border-border-button-default bg-background-secondary-default p-1"
+        className="relative z-10 mt-12 -mb-0.5 flex max-w-full items-end gap-1 sm:gap-2"
       >
         {audiences.map((audience, index) => {
-          const Icon = ICONS[audience.id];
           const selected = index === active;
           return (
             <button
@@ -77,13 +123,15 @@ export function Audiences() {
               tabIndex={selected ? 0 : -1}
               onClick={() => select(index)}
               className={cx(
-                "inline-flex h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full px-5 transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring",
+                "inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-t-2xl border-2 border-text-primary px-3 text-body-medium transition-colors duration-200 motion-reduce:transition-none sm:gap-2.5 sm:px-5 outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring",
                 selected
-                  ? "bg-background-primary-default text-body-medium text-text-primary shadow-card"
-                  : "text-body-regular text-text-secondary hover:text-text-primary",
+                  ? cx(TONES[index % TONES.length].panel, "h-13 border-b-0 text-text-primary sm:h-15")
+                  : cx(TONES[index % TONES.length].tab, "h-11 text-text-primary sm:h-13", TONES[index % TONES.length].hover),
               )}
             >
-              <Icon className={cx("size-[18px]", selected ? "text-coral-600" : "text-foreground-icon-tertiary")} aria-hidden="true" />
+              <span className={cx("font-display text-body-semibold tabular-nums", selected ? TONES[index % TONES.length].accent : "text-text-primary")}>
+                {number(index)}
+              </span>
               {audience.label}
             </button>
           );
@@ -97,44 +145,49 @@ export function Audiences() {
           id={`audience-panel-${audience.id}`}
           aria-labelledby={`audience-tab-${audience.id}`}
           hidden={index !== active}
-          className="audience-panel mt-6 grid gap-3 lg:grid-cols-12"
+          className={cx("audience-panel relative grid gap-8 rounded-[2rem] rounded-ss-none border-2 border-text-primary p-6 shadow-sticker-lg sm:p-10 lg:grid-cols-2 lg:gap-12 lg:p-12", TONES[index % TONES.length].panel)}
         >
-          {/* Questions: numbered cards that stretch to the benefit card's height. */}
-          <ol className="flex flex-col gap-3 lg:col-span-7">
-            {audience.questions.map((question, questionIndex) => (
-              <li
-                key={question}
-                className="flex flex-1 flex-col justify-between gap-8 rounded-[2rem] border-2 border-text-primary shadow-sticker bg-coral-50 p-6 sm:p-8"
-              >
-                <span className="flex items-center justify-between gap-4">
-                  <span aria-hidden="true" className="text-figure text-text-tertiary tabular-nums">
-                    {String(questionIndex + 1).padStart(2, "0")}
-                  </span>
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-background-primary-default text-foreground-icon-secondary shadow-xs">
-                    <RiQuestionLine className="size-5" aria-hidden="true" />
-                  </span>
-                </span>
-                <p className="max-w-[26ch] text-subsection text-balance text-text-primary">{question}</p>
-              </li>
-            ))}
-          </ol>
-
-          {/* Benefit: the same pale teal card as Proof, figure set large. */}
-          <div className="@container flex flex-col rounded-[2rem] border-2 border-text-primary shadow-sticker bg-teal-100 p-6 sm:p-8 lg:col-span-5 lg:p-10">
-            <p className="inline-flex items-center gap-2 self-start rounded-md bg-background-primary-default/70 px-2.5 py-1.5 text-caption-1-semibold tracking-wider text-text-primary uppercase">
-              <span aria-hidden="true" className="size-2.5 rounded-[2px] bg-teal-500" />
-              For {audience.label}
+          <div className="flex flex-col">
+            <p className={cx("text-caption-1-semibold tracking-wider uppercase", TONES[index % TONES.length].accent)}>
+              {audienceLabels.eyebrow} {audience.label} · {number(index)}
             </p>
-            <p className="mt-10 mb-10 max-w-[24ch] text-subsection text-balance text-text-primary">{audience.benefit}</p>
-            <ArrowLink
+            <h3 className="title-chunky mt-5 max-w-[16ch] text-section text-balance text-text-primary sm:pe-28 lg:pe-0">{audience.benefit}</h3>
+            <ButtonLink
               href={audienceCta.href}
+              trailingIcon={RiArrowRightUpLine}
+              className="mt-8 self-start max-lg:hidden"
               data-track="request_demo_click"
               data-track-location={`audiences-${audience.id}`}
-              className="mt-auto"
             >
               {audienceCta.label}
-            </ArrowLink>
+            </ButtonLink>
           </div>
+
+          <div className="flex flex-col lg:justify-end lg:pt-32">
+            {/* The questions, as a numbered list with hairlines between. */}
+            <ol className="border-b border-text-primary/15">
+              {audience.questions.map((question, questionIndex) => (
+                <li key={question} className="flex gap-5 border-t border-text-primary/15 py-5">
+                  <span aria-hidden="true" className={cx("font-display text-body-semibold tabular-nums", TONES[index % TONES.length].accent)}>
+                    {number(questionIndex)}
+                  </span>
+                  <span className="text-lead text-text-primary">{question}</span>
+                </li>
+              ))}
+            </ol>
+            {/* Phones and tablets: the action after the questions. */}
+            <ButtonLink
+              href={audienceCta.href}
+              trailingIcon={RiArrowRightUpLine}
+              className="mt-8 self-start lg:hidden"
+              data-track="request_demo_click"
+              data-track-location={`audiences-${audience.id}`}
+            >
+              {audienceCta.label}
+            </ButtonLink>
+          </div>
+
+          <RingBadge id={audience.id} value={number(index)} />
         </div>
       ))}
     </Section>

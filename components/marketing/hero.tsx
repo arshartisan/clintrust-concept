@@ -26,7 +26,7 @@ export function Hero() {
 
       <HeroDecor />
 
-      <div className="pointer-events-none relative z-10 mx-auto flex w-full flex-col items-center justify-center px-6 py-16 sm:px-8 sm:py-20 lg:min-h-[max(720px,calc(100svh-4.5rem))] lg:py-20">
+      <div className="pointer-events-none relative z-10 mx-auto flex w-full flex-col items-center justify-center px-6 py-16 sm:px-8 sm:py-20 xl:min-h-[max(720px,calc(100svh-5rem))] xl:py-20">
         {/* Click-through outside the text, so the stickers behind still get hover. */}
         <div className="pointer-events-auto w-full max-w-[760px]">
           <HeroIntro centered />

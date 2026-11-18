@@ -7,20 +7,62 @@ import { Section, SectionHeading } from "./frame";
 import { Reveal } from "./reveal";
 
 /**
- * Record, Reconcile, Pay as three animated cards (sprint 4).
+ * Record, Reconcile, Pay as three cards (sprint 4; restyled in sprint 9 after
+ * the client's Moxie card reference).
  *
- * This replaced the scroll-pinned step list from sprint 3. Each card has a
- * step label, a small animated scene, then the step's name and one line.
- * The steps are a real sequence, so they are numbered.
+ * Each card is a bold colour block: a small "01" number, the step's animated
+ * scene on a white panel, the step name in chunky caps and one line. A
+ * scalloped badge with one word overhangs the top corner, tilted, and pops on
+ * as the card scrolls in. The steps are a real sequence, so they are numbered.
  *
  * A server component: no script of its own. The scenes are markup plus the
  * `how-*` classes in styles/brand.css, switched on by the card's InView wrapper
- * while it is on screen.
+ * while it is on screen; the badge uses `.step-badge`.
  */
 
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
 const SCENES = [RecordScene, ReconcileScene, PayScene];
+
+/**
+ * Card fill, text colours and badge colour per step. The dark card uses the
+ * ink as its fill with white text (not `.dark`, so the white scene panel keeps
+ * its light tokens).
+ */
+const CARD_STYLES = [
+  { card: "bg-accent-300", number: "text-text-primary", title: "text-text-primary", text: "text-text-primary", badge: "fill-coral-500", badgeText: "text-text-white" },
+  { card: "bg-text-primary", number: "text-text-white", title: "text-text-white", text: "text-navy-300", badge: "fill-accent-300", badgeText: "text-text-primary" },
+  { card: "bg-teal-300", number: "text-text-primary", title: "text-text-primary", text: "text-text-primary", badge: "fill-coral-500", badgeText: "text-text-white" },
+] as const;
+
+/** A scalloped disc: arcs bulging out between points on a circle. */
+const SCALLOP = (() => {
+  const bumps = 14;
+  const radius = 44;
+  const point = (index: number) => {
+    const angle = (Math.PI * 2 * index) / bumps - Math.PI / 2;
+    return [50 + radius * Math.cos(angle), 50 + radius * Math.sin(angle)].map((n) => n.toFixed(2)).join(" ");
+  };
+  const bump = (radius * Math.sin(Math.PI / bumps)) * 1.08;
+  let d = `M${point(0)}`;
+  for (let index = 1; index <= bumps; index++) d += ` A${bump.toFixed(2)} ${bump.toFixed(2)} 0 0 1 ${point(index)}`;
+  return `${d} Z`;
+})();
+
+function StepBadge({ label, fill, text, index }: { label: string; fill: string; text: string; index: number }) {
+  return (
+    <span
+      aria-hidden="true"
+      style={delay(300 + index * 150)}
+      className="step-badge absolute -end-2 -top-7 flex size-24 sm:-end-4 items-center justify-center sm:size-28"
+    >
+      <svg viewBox="0 0 100 100" className="step-badge-disc absolute inset-0 size-full overflow-visible">
+        <path d={SCALLOP} className={cx("stroke-text-primary", fill)} strokeWidth="2.5" strokeLinejoin="round" />
+      </svg>
+      <span className={cx("relative -rotate-12 font-display text-title-3-bold sm:text-title-2-bold", text)}>{label}</span>
+    </span>
+  );
+}
 
 export function HowItWorks() {
   return (
@@ -29,37 +71,38 @@ export function HowItWorks() {
         <SectionHeading
           title="Record, reconcile, pay."
           continuation="Three plain steps. One record. Nothing to chase."
+          mark="chase"
+          markTone="coral"
         />
       </Reveal>
 
-      <ol className="mt-14 grid gap-4 md:grid-cols-3">
+      {/* pt: room for the badges that overhang the cards' top edge. */}
+      <ol className="mt-10 grid gap-x-5 gap-y-12 pt-6 xl:grid-cols-3">
         {steps.map((step, index) => {
           const Scene = SCENES[index];
+          const style = CARD_STYLES[index % CARD_STYLES.length];
           return (
             <li key={step.id} className="scroll-pop min-w-0">
-              <InView className="flex h-full flex-col rounded-3xl border-2 border-text-primary shadow-sticker bg-background-primary-default p-5">
-                <div className="flex items-center justify-between">
-                  <p className="text-body-2-medium text-text-secondary">Step {index + 1}</p>
-                  {/* Three ticks; the lit ones show how far along the chain this step is. */}
-                  <span className="flex gap-0.5" aria-hidden="true">
-                    {steps.map((other, tick) => (
-                      <span
-                        key={other.id}
-                        className={cx(
-                          "h-3 w-0.5 rounded-full",
-                          tick <= index ? "bg-accent-400" : "bg-background-tertiary-default",
-                        )}
-                      />
-                    ))}
-                  </span>
-                </div>
+              <InView
+                className={cx(
+                  "relative flex h-full flex-col rounded-[2rem] border-2 border-text-primary p-6 shadow-sticker-lg sm:p-7",
+                  // Hover presses the card down into its shadow, as if tapped.
+                  "transition-[translate,box-shadow] duration-150 ease-out hover:translate-x-1.5 hover:translate-y-1.5 hover:shadow-none motion-reduce:transition-none",
+                  style.card,
+                )}
+              >
+                <StepBadge label={step.badge} fill={style.badge} text={style.badgeText} index={index} />
 
-                <div className="relative mt-4 h-56 overflow-hidden rounded-2xl bg-background-secondary-default">
+                <p className={cx("text-body-medium tabular-nums", style.number)}>
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+
+                <div className="relative mt-5 h-52 overflow-hidden rounded-2xl border-2 border-text-primary bg-background-primary-default">
                   <Scene />
                 </div>
 
-                <h3 className="mt-6 text-title-2-medium text-text-primary">{step.name}</h3>
-                <p className="mt-2 mb-2 max-w-[38ch] text-body-regular text-pretty text-text-secondary">{step.text}</p>
+                <h3 className={cx("title-chunky mt-7 text-title-1-bold", style.title)}>{step.name}</h3>
+                <p className={cx("mt-3 max-w-[38ch] text-lead text-pretty", style.text)}>{step.text}</p>
               </InView>
             </li>
           );

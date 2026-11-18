@@ -10,6 +10,8 @@ import {
   SquiggleDoodle,
   TickDoodle,
 } from "./doodles";
+import { HeroBubble, HeroKeys } from "./hero-keys";
+import { InView } from "./in-view";
 import { PhotoSticker } from "./photo-sticker";
 
 const [coordinator, financeLead, investigator] = hero.people;
@@ -71,10 +73,10 @@ function Starburst({ label, className }: { label: string; className?: string }) 
  * stickers (coins, calendars, ticks) plus real people … Fewer interface
  * mockups"). Replaces the interface-style progress and invoice cards.
  *
- * Desktop (lg+): three people on tilted photo stickers, a starburst sticker
+ * Desktop (xl+, 1280px; below that the stickers crowded the headline): three people on tilted photo stickers, a starburst sticker
  * and hand-drawn doodles spread across the full width, with an
  * arrow pointing at "Yes, that's me". Stickers lift and straighten on hover.
- * Phones and tablets: the three photo stickers in a row under the buttons
+ * Phones, tablets and small laptops: the three photo stickers in a row under the buttons
  * (HeroPeopleRow) and two doodles.
  *
  * Decorative: hidden from assistive technology; the brief's message is all in
@@ -86,10 +88,10 @@ export function HeroDecor() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0">
       {/* Phones and tablets: two doodles near the headline. */}
-      <CoinDoodle className="concept-float absolute start-[5%] top-[3%] size-11 text-accent-500 lg:hidden" />
-      <SparkleDoodle className="absolute end-[7%] top-[5%] size-8 text-coral-500 lg:hidden" />
+      <CoinDoodle className="concept-float absolute start-[5%] top-[3%] size-11 text-accent-500 xl:hidden" />
+      <SparkleDoodle className="absolute end-[7%] top-[5%] size-8 text-coral-500 xl:hidden" />
 
-      <div className="hidden lg:block">
+      <div className="hidden xl:block">
         {/* People. */}
         <Piece className="start-[3%] top-[9%] w-[150px] xl:w-[190px]" enter={150} drift={-90}>
           <PhotoSticker {...coordinator} tilt={-6} tone="sun" sizes="190px" className={sticker} />
@@ -102,8 +104,30 @@ export function HeroDecor() {
         </Piece>
 
         {/* Stickers. */}
-        <Piece className="end-[9%] top-[66%]" enter={800} drift={-100} bob={-3.4}>
-          <Starburst label={hero.burst} className={cx("size-28 rotate-[8deg] xl:size-32", sticker)} />
+        <Piece className="end-[9%] top-[69%]" enter={800} drift={-100} bob={-3.4}>
+          <InView className="relative">
+            {/* Text ring turning round the starburst (after the Moxie badge). */}
+            <svg viewBox="0 0 200 200" className="ring-spin pointer-events-none absolute -inset-7 size-[calc(100%+3.5rem)] overflow-visible xl:-inset-8 xl:size-[calc(100%+4rem)]" aria-hidden="true">
+              <defs>
+                <path id="hero-ring" d="M100 100m-86 0a86 86 0 1 1 172 0a86 86 0 1 1-172 0" />
+              </defs>
+              <text className="fill-text-primary font-display text-[15px] font-bold tracking-[0.18em] uppercase">
+                <textPath href="#hero-ring" textLength="530" lengthAdjust="spacing">
+                  {hero.ring}
+                </textPath>
+              </text>
+            </svg>
+            <Starburst label={hero.burst} className={cx("size-28 rotate-[8deg] xl:size-32", sticker)} />
+          </InView>
+        </Piece>
+
+        {/* 3D pieces (after the client's keycap reference): PAID typed out
+            on keycaps by a cursor, and a chat bubble that ticks once it is. */}
+        <Piece className="end-[6%] top-[46%] xl:end-[6.5%]" enter={950} drift={-120} float={false}>
+          <HeroKeys />
+        </Piece>
+        <Piece className="start-[8%] top-[45%] xl:start-[16%] xl:top-[44%]" enter={1050} drift={-70} bob={-2.2}>
+          <HeroBubble className="-rotate-6" />
         </Piece>
 
         {/* Doodles. */}
@@ -134,17 +158,19 @@ export function HeroDecor() {
   );
 }
 
-/** Phones and tablets: the three people in a row of tilted stickers, under the buttons. */
+/** Below xl: the three people in a row of tilted stickers, under the buttons. */
 export function HeroPeopleRow() {
   return (
-    <div aria-hidden="true" className="mt-12 flex justify-center lg:hidden">
-      <div className="hero-in w-[30%] max-w-[150px]" style={{ "--d": "250ms" } as CSSProperties}>
+    // gap, not overlap: overlapping neighbours clipped each other's captions.
+    <div aria-hidden="true" className="mt-12 flex justify-center gap-2 sm:gap-4 xl:hidden">
+      <div className="hero-in w-[31%] max-w-[150px]" style={{ "--d": "250ms" } as CSSProperties}>
         <PhotoSticker {...coordinator} tag={undefined} tilt={-6} tone="sun" size="sm" sizes="150px" />
       </div>
-      <div className="hero-in -mx-2 mt-6 w-[30%] max-w-[150px]" style={{ "--d": "400ms" } as CSSProperties}>
-        <PhotoSticker {...financeLead} tilt={3} tone="teal" size="sm" sizes="150px" />
+      <div className="hero-in mt-6 w-[31%] max-w-[150px]" style={{ "--d": "400ms" } as CSSProperties}>
+        {/* No tag sticker here: at this size it ran off the card. */}
+        <PhotoSticker {...financeLead} tag={undefined} tilt={3} tone="teal" size="sm" sizes="150px" />
       </div>
-      <div className="hero-in w-[30%] max-w-[150px]" style={{ "--d": "550ms" } as CSSProperties}>
+      <div className="hero-in w-[31%] max-w-[150px]" style={{ "--d": "550ms" } as CSSProperties}>
         <PhotoSticker {...investigator} tag={undefined} tilt={-2} tone="coral" size="sm" sizes="150px" />
       </div>
     </div>

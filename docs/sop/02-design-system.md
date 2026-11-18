@@ -135,6 +135,7 @@ Two ramps:
 
 | Style | Size | Leading | Tracking | Weight |
 | --- | --- | --- | --- | --- |
+| `text-chunky` / `text-chunky-sm` | 36 to 70px / 24 to 38px (fluid) | 1 / 1.05 | -0.02em | 800. Hero question and answer, with `.title-chunky` (Bricolage, extra-bold, sentence case). Section headings use `.title-chunky` + `text-section` |
 | `text-hero` | 36 to 52px (fluid) | 1.04 | -0.03em | 500 |
 | `text-section` | 30 to 44px (fluid) | 1.12 | -0.024em | 500 |
 | `text-subsection` | 24px | 1.25 | -0.02em | 500 |
@@ -160,10 +161,10 @@ Rules:
 
 The page frame is in `components/marketing/frame.tsx`.
 
-- One column, max 1200px, with hairline **rails** on its left and right edges
-  from the `lg` breakpoint up. Header, every section and the footer share it,
-  so the rails run the full height of the page.
-- Sections are separated by a top hairline. Vertical padding is `py-20`, `lg:py-28`.
+- One column, max 1200px, shared by the header, every section and the footer.
+  No side rails and no hairlines between sections (removed in sprint 9 at the
+  client's request); spacing and the sticker cards separate sections.
+  Vertical padding is `py-20`, `lg:py-28`.
 - Inside a section, a 12-column grid. Text usually takes 5 columns, the
   visual 7. Content is left-aligned everywhere.
 - **Grids share borders.** For a set of equal items, use the hairline-grid
@@ -195,6 +196,11 @@ library in the initial bundle (see `05-performance.md` for why).
 | Capital | The sweep, the gauge and the bars draw themselves once on entering the viewport | `.draw-in` (stroke, 1400ms), `.grow-in` (bar, 900ms) |
 | APAC bento | Bars slide, dial needle rocks, dashes flow, dots pulse | `.how-row`, `.how-sway`, `.flow-dash`, `.iso-blink` |
 | Call-to-action panel | Corner glows drift | `.cta-drift`, 8s alternate |
+| Hero 3D pieces (sprint 9) | Keycaps type PAID (each face presses into its side), a cursor clicks the D, a chat bubble goes from typing dots to a tick. One shared 5s cycle | `.hk-key`, `.hk-cursor`, `.hk-dots` / `.hk-tick` / `.hk-dot` |
+| Hero starburst | A ring of text turns round it (after the Moxie badge reference) | `.ring-spin`, 22s linear |
+| Keycap strip under the hero | Phrases on 3D keycaps loop sideways on a tilted band; pauses on hover (after overflow.sui.io) | `.km-track`, 42s linear, slides by half its width |
+| Nav and footer links | Label rolls up and a copy rolls in from below on hover / focus | `.roll` + `.roll-host`, 300ms |
+| Footer | Wordmark letters rise in turn once, stickers pop on, then bob | `.ft-letter`, `.ft-sticker`, `.ft-bob` |
 | Platform cards | Each illustration loops while its card is on screen: parts float, light pools breathe, beams pulse | `.iso-pulse`, `.iso-blink`, `.iso-float`, `.iso-step`, `.iso-halo`, `.iso-beam` |
 
 Rules:
@@ -524,56 +530,33 @@ at the client's request, and the `pinned:` variant was removed with it.
 
 ### Footer
 
-`components/marketing/site-footer.tsx`. Logo row with the standards as small
-tags, a divider, a "Reach out to us" card beside the link columns, a large
-faded wordmark, then the legal line. No social icons: there are no ClinTrust
-social accounts on record to link to. Add them to the logo row when there are.
+`components/marketing/site-footer.tsx` (sprint 9, after the client's "truus"
+footer reference). One rounded panel in the logo blue (`bg-brand-blue-500`,
+ink outline, `shadow-sticker-lg`). Each column has a small white pill label
+over big white display links (`text-title-1-bold`); the links' labels roll up
+on hover (`.roll`). The contact column carries "Request a demo", a squiggle,
+and the standards as outline pills. No social icons: there are no ClinTrust
+social accounts on record.
 
-The wordmark is generated content (`::before`), so it is skipped by assistive
-technology and by contrast checks. Its lower part fades out into the page
-(mask from 8% to 82%), and the legal line sits on its own row below it, never
-over the letters. Both footer hairlines (under the logo row and above the
-legal line) run rail to rail: negative margins cancel the container padding. It is filled with the logo's teal-to-blue
-gradient at half strength (`.wordmark-brand`). Together with the active-step
-rail this is one of the few places the logo gradient is used outside the logo.
+The bottom of the panel is a huge cream wordmark (`text-wordmark`,
+`text-accent-50`), pulled down so the panel's edge crops the letters, with
+stickers stuck on it: a starburst, a coin, a PAID stamp, a tick and the logo
+mark. Phones keep only the starburst and the tick, lifted above the letters.
+Wordmark and stickers are `aria-hidden`. The legal line sits under the panel.
+Sticker copy is `footer.stickers` in `content/landing.ts`.
 
 ### Navbar
 
-`components/marketing/site-header.tsx`. Sticky, flush to the top of the
-screen at every size, with no top border. From `md` up it is as wide as the
-page column (1200px, so it lines up with the rails) with only its bottom
-corners rounded (28px), hanging from the top edge. Below `md` it is a
-square-edged full-width strip with a bottom hairline (`.nav-glass.nav-bar`
-in `brand.css`). Sprint 7 replaced the floating pill, which sat 12px down. Its glass
-surface is `.nav-glass` in `brand.css`: 66 to 80% opaque with a 22px blur and
-a bright top rim. Do not make it more transparent: below that the links are
-unreadable while the bar passes over a dark section. Entries with `items` in
-`nav` (`content/landing.ts`) are dropdowns.
-
-A dropdown is a 640px glass panel centred under its button: a small heading
-(`heading` in the nav data) and a two-column list of rows, after the identyca
-reference. Each row is a 40px icon tile (`icon`), a title and a one-line
-description (`description`), all set per item in `nav`. On hover the row takes
-the secondary surface and the tile lifts to the primary surface. The panel is nearly opaque (`.nav-glass.nav-menu`), not blurred: it
-sits inside the bar, which is already a backdrop-filter surface, and a nested
-backdrop-filter cannot see the page behind its parent. There is no "Log in"
-item, because the site has no login.
-
-The dropdowns are hand-built disclosure buttons, **not** BoardUI's `dropdown`.
-This is a deliberate exception to "install, do not rebuild": that component
-loads react-aria (about 75 KB), and the header is on every page. Behaviour
-kept: click or Enter toggles, hover opens for a mouse, Escape closes and
-returns focus, focus leaving or a press elsewhere closes.
-
-On phones (below `md`) the menu button opens BoardUI's `Drawer`
-(`components/marketing/mobile-nav.tsx`): a 320px panel from the end edge over
-a dimmed page, with the logo and a close button, the same links grouped in
-one column, and the demo button in the footer. The drawer traps focus, locks
-page scroll, and closes on Escape, a backdrop press, or a link. It does use
-react-aria, so `site-header.tsx` loads it with `React.lazy`: the chunk is
-fetched when the menu button is first touched, hovered or focused, and nothing
-is added to the first load. An earlier version expanded a panel inside the
-pill itself.
+`components/marketing/site-header.tsx` (sprint 9, after the client's Moxie
+reference). Sticky, but no full-width bar: three pieces float over the page
+inside the 1200px column. The logo on the start side on a white backing, the
+links in a centred sticker pill (`.nav-glass`: ink outline, white, hard
+shadow; labels roll on hover with `.roll`), the yellow CTA on the end side.
+The strip is solid, in the page colour, so content never shows behind it.
+From `lg` up the row is a `1fr auto 1fr` grid, so the pill is truly centred.
+Below `lg`: logo, CTA (from `sm`) and the menu button; the menu,
+which is BoardUI's Drawer dropping from the top at content height
+(`mobile-nav.tsx`, loaded on first use).
 
 ## Writing
 
