@@ -65,8 +65,8 @@ export function WaitingCounter() {
               className={cx(
                 "scroll-pop flex flex-col rounded-3xl border-2 border-text-primary p-6 shadow-sticker sm:p-8",
                 isNew
-                  ? "bg-accent-100"
-                  : "bg-background-secondary-default",
+                  ? "bg-teal-50"
+                  : "bg-coral-50",
               )}
             >
               <p className="text-body-2-medium text-text-secondary">{row.label}</p>
@@ -74,7 +74,7 @@ export function WaitingCounter() {
               <p className="mt-4 flex items-baseline gap-2 text-text-primary">
                 {/* The rolling number is decorative; the sentence after it is what is read out. */}
                 {/* The prefix ("90–", "≤") joins once the count lands: "90–37" mid-count would read as nonsense. */}
-                <span aria-hidden="true" className="text-figure tabular-nums">
+                <span aria-hidden="true" className={cx("text-figure tabular-nums", isNew ? "text-teal-700" : "text-coral-700")}>
                   {finished ? row.prefix : null}
                   {shown}
                 </span>
@@ -92,7 +92,7 @@ export function WaitingCounter() {
                 {"from" in row ? (
                   // The 90 to 140 day range the old way usually lands in.
                   <span
-                    className="absolute inset-y-0 rounded-full bg-chart-8 opacity-30"
+                    className="absolute inset-y-0 rounded-full bg-coral-300 opacity-40"
                     style={{
                       insetInlineStart: `${(row.from / waiting.scaleDays) * 100}%`,
                       insetInlineEnd: `${100 - (row.days / waiting.scaleDays) * 100}%`,
@@ -100,13 +100,13 @@ export function WaitingCounter() {
                   />
                 ) : null}
                 <span
-                  className={cx("absolute inset-y-0 start-0 rounded-full", isNew ? "bg-accent-500" : "bg-foreground-icon-tertiary")}
+                  className={cx("absolute inset-y-0 start-0 rounded-full", isNew ? "bg-teal-500" : "bg-coral-500")}
                   style={{ width: `${(row.days / waiting.scaleDays) * 100 * shownProgress}%` }}
                 />
                 {isNew ? (
                   <span
                     className={cx(
-                      "absolute top-1/2 flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-accent-600 text-text-white shadow-md ring-4 ring-accent-100 transition-[opacity,scale] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] rtl:translate-x-1/2",
+                      "absolute top-1/2 flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-teal-600 text-text-white shadow-md ring-4 ring-teal-100 transition-[opacity,scale] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] rtl:translate-x-1/2",
                       finished ? "scale-100 opacity-100" : "scale-50 opacity-0",
                     )}
                     style={{ insetInlineStart: `${(row.days / waiting.scaleDays) * 100}%` }}

@@ -101,6 +101,13 @@ customer names. `hero-stickers.tsx` is no longer used on the home page.
   the headline font (Bricolage Grotesque, bold).
 - All motion off under reduced motion. Lighthouse mobile still 100 / 100,
   CLS 0.
+- Colour roles: coral and teal were barely used below the hero (yellow
+  ~94 uses, coral 15, teal 11). Now yellow = actions and highlights, coral =
+  the worry / old way, teal = the fix / verified / paid, applied to the pain
+  cards, waiting rows, audience tabs and how-it-works (see 02-design-system).
+  The last of the old logo blue (how-it-works step 1, inner-page meters,
+  ledger, advisor and principle cards) moved to yellow, coral or teal; the
+  unused isometric hero scene (`hero-scene.tsx`, `iso.tsx`) is deleted.
 - Body font: Manrope replaces Figtree (client request). Headlines stay
   Bricolage Grotesque. One import in `app/layout.tsx`.
 

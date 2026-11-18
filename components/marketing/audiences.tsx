@@ -83,7 +83,7 @@ export function Audiences() {
                   : "text-body-regular text-text-secondary hover:text-text-primary",
               )}
             >
-              <Icon className={cx("size-[18px]", selected ? "text-accent-600" : "text-foreground-icon-tertiary")} aria-hidden="true" />
+              <Icon className={cx("size-[18px]", selected ? "text-coral-600" : "text-foreground-icon-tertiary")} aria-hidden="true" />
               {audience.label}
             </button>
           );
@@ -104,7 +104,7 @@ export function Audiences() {
             {audience.questions.map((question, questionIndex) => (
               <li
                 key={question}
-                className="flex flex-1 flex-col justify-between gap-8 rounded-[2rem] border-2 border-text-primary shadow-sticker bg-background-secondary-default p-6 sm:p-8"
+                className="flex flex-1 flex-col justify-between gap-8 rounded-[2rem] border-2 border-text-primary shadow-sticker bg-coral-50 p-6 sm:p-8"
               >
                 <span className="flex items-center justify-between gap-4">
                   <span aria-hidden="true" className="text-figure text-text-tertiary tabular-nums">
@@ -120,9 +120,9 @@ export function Audiences() {
           </ol>
 
           {/* Benefit: the same pale teal card as Proof, figure set large. */}
-          <div className="@container flex flex-col rounded-[2rem] border-2 border-text-primary shadow-sticker bg-accent-100 p-6 sm:p-8 lg:col-span-5 lg:p-10">
+          <div className="@container flex flex-col rounded-[2rem] border-2 border-text-primary shadow-sticker bg-teal-100 p-6 sm:p-8 lg:col-span-5 lg:p-10">
             <p className="inline-flex items-center gap-2 self-start rounded-md bg-background-primary-default/70 px-2.5 py-1.5 text-caption-1-semibold tracking-wider text-text-primary uppercase">
-              <span aria-hidden="true" className="size-2.5 rounded-[2px] bg-accent-500" />
+              <span aria-hidden="true" className="size-2.5 rounded-[2px] bg-teal-500" />
               For {audience.label}
             </p>
             <p className="mt-10 mb-10 max-w-[24ch] text-subsection text-balance text-text-primary">{audience.benefit}</p>

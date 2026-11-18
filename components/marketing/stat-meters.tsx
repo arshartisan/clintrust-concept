@@ -115,7 +115,7 @@ function MeterBar({ meter }: { meter: Meter }) {
       <div aria-hidden="true">
         <Scale left="Before" right="With ClinTrust" />
         <div className={track}>
-          <div className="meter-shrink h-full w-[30%] rounded-xl bg-brand-blue-400" />
+          <div className="meter-shrink h-full w-[30%] rounded-xl bg-coral-400" />
           <div className={rest} />
         </div>
       </div>

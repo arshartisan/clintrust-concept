@@ -30,10 +30,10 @@ const TEAL: Tone = {
   dot: "bg-accent-500",
 };
 const BLUE: Tone = {
-  line: "var(--color-brand-blue-500)",
-  soft: "var(--color-brand-blue-300)",
-  text: "text-brand-blue-500",
-  dot: "bg-brand-blue-500",
+  line: "var(--color-coral-500)",
+  soft: "var(--color-coral-300)",
+  text: "text-coral-600",
+  dot: "bg-coral-500",
 };
 // Checkerboard in the 2 x 2 grid: row 1 teal, blue; row 2 blue, teal.
 const TONES = [TEAL, BLUE, BLUE, TEAL];

@@ -51,7 +51,7 @@ export function PainCards({ className }: { className?: string }) {
                 {/* Front: the worry. */}
                 <span aria-hidden={isOpen} className={cx(face, "bg-background-primary-default")}>
                   <span className="flex items-center justify-between gap-3">
-                    <span className="flex size-11 items-center justify-center rounded-2xl border-2 border-text-primary bg-accent-100">
+                    <span className="flex size-11 items-center justify-center rounded-2xl border-2 border-text-primary bg-coral-100">
                       <pain.icon className="size-5 text-text-primary" aria-hidden="true" />
                     </span>
                     <span
@@ -67,7 +67,7 @@ export function PainCards({ className }: { className?: string }) {
                 </span>
 
                 {/* Back: the fix. */}
-                <span aria-hidden={!isOpen} className={cx(face, "bg-accent-300")}>
+                <span aria-hidden={!isOpen} className={cx(face, "bg-teal-300")}>
                   <span className="flex items-center justify-between gap-3">
                     <span className="flex size-11 items-center justify-center rounded-2xl border-2 border-text-primary bg-text-primary text-text-white">
                       <RiCheckLine className="size-5" aria-hidden="true" />

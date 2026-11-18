@@ -161,7 +161,7 @@ export function SettlementLedger({ className }: { className?: string }) {
                         ? "bg-background-tertiary-default"
                         : row.stage === 2
                           ? "bg-accent-400"
-                          : "bg-brand-blue-400",
+                          : "bg-coral-400",
                     )}
                   />
                 ))}

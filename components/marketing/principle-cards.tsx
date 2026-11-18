@@ -15,7 +15,7 @@ import { InView } from "./in-view";
  */
 
 const line = "fill-none stroke-accent-500";
-const soft = "fill-none stroke-brand-blue-300";
+const soft = "fill-none stroke-teal-300";
 
 /** Four small line drawings, viewBox 0 0 160 64. */
 function Drawing({ index }: { index: number }) {

@@ -85,12 +85,12 @@ function RecordScene() {
   return (
     <>
       <div className="how-sway absolute top-9 left-1/2 -ml-[210px] size-[420px]" aria-hidden="true">
-        <div className="absolute inset-0 rounded-full border-[26px] border-brand-blue-100 [mask-image:linear-gradient(to_bottom,black_12%,transparent_36%)]" />
+        <div className="absolute inset-0 rounded-full border-[26px] border-accent-100 [mask-image:linear-gradient(to_bottom,black_12%,transparent_36%)]" />
         {badges.map(({ Icon, left, top }) => (
           <span
             key={left}
             style={{ left: left - 22, top: top - 22 }}
-            className="absolute flex size-11 items-center justify-center rounded-full bg-brand-blue-500 text-text-white shadow-md ring-4 ring-brand-blue-200"
+            className="absolute flex size-11 items-center justify-center rounded-full border-2 border-text-primary bg-accent-300 text-text-primary ring-4 ring-accent-100"
           >
             <Icon className="size-5" />
           </span>
@@ -121,12 +121,12 @@ function ReconcileScene() {
           <span
             aria-hidden="true"
             style={delay(index * 2000)}
-            className={cx("how-row-tint absolute inset-0", row.flagged ? "bg-status-yellow-background" : "bg-accent-100")}
+            className={cx("how-row-tint absolute inset-0", row.flagged ? "bg-coral-50" : "bg-teal-100")}
           />
           <span
             className={cx(
               "relative flex size-6 shrink-0 items-center justify-center rounded-full",
-              row.flagged ? "bg-chart-8 text-text-primary" : "bg-accent-300 text-text-primary",
+              row.flagged ? "bg-coral-300 text-text-primary" : "bg-teal-300 text-text-primary",
             )}
             aria-hidden="true"
           >
@@ -153,20 +153,20 @@ function PayScene() {
           <span>T+5</span>
         </p>
       </div>
-      <span aria-hidden="true" className="h-6 w-px bg-accent-300" />
-      <ul className="flex items-center gap-1.5 rounded-full bg-accent-100 p-1.5" aria-label="Paid in the site's currency">
+      <span aria-hidden="true" className="h-6 w-px bg-teal-300" />
+      <ul className="flex items-center gap-1.5 rounded-full bg-teal-100 p-1.5" aria-label="Paid in the site's currency">
         {currencies.map((code) =>
           code === "SGD" ? (
             <li key={code} className="relative mx-0.5 flex size-12 items-center justify-center">
-              <span aria-hidden="true" className="how-ring absolute inset-0 rounded-full bg-accent-400" />
-              <span className="relative flex size-12 items-center justify-center rounded-full bg-accent-600 text-caption-1-semibold text-text-white shadow-md">
+              <span aria-hidden="true" className="how-ring absolute inset-0 rounded-full bg-teal-400" />
+              <span className="relative flex size-12 items-center justify-center rounded-full bg-teal-600 text-caption-1-semibold text-text-white shadow-md">
                 {code}
               </span>
             </li>
           ) : (
             <li
               key={code}
-              className="flex size-9 items-center justify-center rounded-full bg-accent-200 text-caption-2-semibold text-accent-800"
+              className="flex size-9 items-center justify-center rounded-full bg-teal-200 text-caption-2-semibold text-teal-800"
             >
               {code}
             </li>

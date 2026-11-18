@@ -11,6 +11,12 @@ ClinTrust adds a thin brand layer on top. This file describes that layer.
 > No dark surfaces: the glow card, dark video panel and frosted nav are gone.
 > Never put white text on `accent-300` to `accent-500`; use ink
 > (`text-text-primary`). Accent-coloured text uses `accent-600` or darker.
+> Colour roles (brief: "sunny yellow, coral and teal accents"): **yellow** =
+> actions and highlights (buttons, highlighter, demo panel); **coral** = the
+> worry, the problem, the old way (pain card fronts, audience questions, the
+> old-way waiting row, flagged rows); **teal** = the fix, verified, paid
+> (pain card backs, benefits, the ClinTrust waiting row, verified rows,
+> payment, answer ticks).
 > Type: Manrope for body, Bricolage Grotesque for every heading and display
 > style (set by a base-layer rule in `styles/brand.css`).
 
