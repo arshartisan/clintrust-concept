@@ -40,7 +40,7 @@ export function PainCards({ className }: { className?: string }) {
       {pains.items.map((pain) => {
         const isOpen = open.has(pain.id);
         return (
-          <li key={pain.id} className="flex">
+          <li key={pain.id} className="scroll-pop flex">
             <button
               type="button"
               aria-pressed={isOpen}

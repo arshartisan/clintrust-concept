@@ -13,6 +13,8 @@ interface PhotoStickerProps {
   /** Tilt in degrees. */
   tilt?: number;
   tone?: "sun" | "coral" | "teal";
+  /** "sm": tighter padding and smaller caption, for the phone row. */
+  size?: "md" | "sm";
   /** Rendered width in the layout, for next/image's `sizes`. */
   sizes?: string;
   className?: string;
@@ -31,28 +33,34 @@ const TONES = {
  * a photo is to come. The photo is decorative (the caption names the role),
  * so its alt text is empty.
  */
-export function PhotoSticker({ role, tag, photo, focus = "50% 30%", tilt = 0, tone = "sun", sizes = "200px", className }: PhotoStickerProps) {
+export function PhotoSticker({ role, tag, photo, focus = "50% 30%", tilt = 0, tone = "sun", size = "md", sizes = "200px", className }: PhotoStickerProps) {
   return (
     <figure
       className={cx(
-        "relative rounded-[1.75rem] border-2 border-text-primary bg-background-primary-default p-2.5 shadow-sticker",
+        "relative border-2 border-text-primary bg-background-primary-default shadow-sticker",
+        size === "sm" ? "rounded-2xl p-1.5" : "rounded-[1.75rem] p-2.5",
         className,
       )}
       style={{ rotate: `${tilt}deg` }}
     >
-      <div className={cx("relative flex aspect-[4/5] items-end justify-center overflow-hidden rounded-[1.25rem]", TONES[tone])}>
+      <div className={cx("relative flex aspect-[4/5] items-end justify-center overflow-hidden", size === "sm" ? "rounded-xl" : "rounded-[1.25rem]", TONES[tone])}>
         {photo ? (
           <Image src={photo} alt="" fill sizes={sizes} className="object-cover" style={{ objectPosition: focus }} />
         ) : (
           <RiUser3Fill className="size-[78%] translate-y-[12%]" aria-hidden="true" />
         )}
       </div>
-      <figcaption className="flex flex-wrap items-baseline justify-between gap-x-2 px-1.5 pt-2.5 pb-1">
-        <span className="font-display text-headline-semibold text-text-primary">{role}</span>
+      <figcaption className={cx("flex flex-wrap items-baseline justify-between gap-x-2", size === "sm" ? "px-1 pt-1.5" : "px-1.5 pt-2.5 pb-1")}>
+        <span className={cx("font-display text-text-primary", size === "sm" ? "text-caption-2-semibold break-words" : "text-headline-semibold")}>{role}</span>
         {photo ? null : <span className="text-caption-1-medium text-text-tertiary">{hero.photoNote}</span>}
       </figcaption>
       {tag ? (
-        <span className="concept-pop absolute -end-3 -top-3 rotate-6 rounded-full border-2 border-text-primary bg-coral-600 px-3 py-1 font-display text-body-2-semibold text-text-white">
+        <span
+          className={cx(
+            "concept-pop absolute -end-3 -top-3 rotate-6 rounded-full border-2 border-text-primary bg-coral-600 font-display text-text-white",
+            size === "sm" ? "px-2 py-0.5 text-caption-2-semibold" : "px-3 py-1 text-body-2-semibold",
+          )}
+        >
           {tag}
         </span>
       ) : null}

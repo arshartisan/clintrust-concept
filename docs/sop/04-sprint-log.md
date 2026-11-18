@@ -82,6 +82,26 @@ customer names. `hero-stickers.tsx` is no longer used on the home page.
   3D to a yellow back with the one-line fix. Under reduced motion the faces
   swap without turning. `pain-accordion.tsx` and its lazy loader removed.
 
+### Full-width funky hero, scroll motion, paid moment
+
+- The hero is full width and full screen (no 1200px column). The
+  interface-style cards (progress bars, pre-invoice) are gone, per "fewer
+  interface mockups". In their place (`hero-decor.tsx`): the three people on
+  large tilted photo stickers with tag stickers, a "No more chasing!"
+  starburst, and hand-drawn coin, calendar, tick, clock, sparkle, squiggle
+  and an arrow pointing at "Yes, that's me". Stickers straighten and lift on
+  hover. Phones and tablets: the people as a row of small stickers under the
+  buttons.
+- Paid moment: each time the answer finishes building, a PAID stamp drops
+  on beside it and confetti fires.
+- Scroll-driven (CSS scroll timelines, `@supports`-guarded): hero stickers
+  drift at their own speeds (`.hero-drift`), and the pain cards, waiting
+  rows and how-it-works steps rise in as they enter view (`.scroll-pop`).
+- The "ClinTrust" name in the header, phone menu and footer logo is set in
+  the headline font (Bricolage Grotesque, bold).
+- All motion off under reduced motion. Lighthouse mobile still 100 / 100,
+  CLS 0.
+
 ### Lighthouse and accessibility (brief: 90+ and WCAG AA)
 
 Production build, mobile, 2026-11-18: **100 / 100 / 100 / 100** on `/`,

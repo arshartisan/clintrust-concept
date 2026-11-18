@@ -8,6 +8,8 @@ import { hero } from "@/content/landing";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cx } from "@/utils/cx";
 import { track } from "@/utils/track";
+import { Confetti } from "./confetti";
+import { PaidStamp } from "./doodles";
 
 const QUESTIONS = hero.questions;
 /** Question 1, answer, question 2, answer, … : two steps per question. */
@@ -94,7 +96,7 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
           aria-hidden={!showingAnswer}
           className={cx(lineClass(showingAnswer), "text-section text-start", centered && "justify-self-center")}
         >
-          <span key={showingAnswer ? `answer-${step}` : "answer"} className="flex flex-col gap-2 sm:gap-3">
+          <span key={showingAnswer ? `answer-${step}` : "answer"} className="relative flex flex-col gap-2 sm:gap-3">
             {hero.answerParts.map((part, index) => (
               <span
                 key={part}
@@ -107,6 +109,15 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
                 <span className={cx(index === hero.answerParts.length - 1 && "concept-highlight")}>{part}</span>
               </span>
             ))}
+            {/* The brief's "paid tick or confetti moment": once the last row
+                is in, a PAID stamp drops on and confetti fires. Decorative;
+                both are off under reduced motion. */}
+            {showingAnswer ? (
+              <span aria-hidden="true" className="answer-paid pointer-events-none absolute end-0 -bottom-14 sm:end-auto sm:start-full sm:bottom-0 sm:ms-4">
+                <Confetti />
+                <PaidStamp className="concept-pop -rotate-12 text-headline-semibold sm:text-title-2-semibold" />
+              </span>
+            ) : null}
           </span>
         </span>
       </h1>

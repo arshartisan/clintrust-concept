@@ -466,6 +466,35 @@ html.lenis {
   to   { opacity: 1; transform: none; }
 }
 
+/* Scroll-driven motion (sprint 9, brief: "scroll-driven animation"). Pure
+ * CSS scroll timelines: browsers without them, and reduced motion, get the
+ * still page.
+ *   .hero-drift  hero stickers drift up at their own speed (--drift px) over
+ *                the first screen of scrolling: a light parallax.
+ *   .scroll-pop  section cards rise and settle as they scroll into view.
+ *   .answer-paid the hero answer's PAID stamp waits for the last row. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    .hero-drift {
+      animation: hero-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    .scroll-pop {
+      animation: scroll-pop linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+  .answer-paid > .concept-pop { animation-delay: 1050ms; }
+  .answer-paid > .confetti > span { animation-delay: 1150ms !important; }
+}
+@keyframes hero-drift { to { translate: 0 var(--drift, -60px); } }
+@keyframes scroll-pop {
+  from { opacity: 0; translate: 0 48px; scale: 0.94; }
+  to   { opacity: 1; translate: 0 0; scale: 1; }
+}
+
 .hero-in {
   animation: hero-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: var(--d, 0ms);

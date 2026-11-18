@@ -36,7 +36,7 @@ export function HowItWorks() {
         {steps.map((step, index) => {
           const Scene = SCENES[index];
           return (
-            <li key={step.id} className="min-w-0">
+            <li key={step.id} className="scroll-pop min-w-0">
               <InView className="flex h-full flex-col rounded-3xl border-2 border-text-primary shadow-sticker bg-background-primary-default p-5">
                 <div className="flex items-center justify-between">
                   <p className="text-body-2-medium text-text-secondary">Step {index + 1}</p>

@@ -36,7 +36,7 @@ export function MobileNav({ isOpen, onOpenChange, pathname }: MobileNavProps) {
         title={
           <span className="flex items-center gap-2">
             <LogoMark className="h-7" />
-            <span className="text-headline-semibold tracking-tight">{brand.name}</span>
+            <span className="font-display text-title-2-bold tracking-tight">{brand.name}</span>
           </span>
         }
       />

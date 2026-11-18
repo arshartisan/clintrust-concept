@@ -92,7 +92,7 @@ export function SiteHeader() {
             className="me-1 flex h-9 items-center gap-2 rounded-full ps-2.5 pe-3 outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
           >
             <LogoMark className="h-7" />
-            <span className="text-headline-semibold tracking-tight text-text-primary">{brand.name}</span>
+            <span className="font-display text-title-2-bold tracking-tight text-text-primary">{brand.name}</span>
           </Link>
 
           <nav aria-label="Primary" className="hidden flex-1 items-center justify-center gap-0.5 md:flex">

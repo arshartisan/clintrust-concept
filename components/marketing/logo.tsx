@@ -33,7 +33,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <span className={cx("inline-flex items-center gap-2 text-text-primary", className)}>
       <LogoMark />
-      <span className="text-headline-semibold tracking-tight">{brand.name}</span>
+      <span className="font-display text-title-2-bold tracking-tight">{brand.name}</span>
     </span>
   );
 }

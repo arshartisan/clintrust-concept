@@ -82,24 +82,8 @@ export const hero = {
     { role: "Investigator", tag: "Grant on time", photo: "/people/investigator.jpg", focus: "55% 30%" },
   ],
   photoNote: "Photo to come",
-  /**
-   * The cards floating round the centred headline (sprint 9, after the client's
-   * "mindset health" reference). Illustrative product moments, labelled by
-   * role, not by invented customer names. T+5 wording: the review window
-   * closes before the invoice is sent; nothing here promises payment in 5 days.
-   */
-  cards: {
-    coordinator: { title: "Site coordinator", meta: "Visit 6 of 8 verified", progress: 75 },
-    financeLead: { title: "Finance lead", meta: "Month-end reconciled", progress: 92 },
-    investigator: { title: "Investigator", meta: "Grant on next invoice" },
-    sponsor: { title: "Sponsor", meta: "Funds verified work" },
-    invoice: {
-      eyebrow: "Pre-invoice ready",
-      title: "Site 014 · October",
-      chips: ["24 visits", "SGD"],
-      footer: "5-day review, then invoice",
-    },
-  },
+  /** The starburst sticker in the hero. */
+  burst: "No more chasing!",
   primaryCta: { label: "Yes, that’s me", href: "#pain" },
   secondaryCta: { label: "Request a demo", href: "#demo" },
 };
