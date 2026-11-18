@@ -3,6 +3,12 @@ import { cx } from "@/utils/cx";
 import { Button, ButtonLink, type ButtonLinkProps, type ButtonProps } from "./button";
 
 /**
+ * Sprint 9: the ring and the sweeping stars are switched off; the button
+ * inside is now the yellow sticker primary (styles/brand.css, .button-glow),
+ * which carries the emphasis on its own. To bring the effect back, restore
+ * the "star-border" wrapper class and the two `.star-border-star` spans from
+ * git history (the CSS is still in styles/brand.css).
+ *
  * Star border CTA (after the fd-libra "star-border-button"): the normal
  * BoardUI pill inside a thin ring, with two points of light sweeping round
  * the ring in opposite directions.
@@ -33,15 +39,6 @@ function ringStyle({ starColor, speed, thickness }: StarBorderOptions) {
   } as CSSProperties;
 }
 
-function Stars() {
-  return (
-    <>
-      <span aria-hidden="true" data-edge="bottom" className="star-border-star" />
-      <span aria-hidden="true" data-edge="top" className="star-border-star" />
-    </>
-  );
-}
-
 export function StarBorderButton({
   starColor,
   speed,
@@ -50,8 +47,7 @@ export function StarBorderButton({
   ...props
 }: ButtonProps & StarBorderOptions) {
   return (
-    <span className={cx("star-border", wrapperClassName)} style={ringStyle({ starColor, speed, thickness })}>
-      <Stars />
+    <span className={cx("inline-flex", wrapperClassName)} style={ringStyle({ starColor, speed, thickness })}>
       <Button {...props} className={cx("relative z-10", props.className)} />
     </span>
   );
@@ -65,8 +61,7 @@ export function StarBorderLink({
   ...props
 }: ButtonLinkProps & StarBorderOptions) {
   return (
-    <span className={cx("star-border", wrapperClassName)} style={ringStyle({ starColor, speed, thickness })}>
-      <Stars />
+    <span className={cx("inline-flex", wrapperClassName)} style={ringStyle({ starColor, speed, thickness })}>
       <ButtonLink {...props} className={cx("relative z-10", props.className)} />
     </span>
   );

@@ -34,7 +34,7 @@ const TEXT_STYLE_SUFFIXES = TEXT_FAMILIES.flatMap((family) =>
 );
 
 /** Marketing type ramp from styles/brand.css (text-hero, text-section, ...). */
-const MARKETING_TEXT_STYLES = ["hero", "section", "subsection", "lead", "figure", "stat", "wordmark"];
+const MARKETING_TEXT_STYLES = ["hero", "poster", "poster-sm", "counter", "section", "subsection", "lead", "figure", "stat", "wordmark"];
 
 const twMerge = extendTailwindMerge({
   extend: {

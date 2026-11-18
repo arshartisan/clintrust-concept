@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Bricolage_Grotesque, Figtree } from "next/font/google";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SmoothScroll } from "@/components/marketing/smooth-scroll";
@@ -7,14 +7,21 @@ import { brand } from "@/content/landing";
 import "lenis/dist/lenis.css";
 import "@/styles/globals.css";
 
-// Inter (variable, with its optical-size axis) for the whole site. With the
-// axis loaded, the browser switches to Inter's display drawing at large sizes
-// on its own, so headings get the tighter cut and body text the text cut.
-// next/font downloads it at build time and serves it from this site: one
-// latin-subset variable file, and no request to Google at runtime.
-// styles/brand.css points Tailwind's --font-sans at --font-brand.
-const inter = Inter({
+// Sprint 9, client brief: "big chunky headlines, friendly body font".
+//   Figtree              body text, as --font-brand (Tailwind's --font-sans)
+//   Bricolage Grotesque  headlines, as --font-headline (`font-display`); its
+//                        optical-size axis gives the tighter cut at large sizes
+// next/font downloads both at build time and serves them from this site:
+// latin-subset variable files, and no request to Google at runtime.
+// styles/brand.css maps the variables to the font utilities.
+const body = Figtree({
   variable: "--font-brand",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const headline = Bricolage_Grotesque({
+  variable: "--font-headline",
   subsets: ["latin"],
   axes: ["opsz"],
   display: "swap",
@@ -36,7 +43,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${body.variable} ${headline.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-background-full text-text-primary">
         <SiteHeader />
         <main className="flex-1">{children}</main>

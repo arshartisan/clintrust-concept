@@ -46,7 +46,7 @@ const styles = sortCx({
     divided: "flex flex-col divide-y divide-separator-border",
     // The landing FAQ: cards on a tray, inverted in dark mode so the cards
     // stay a step lighter than the page.
-    contained: "flex flex-col gap-[3px] rounded-[26px] bg-background-secondary-default p-[3px] dark:bg-background-primary-default",
+    contained: "flex flex-col gap-[3px] rounded-[26px] border-2 border-text-primary bg-background-secondary-default p-[3px] shadow-sticker dark:bg-background-primary-default",
     separated: "flex flex-col gap-2",
   },
   item: {

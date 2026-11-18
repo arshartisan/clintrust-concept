@@ -120,18 +120,20 @@ const styles = sortCx({
     // body lit from below in the logo's teal and blue. Shape per size is in
     // `pillFit`, shared with secondary.
     // BoardUI's stock primary was: "bg-button-primary text-text-white shadow-xs".
-    primary: "button-glow relative text-text-white disabled:opacity-60 aria-disabled:opacity-60",
+    primary: "button-glow relative text-text-primary disabled:opacity-60 aria-disabled:opacity-60",
     danger: [
       "bg-button-danger text-text-white shadow-xs",
       "disabled:text-foreground-disabled-danger disabled:shadow-none",
       "aria-disabled:text-foreground-disabled-danger aria-disabled:shadow-none",
     ].join(" "),
     secondary: [
-      // rounded-full + px-3: a pill, to sit beside the primary glow pill.
+      // rounded-full + px-3: a pill, to sit beside the primary pill.
+      // Sprint 9: a white sticker (ink outline, hard offset shadow) that
+      // presses into its shadow on hover, like the primary.
       "rounded-full bg-background-primary-default text-text-primary",
-      "border border-border-button-default shadow-xs",
-      "hover:bg-background-primary-hover  hover:border-border-button-hover",
-      "active:bg-background-primary-active active:border-border-button-active",
+      "border-2 border-text-primary shadow-sticker-sm transition-[translate,box-shadow,background-color] duration-150",
+      "hover:bg-accent-50 hover:translate-x-px hover:translate-y-px hover:shadow-[1px_1px_0_0_var(--color-text-primary)]",
+      "active:bg-accent-100 active:translate-x-[3px] active:translate-y-[3px] active:shadow-none",
       "disabled:bg-background-primary-disabled disabled:border-border-button-default disabled:text-text-tertiary disabled:shadow-none",
       "aria-disabled:bg-background-primary-disabled aria-disabled:border-border-button-default aria-disabled:text-text-tertiary aria-disabled:shadow-none",
     ].join(" "),
