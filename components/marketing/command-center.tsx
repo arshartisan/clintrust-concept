@@ -12,7 +12,7 @@ import { cx } from "@/utils/cx";
 export function CommandCenter() {
   const data = approach.commandCenter;
   return (
-    <figure className="overflow-hidden rounded-3xl border border-border-button-default bg-background-full shadow-xs">
+    <figure className="overflow-hidden rounded-3xl border-2 border-text-primary shadow-sticker bg-background-full">
       <div className="flex items-center justify-between gap-3 border-b border-separator-border px-5 py-4">
         <figcaption className="text-headline-medium text-text-primary">{data.title}</figcaption>
         <span className="flex items-center gap-1.5 rounded-full bg-accent-50 px-2.5 py-1 text-caption-1-medium text-accent-700">

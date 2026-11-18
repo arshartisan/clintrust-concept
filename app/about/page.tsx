@@ -34,7 +34,7 @@ export default function AboutPage() {
         </div>
 
         {/* Hairline grid: four values sharing borders. */}
-        <ul className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-border-button-default bg-separator-border sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-16 grid gap-px overflow-hidden rounded-3xl border-2 border-text-primary bg-text-primary shadow-sticker sm:grid-cols-2 lg:grid-cols-4">
           {about.values.map((value) => (
             <li key={value.name} className="bg-background-full p-7">
               <span
@@ -57,7 +57,7 @@ export default function AboutPage() {
         <ul className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {about.leadership.people.map((person) => (
             <li key={person.name}>
-              <div className="h-full rounded-3xl border border-border-button-default bg-background-full">
+              <div className="h-full rounded-3xl border-2 border-text-primary shadow-sticker bg-background-full">
                 <div className="flex h-full flex-col p-5">
                   {person.photo ? (
                     // eslint-disable-next-line @next/next/no-img-element -- pre-sized 224px WebP; next/image adds nothing here
@@ -71,10 +71,10 @@ export default function AboutPage() {
                       className="size-20 rounded-full object-cover ring-1 ring-border-button-default"
                     />
                   ) : (
-                    // No photo yet: a monogram in the logo's teal-to-blue.
+                    // No photo yet: a monogram on a yellow sticker disc.
                     <span
                       aria-hidden="true"
-                      className="flex size-20 items-center justify-center rounded-full bg-linear-135 from-accent-400 to-brand-blue-600 text-title-1-medium text-text-white ring-1 ring-border-button-default"
+                      className="flex size-20 items-center justify-center rounded-full border-2 border-text-primary bg-accent-300 text-title-1-medium text-text-primary"
                     >
                       {"monogram" in person ? person.monogram : person.name[0]}
                     </span>
@@ -147,7 +147,7 @@ export default function AboutPage() {
                     )}
                   >
                     {market.code ? (
-                      <span aria-hidden="true" className="text-caption-2-semibold opacity-70">
+                      <span aria-hidden="true" className="text-caption-2-semibold">
                         {market.code}
                       </span>
                     ) : market.name === "+4 markets" ? null : (

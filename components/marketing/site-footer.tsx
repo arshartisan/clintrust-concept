@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { RiArrowRightUpLine, RiMailSendLine } from "@remixicon/react";
-import { brand, footer } from "@/content/landing";
+import { brand, demoCta, footer } from "@/content/landing";
 import { cx } from "@/utils/cx";
 import { container } from "./frame";
 import { Logo } from "./logo";
@@ -33,7 +33,7 @@ export function SiteFooter() {
             {footer.certifications.map((item) => (
               <li
                 key={item}
-                className="rounded-lg border border-border-button-default px-2.5 py-1 text-caption-1-medium text-text-secondary"
+                className="rounded-full border-2 border-text-primary px-2.5 py-1 text-caption-1-semibold text-text-primary"
               >
                 {item}
               </li>
@@ -45,13 +45,13 @@ export function SiteFooter() {
           <div className="lg:col-span-5">
             <h2 className="text-body-medium text-text-primary">Reach out to us</h2>
             <Link
-              href="/contact"
+              href={demoCta.href}
               data-track="request_demo_click"
               data-track-location="footer"
               data-track-label="Request a demo"
-              className="group mt-4 flex max-w-[340px] items-center gap-3 rounded-2xl border border-accent-200 bg-accent-50 p-3 transition-colors duration-150 hover:border-accent-300 hover:bg-accent-100 outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
+              className="group mt-4 flex max-w-[340px] items-center gap-3 rounded-2xl border-2 border-text-primary shadow-sticker bg-accent-100 p-3 transition-[translate,box-shadow,background-color] duration-150 hover:translate-x-px hover:translate-y-px hover:bg-accent-200 hover:shadow-sticker-sm outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
             >
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent-500 text-text-white">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-text-primary bg-accent-300 text-text-primary">
                 <RiMailSendLine className="size-5" aria-hidden="true" />
               </span>
               <span className="min-w-0 flex-1">

@@ -7,7 +7,7 @@ import { cx } from "@/utils/cx";
 interface VideoPlayerProps {
   /** In order of preference: WebM first, MP4 as the fallback. */
   sources: readonly { src: string; type: string }[];
-  /** Still frame shown before play. Without one, a dark panel with soft light. */
+  /** Still frame shown before play. Without one, a pale yellow panel with soft light. */
   poster?: string | null;
   /** Accessible name for the play button and the video. */
   label: string;
@@ -15,7 +15,8 @@ interface VideoPlayerProps {
 }
 
 /**
- * A click-to-play video in a dark rounded panel (sprint 7).
+ * A click-to-play video in a rounded sticker panel (sprint 7; light since
+ * sprint 9).
  *
  * Never autoplays. `preload="none"` keeps the file off the network until the
  * visitor presses play, so the panel costs nothing on load
@@ -35,7 +36,7 @@ export function VideoPlayer({ sources, poster, label, className }: VideoPlayerPr
   return (
     <div
       className={cx(
-        "dark relative aspect-video overflow-hidden rounded-3xl border border-border-button-default bg-background-full shadow-lg",
+        "relative aspect-video overflow-hidden rounded-3xl border-2 border-text-primary bg-accent-50 shadow-sticker-lg",
         className,
       )}
     >
@@ -63,12 +64,12 @@ export function VideoPlayer({ sources, poster, label, className }: VideoPlayerPr
           {poster ? null : (
             <span
               aria-hidden="true"
-              className="absolute inset-0 [background:radial-gradient(40%_55%_at_50%_55%,color-mix(in_srgb,var(--color-accent-400)_22%,transparent),transparent_70%),radial-gradient(70%_80%_at_50%_100%,color-mix(in_srgb,var(--color-brand-blue-500)_28%,transparent),transparent_70%)]"
+              className="absolute inset-0 [background:radial-gradient(40%_55%_at_50%_55%,color-mix(in_srgb,var(--color-accent-400)_22%,transparent),transparent_70%),radial-gradient(70%_80%_at_50%_100%,color-mix(in_srgb,var(--color-coral-300)_28%,transparent),transparent_70%)]"
             />
           )}
           <span
             aria-hidden="true"
-            className="button-glow relative flex size-16 items-center justify-center rounded-full text-text-white transition-transform duration-300 group-hover:scale-105 sm:size-20"
+            className="button-glow relative flex size-16 items-center justify-center rounded-full text-text-primary transition-transform duration-300 group-hover:scale-105 sm:size-20"
           >
             <RiPlayFill className="ms-1 size-7 sm:size-8" />
           </span>

@@ -22,7 +22,7 @@ export function ArticleCard({ article, headingLevel: Heading = "h2", className }
   return (
     <article
       className={cx(
-        "group relative flex h-full flex-col rounded-3xl border border-border-button-default bg-background-full p-7 transition-colors duration-200 hover:border-border-button-hover hover:bg-background-secondary-default",
+        "group relative flex h-full flex-col rounded-3xl border-2 border-text-primary shadow-sticker bg-background-full p-7 transition-[translate,box-shadow,background-color] duration-200 hover:translate-x-px hover:translate-y-px hover:shadow-sticker-sm hover:bg-background-secondary-default",
         "has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-border-focus-ring",
         className,
       )}

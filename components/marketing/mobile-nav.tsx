@@ -4,7 +4,6 @@ import Link from "next/link";
 import { ButtonLink } from "@/components/base/buttons/button";
 import { Drawer, DrawerBody, DrawerFooter, DrawerHeader } from "@/components/base/drawer/drawer";
 import { brand, demoCta, nav } from "@/content/landing";
-import { cx } from "@/utils/cx";
 import { LogoMark } from "./logo";
 
 /**
@@ -43,7 +42,7 @@ export function MobileNav({ isOpen, onOpenChange, pathname }: MobileNavProps) {
       />
       {/* px-3: the rows carry their own px-3, so their text lines up with the header. */}
       <DrawerBody className="px-3">
-        <nav aria-label="Primary" className="flex flex-col gap-5">
+        <nav aria-label="Primary" className="flex flex-col gap-1">
           {nav.map((entry) =>
             "items" in entry ? (
               <div key={entry.label}>
@@ -64,7 +63,7 @@ export function MobileNav({ isOpen, onOpenChange, pathname }: MobileNavProps) {
                 href={entry.href}
                 onClick={close}
                 aria-current={pathname === entry.href ? "page" : undefined}
-                className={cx(linkClass, "border-t border-separator-border rounded-none pt-5")}
+                className={linkClass}
               >
                 {entry.label}
               </Link>

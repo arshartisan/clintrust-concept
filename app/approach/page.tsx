@@ -77,7 +77,7 @@ export default function ApproachPage() {
                     key={feature.name}
                     className="grid grid-cols-[3rem_1fr] gap-4 border-t border-separator-border py-6 first:border-t-0 first:pt-0"
                   >
-                    <span aria-hidden="true" className="text-title-3-semibold tabular-nums text-accent-500">
+                    <span aria-hidden="true" className="text-title-3-semibold tabular-nums text-accent-600">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <div>
@@ -102,7 +102,7 @@ export default function ApproachPage() {
                 {role.features.map((feature) => (
                   <li
                     key={feature.name}
-                    className="rounded-3xl border border-border-button-default bg-background-full p-6"
+                    className="rounded-3xl border-2 border-text-primary shadow-sticker bg-background-full p-6"
                   >
                     {"icon" in feature ? (
                       <span

@@ -5,4 +5,4 @@
  * not pull in the form's chunk.
  */
 export const demoFormClass =
-  "min-h-[860px] rounded-3xl border border-border-button-default bg-background-primary-default p-6 sm:min-h-[646px] sm:p-8";
+  "min-h-[860px] rounded-3xl border-2 border-text-primary bg-background-primary-default shadow-sticker p-6 sm:min-h-[646px] sm:p-8";

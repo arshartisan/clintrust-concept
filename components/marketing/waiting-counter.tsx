@@ -63,10 +63,10 @@ export function WaitingCounter() {
             <div
               key={row.label}
               className={cx(
-                "flex flex-col rounded-3xl border p-6 sm:p-8",
+                "flex flex-col rounded-3xl border-2 border-text-primary p-6 shadow-sticker sm:p-8",
                 isNew
-                  ? "border-accent-200 bg-accent-50"
-                  : "border-border-button-default bg-background-secondary-default",
+                  ? "bg-accent-100"
+                  : "bg-background-secondary-default",
               )}
             >
               <p className="text-body-2-medium text-text-secondary">{row.label}</p>

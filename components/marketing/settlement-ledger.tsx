@@ -109,7 +109,7 @@ export function SettlementLedger({ className }: { className?: string }) {
     <figure
       ref={ref}
       className={cx(
-        "overflow-hidden rounded-3xl border border-border-button-default bg-background-primary-default shadow-xl",
+        "overflow-hidden rounded-3xl border-2 border-text-primary bg-background-primary-default shadow-sticker-lg",
         className,
       )}
     >

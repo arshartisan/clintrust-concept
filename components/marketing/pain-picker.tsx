@@ -42,7 +42,7 @@ export function PainPicker() {
 /** The accordion's collapsed state, without its script. Mirrors the `contained` variant's classes. */
 function Placeholder() {
   return (
-    <ul className="flex flex-col gap-[3px] rounded-[26px] bg-background-secondary-default p-[3px] dark:bg-background-primary-default">
+    <ul className="flex flex-col gap-[3px] rounded-[26px] border-2 border-text-primary bg-background-secondary-default p-[3px] shadow-sticker dark:bg-background-primary-default">
       {pains.items.map((pain) => (
         <li
           key={pain.id}

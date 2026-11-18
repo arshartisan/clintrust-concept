@@ -7,8 +7,10 @@ import { Select, SelectItem } from "@/components/base/select/select";
 import { Textarea } from "@/components/base/textarea/textarea";
 import { demo } from "@/content/landing";
 import { contact } from "@/content/pages";
-import { demoFormClass } from "./demo-form-class";
+import { cx } from "@/utils/cx";
 import { track } from "@/utils/track";
+import { Confetti } from "./confetti";
+import { demoFormClass } from "./demo-form-class";
 
 // The toast system (and the animation library it depends on) is only needed
 // once someone uses the form: the Toaster mounts on first focus inside the
@@ -26,6 +28,8 @@ interface DemoFormProps {
 export function DemoForm({ source = "contact" }: DemoFormProps) {
   const [sending, setSending] = useState(false);
   const [toasterArmed, setToasterArmed] = useState(false);
+  // Bumped on each successful send; re-keys the confetti so it fires again.
+  const [sentCount, setSentCount] = useState(0);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -44,6 +48,7 @@ export function DemoForm({ source = "contact" }: DemoFormProps) {
 
       track("demo_form_submit", { location: source });
       form.reset();
+      setSentCount((count) => count + 1);
       toast.success("Message sent", {
         description: "We will reply to your work email.",
       });
@@ -67,7 +72,7 @@ export function DemoForm({ source = "contact" }: DemoFormProps) {
       <form
         onSubmit={onSubmit}
         onFocusCapture={() => setToasterArmed(true)}
-        className={`${demoFormClass} relative grid content-start gap-5 sm:grid-cols-2`}
+        className={cx(demoFormClass, "relative grid content-start gap-5 sm:grid-cols-2")}
       >
         <Select
           name="subject"
@@ -128,9 +133,13 @@ export function DemoForm({ source = "contact" }: DemoFormProps) {
           <p className="max-w-[40ch] text-body-2-regular text-text-secondary">
             We use these details only to reply to you.
           </p>
-          <Button type="submit" disabled={sending}>
-            {sending ? "Sending" : "Send message"}
-          </Button>
+          {/* The brief's confetti moment: a small burst from the button on a successful send. */}
+          <span className="relative inline-flex">
+            <Button type="submit" disabled={sending}>
+              {sending ? "Sending" : "Send message"}
+            </Button>
+            {sentCount > 0 ? <Confetti key={sentCount} /> : null}
+          </span>
         </div>
       </form>
     </>

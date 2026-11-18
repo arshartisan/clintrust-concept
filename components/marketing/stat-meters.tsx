@@ -30,17 +30,17 @@ interface Stat {
 export function StatMeters({ stats }: { stats: readonly Stat[] }) {
   return (
     <InView once className="mt-14">
-      <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => (
           <div key={stat.label} className="flex flex-col" style={{ "--d": `${index * 120}ms` } as CSSProperties}>
             <MeterBar meter={stat.meter} />
-            <div className="mt-3 flex flex-1 flex-col-reverse justify-end rounded-2xl bg-background-tertiary-default p-6">
+            <dl className="mt-3 flex flex-1 flex-col-reverse justify-end rounded-2xl bg-background-tertiary-default p-6">
               <dt className="mt-6 text-body-2-regular text-text-secondary">{stat.label}</dt>
               <dd className="text-display-4-medium tracking-tight text-text-primary">{stat.figure}</dd>
-            </div>
+            </dl>
           </div>
         ))}
-      </dl>
+      </div>
     </InView>
   );
 }
@@ -126,7 +126,7 @@ function MeterBar({ meter }: { meter: Meter }) {
     <div aria-hidden="true">
       <Scale left="EDC" right="CTMS" />
       <div className={cx(track, "items-center")}>
-        <div className="meter-fill flex h-full w-full items-center justify-center rounded-xl bg-accent-500 text-caption-1-semibold text-text-white">
+        <div className="meter-fill flex h-full w-full items-center justify-center rounded-xl bg-accent-300 text-caption-1-semibold text-text-primary">
           Built in
         </div>
       </div>

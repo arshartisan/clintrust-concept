@@ -143,7 +143,7 @@ export function AdvisorCards() {
           <li key={area.name} className="min-w-0">
             <InView
               once
-              className="flex h-full flex-col rounded-3xl border border-border-button-default bg-background-full p-6 shadow-xs sm:p-8"
+              className="flex h-full flex-col rounded-3xl border-2 border-text-primary shadow-sticker bg-background-full p-6 sm:p-8"
             >
               <div className="flex items-start justify-between gap-3">
                 <h4 className="text-headline-medium text-text-primary">{area.name}</h4>

@@ -37,7 +37,7 @@ export function HowItWorks() {
           const Scene = SCENES[index];
           return (
             <li key={step.id} className="min-w-0">
-              <InView className="flex h-full flex-col rounded-3xl border border-border-button-default bg-background-primary-default p-5">
+              <InView className="flex h-full flex-col rounded-3xl border-2 border-text-primary shadow-sticker bg-background-primary-default p-5">
                 <div className="flex items-center justify-between">
                   <p className="text-body-2-medium text-text-secondary">Step {index + 1}</p>
                   {/* Three ticks; the lit ones show how far along the chain this step is. */}
@@ -126,7 +126,7 @@ function ReconcileScene() {
           <span
             className={cx(
               "relative flex size-6 shrink-0 items-center justify-center rounded-full",
-              row.flagged ? "bg-chart-8 text-text-primary" : "bg-accent-500 text-text-white",
+              row.flagged ? "bg-chart-8 text-text-primary" : "bg-accent-300 text-text-primary",
             )}
             aria-hidden="true"
           >

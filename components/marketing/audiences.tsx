@@ -2,7 +2,7 @@
 
 import { useRef, useState, type KeyboardEvent } from "react";
 import { RiFundsLine, RiHospitalLine, RiQuestionLine, RiTeamLine } from "@remixicon/react";
-import { audiences } from "@/content/landing";
+import { audienceCta, audiences } from "@/content/landing";
 import { cx } from "@/utils/cx";
 import { track } from "@/utils/track";
 import { ArrowLink } from "./arrow-link";
@@ -13,7 +13,8 @@ const ICONS = { sponsors: RiFundsLine, cros: RiTeamLine, sites: RiHospitalLine }
 
 /**
  * Audience tabs (sprint 8; replaces the three side-by-side columns): Sponsors,
- * CROs and Sites, each with its own questions, one benefit and one figure.
+ * CROs and Sites, each with its own questions and one benefit (the figures
+ * were dropped in sprint 9 to narrow the content).
  *
  * A hand-built ARIA tabs pattern rather than BoardUI's segmented control: the
  * segmented control rides on react-aria, which the site deliberately keeps out
@@ -103,7 +104,7 @@ export function Audiences() {
             {audience.questions.map((question, questionIndex) => (
               <li
                 key={question}
-                className="flex flex-1 flex-col justify-between gap-8 rounded-[2rem] border border-border-button-default bg-background-secondary-default p-6 transition-colors duration-200 hover:border-border-button-hover sm:p-8"
+                className="flex flex-1 flex-col justify-between gap-8 rounded-[2rem] border-2 border-text-primary shadow-sticker bg-background-secondary-default p-6 sm:p-8"
               >
                 <span className="flex items-center justify-between gap-4">
                   <span aria-hidden="true" className="text-figure text-text-tertiary tabular-nums">
@@ -119,16 +120,19 @@ export function Audiences() {
           </ol>
 
           {/* Benefit: the same pale teal card as Proof, figure set large. */}
-          <div className="@container flex flex-col rounded-[2rem] bg-accent-100 p-6 sm:p-8 lg:col-span-5 lg:p-10">
+          <div className="@container flex flex-col rounded-[2rem] border-2 border-text-primary shadow-sticker bg-accent-100 p-6 sm:p-8 lg:col-span-5 lg:p-10">
             <p className="inline-flex items-center gap-2 self-start rounded-md bg-background-primary-default/70 px-2.5 py-1.5 text-caption-1-semibold tracking-wider text-text-primary uppercase">
               <span aria-hidden="true" className="size-2.5 rounded-[2px] bg-accent-500" />
               For {audience.label}
             </p>
-            <p className="mt-10 text-stat whitespace-nowrap text-accent-700 tabular-nums">{audience.stat}</p>
-            <p className="mt-3 text-body-medium text-text-primary">{audience.statLabel}</p>
-            <p className="mt-8 mb-10 max-w-[40ch] text-lead text-pretty text-text-primary">{audience.benefit}</p>
-            <ArrowLink href={audience.href} className="mt-auto">
-              {audience.cta}
+            <p className="mt-10 mb-10 max-w-[24ch] text-subsection text-balance text-text-primary">{audience.benefit}</p>
+            <ArrowLink
+              href={audienceCta.href}
+              data-track="request_demo_click"
+              data-track-location={`audiences-${audience.id}`}
+              className="mt-auto"
+            >
+              {audienceCta.label}
             </ArrowLink>
           </div>
         </div>

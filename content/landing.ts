@@ -1,21 +1,5 @@
-import {
-  RiBriefcase4Line,
-  RiBuilding2Line,
-  RiFileList3Line,
-  RiFlowChart,
-  RiFocus3Line,
-  RiHospitalLine,
-  RiInformationLine,
-  RiLineChartLine,
-  RiMailLine,
-  RiQuestionLine,
-  RiRoadMapLine,
-  RiShieldCheckLine,
-  RiStethoscopeLine,
-  RiTeamLine,
-  RiTimeLine,
-  RiTimerLine,
-} from "@remixicon/react";
+import { RiFileList3Line, RiLineChartLine, RiStethoscopeLine, RiTimeLine } from "@remixicon/react";
+import type { RemixiconComponentType } from "@remixicon/react";
 
 /**
  * All landing-page copy in one place. Facts and figures are carried over from
@@ -37,37 +21,25 @@ export const brand = {
  * Primary navigation. An entry with `items` is a dropdown menu (a heading and
  * a two-column list of links, each with an icon tile and a one-line
  * description); one with `href` is a plain link.
+ *
+ * Sprint 9 (client feedback: "more narrow content-wise"): the site is one
+ * page, so the nav is three anchors into it. The inner pages (/approach,
+ * /about, /insights, /contact) still build but are no longer linked.
  */
-export const nav = [
-  {
-    label: "Our approach",
-    heading: "By role",
-    items: [
-      { label: "For sponsors", href: "/approach#sponsors", icon: RiBuilding2Line, description: "Fund trials against verified work, not forecasts." },
-      { label: "For CROs", href: "/approach#cros", icon: RiBriefcase4Line, description: "Reconcile site payments without the spreadsheets." },
-      { label: "For sites", href: "/approach#sites", icon: RiHospitalLine, description: "One clean invoice a month, no chasing." },
-      { label: "How it works", href: "/#how-it-works", icon: RiFlowChart, description: "Record, reconcile, pay. Three plain steps." },
-      { label: "Which one is you?", href: "/#pain", icon: RiQuestionLine, description: "Pick your worry and see the fix." },
-      { label: "Waiting time", href: "/#waiting", icon: RiTimerLine, description: "90\u2013140 days against one clean invoice a month." },
-    ],
-  },
-  {
-    label: "Company",
-    heading: "About ClinTrust",
-    items: [
-      { label: "About", href: "/about", icon: RiInformationLine, description: "Who we are and why we’re building ClinTrust." },
-      { label: "Mission", href: "/about#mission", icon: RiFocus3Line, description: "Why trial money should move at trial speed." },
-      { label: "Leadership", href: "/about#leadership", icon: RiTeamLine, description: "The people behind ClinTrust." },
-      { label: "Roadmap", href: "/about#roadmap", icon: RiRoadMapLine, description: "What has shipped and what comes next." },
-      { label: "How we build", href: "/about#principles", icon: RiShieldCheckLine, description: "Audit trails, compliance and privacy first." },
-      { label: "Contact", href: "/contact", icon: RiMailLine, description: "Talk to us or request a demo." },
-    ],
-  },
-  { label: "Insights", href: "/insights" },
-] as const;
+type NavLink = { label: string; href: string };
+type NavMenu = {
+  label: string;
+  heading: string;
+  items: readonly { label: string; href: string; icon: RemixiconComponentType; description: string }[];
+};
+export const nav: readonly (NavLink | NavMenu)[] = [
+  { label: "Which one is you?", href: "/#pain" },
+  { label: "Waiting time", href: "/#waiting" },
+  { label: "How it works", href: "/#how-it-works" },
+];
 
 /** The site-wide "Request a demo" action (header, mobile menu). */
-export const demoCta = { label: "Request a demo", href: "/contact" } as const;
+export const demoCta = { label: "Request a demo", href: "/#demo" } as const;
 
 export const hero = {
   /**
@@ -87,9 +59,44 @@ export const hero = {
   /** The answer stays up a little longer than a question. */
   answerMs: 6000,
   /** ClinTrust in one line, under the headline. */
-  lead: "ClinTrust keeps one record of trial work that sponsors, CROs and sites all agree on, and turns it into a clean invoice every month.",
+  lead: "ClinTrust: one record of trial work everyone agrees on, and a clean invoice from it every month.",
   pauseLabel: "Pause the rotating questions",
   playLabel: "Play the rotating questions",
+  /**
+   * The people beside the headline (the brief: "real people: coordinators,
+   * finance leads, investigators"). Photo slots until photos are cleared;
+   * each gets a tag sticker.
+   */
+  // Stock photos (Unsplash License: free for commercial use, no attribution
+  // required), downloaded 2026-11-18. Replace with real team or customer
+  // photos when the client supplies them. `focus` is the crop's focal point.
+  //   site-coordinator.jpg  Beatriz Mendez   unsplash.com/photos/_4xStiTXY1o
+  //   finance-lead.jpg      Vitaly Gariev    unsplash.com/photos/Xe-turIIQoE
+  //   investigator.jpg      Vitaly Gariev    unsplash.com/photos/XqMo4OlBnh0
+  people: [
+    { role: "Site coordinator", tag: "Invoice sent", photo: "/people/site-coordinator.jpg", focus: "50% 25%" },
+    { role: "Finance lead", tag: "Month-end: done", photo: "/people/finance-lead.jpg", focus: "60% 35%" },
+    { role: "Investigator", tag: "Grant on time", photo: "/people/investigator.jpg", focus: "55% 30%" },
+  ],
+  photoNote: "Photo to come",
+  /**
+   * The cards floating round the centred headline (sprint 9, after the client's
+   * "mindset health" reference). Illustrative product moments, labelled by
+   * role, not by invented customer names. T+5 wording: the review window
+   * closes before the invoice is sent; nothing here promises payment in 5 days.
+   */
+  cards: {
+    coordinator: { title: "Site coordinator", meta: "Visit 6 of 8 verified", progress: 75 },
+    financeLead: { title: "Finance lead", meta: "Month-end reconciled", progress: 92 },
+    investigator: { title: "Investigator", meta: "Grant on next invoice" },
+    sponsor: { title: "Sponsor", meta: "Funds verified work" },
+    invoice: {
+      eyebrow: "Pre-invoice ready",
+      title: "Site 014 · October",
+      chips: ["24 visits", "SGD"],
+      footer: "5-day review, then invoice",
+    },
+  },
   primaryCta: { label: "Yes, that’s me", href: "#pain" },
   secondaryCta: { label: "Request a demo", href: "#demo" },
 };
@@ -104,28 +111,28 @@ export const pains = {
       label: "Cash flow",
       icon: RiLineChartLine,
       worry: "I can’t see what’s coming in next quarter.",
-      fix: "See what you have earned and when it lands, visit by visit, so the next 90 days stop being a guess.",
+      fix: "See what you’ve earned and when it lands, visit by visit.",
     },
     {
       id: "investigator-grants",
       label: "Investigator grants",
       icon: RiStethoscopeLine,
       worry: "Our investigators are paid late. Again.",
-      fix: "Each completed visit is recorded once and billed on the next monthly invoice, so grants stop slipping.",
+      fix: "Every finished visit lands on next month’s invoice. No more slipping.",
     },
     {
       id: "reconciliation",
       label: "Reconciliation",
       icon: RiFileList3Line,
       worry: "Month-end means a week of spreadsheets.",
-      fix: "Visits are matched to the budget as they happen, so month-end becomes a quick review, not a rebuild.",
+      fix: "Visits match the budget as they happen. Month-end is a quick check.",
     },
     {
       id: "late-payments",
       label: "Late payments",
       icon: RiTimeLine,
       worry: "I’m still chasing invoices from months ago.",
-      fix: "One clean invoice goes out every month after a 5-day review. Nothing left to chase.",
+      fix: "One clean invoice a month, after a 5-day review. Nothing to chase.",
     },
   ],
   cta: { label: "Fix mine: request a demo", href: "#demo" },
@@ -150,33 +157,33 @@ export const waiting = {
     days: 140,
     from: 90,
     unit: "days",
-    text: "From a completed visit to money in the bank. Invoices go out after the fact, get queried, then wait in a queue.",
+    text: "Visit done. Invoice late, queried, queued. Then, finally, paid.",
   },
   newWay: {
     label: "The ClinTrust way",
     prefix: "≤ ",
     days: 35,
     unit: "days",
-    text: "From a completed visit to a clean final invoice. A pre-invoice goes out each month, the sponsor or CRO has 5 days to review it (T+5), then the invoice is sent.",
+    text: "Visit done. Monthly pre-invoice, 5 days to review (T+5), clean invoice out.",
   },
-  note: "T+5 is the 5-day review window before the monthly invoice is sent. It is not a promise of payment in five days.",
+  note: "T+5 is the 5-day review before the monthly invoice goes out, not payment in five days.",
 };
 
 export const steps = [
   {
     id: "record",
     name: "Record",
-    text: "Your team logs a completed visit once. We check it against the trial data, so everyone works from the same record.",
+    text: "Your team logs a finished visit once. Everyone works from that one record.",
   },
   {
     id: "reconcile",
     name: "Reconcile",
-    text: "We match each visit to the budget for you. Anything that doesn’t fit is flagged for a person to check.",
+    text: "We match it to the budget. Anything odd is flagged for a person.",
   },
   {
     id: "pay",
     name: "Pay",
-    text: "Each month the sponsor or CRO reviews a pre-invoice for 5 days. Then the final invoice goes out and the site is paid in its own currency.",
+    text: "Pre-invoice each month, 5 days to review, then the final invoice. Paid in your currency.",
   },
 ] as const;
 
@@ -185,43 +192,25 @@ export const audiences = [
   {
     id: "sponsors",
     label: "Sponsors",
-    questions: [
-      "Is money sitting in escrow while sites wait to be paid?",
-      "Do you know what you actually owe this month?",
-    ],
-    benefit: "Fund the work that has been done, not a forecast, and hold far less cash in escrow.",
-    stat: "70–80%",
-    statLabel: "less capital held in escrow",
-    cta: "More for sponsors",
-    href: "/approach#sponsors",
+    questions: ["Is your money sitting in escrow?", "Do you know what you owe this month?"],
+    benefit: "Fund the work that’s done, not a forecast.",
   },
   {
     id: "cros",
     label: "CROs",
-    questions: [
-      "Is your finance team rebuilding the same spreadsheet every month?",
-      "How many site payment disputes are open right now?",
-    ],
-    benefit: "Visits arrive already matched to the budget, so reconciliation shrinks to a review and every dispute comes with the evidence attached.",
-    stat: "~80%",
-    statLabel: "less manual reconciliation",
-    cta: "More for CROs",
-    href: "/approach#cros",
+    questions: ["Rebuilding the same spreadsheet every month?", "How many payment disputes are open right now?"],
+    benefit: "Visits arrive matched to the budget, with the evidence attached.",
   },
   {
     id: "sites",
     label: "Sites",
-    questions: [
-      "Do you know what you’ve earned but not yet been paid?",
-      "How many hours a week go on chasing invoices?",
-    ],
-    benefit: "See earned versus paid for every visit, and get one clean invoice every month without the chasing.",
-    stat: "Monthly",
-    statLabel: "clean invoice, sent after a 5-day review",
-    cta: "More for sites",
-    href: "/approach#sites",
+    questions: ["Do you know what you’ve earned but not been paid?", "How many hours a week go on chasing?"],
+    benefit: "See earned versus paid for every visit. One clean invoice a month.",
   },
 ] as const;
+
+/** The action at the foot of each audience panel. */
+export const audienceCta = { label: "Show me how", href: "#demo" } as const;
 
 /**
  * Proof. The brief asks for one short quote or number, ideally with a real
@@ -237,20 +226,18 @@ export const proof = {
    * portfolio a 20% advance holds $20M; a 5% buffer holds $5M. That frees
    * $15M, 75% less held, inside the "70–80%" quoted for sponsors.
    */
-  stats: [
-    { label: "Capital released on a $100M trial portfolio*", value: "$15M" },
-    { label: "Less capital held in escrow*", value: "70–80%" },
-  ],
-  footnote: "*Modelled: a 20% escrow advance today against a 5% buffer sized to verified work.",
+  // Sprint 9: one number, as the brief asks. Confirm it with the client.
+  stats: [{ label: "Less capital held in escrow*", value: "70–80%" }],
+  footnote: "*Modelled: a 5% buffer sized to verified work, against a typical 20% escrow advance.",
   title: "Less money waiting, more money working.",
-  text: "Sponsors fund the work that has been done, not a forecast, so capital stops sitting in escrow while sites wait to be paid.",
+  text: "Pay for work that’s done, not a forecast.",
   cta: { label: "Request a demo", href: "#demo" },
   quote: null as null | { text: string; name: string; role: string; photo: string | null },
 };
 
 export const demo = {
   title: "Bring us your messiest reconciliation.",
-  text: "A 45-minute walkthrough on your own numbers. We look at how your site payments run today and show you what changes.",
+  text: "45 minutes, on your own numbers. Bring the spreadsheet you dread.",
   roles: [
     "Sponsor",
     "CRO operations or finance",
@@ -262,28 +249,11 @@ export const demo = {
 };
 
 export const footer = {
-  // Only pages and sections that exist. Legal pages (privacy, terms, security)
-  // are not listed because their text has not been written yet.
+  // Sprint 9: anchors into the home page, plus the inner pages (kept out of
+  // the main nav to keep it narrow).
   columns: [
     {
-      title: "Company",
-      links: [
-        { label: "About", href: "/about" },
-        { label: "Mission", href: "/about#mission" },
-        { label: "Leadership", href: "/about#leadership" },
-        { label: "Contact", href: "/contact" },
-      ],
-    },
-    {
-      title: "Our approach",
-      links: [
-        { label: "For sponsors", href: "/approach#sponsors" },
-        { label: "For CROs", href: "/approach#cros" },
-        { label: "For sites", href: "/approach#sites" },
-      ],
-    },
-    {
-      title: "Platform",
+      title: "On this page",
       links: [
         { label: "Which one is you?", href: "/#pain" },
         { label: "Waiting time", href: "/#waiting" },
@@ -292,8 +262,13 @@ export const footer = {
       ],
     },
     {
-      title: "Insights",
-      links: [{ label: "All insights", href: "/insights" }],
+      title: "More",
+      links: [
+        { label: "Our approach", href: "/approach" },
+        { label: "About", href: "/about" },
+        { label: "Insights", href: "/insights" },
+        { label: "Contact", href: "/contact" },
+      ],
     },
   ],
   // The one place the standards appear on any page (client feedback: once, in
@@ -301,3 +276,57 @@ export const footer = {
   certifications: ["21 CFR Part 11", "ICH E6(R3)", "GDPR", "SOC 2"],
   legal: `© 2026 ${brand.legalEntity}, Singapore.`,
 };
+
+/**
+ * Hero concepts for client review (sprint 9; the brief's first deliverable:
+ * "two or three hero concepts first for review"). Each lives at its own route
+ * under /concepts and uses `hero.questions` and `hero.answer` above, so only
+ * the framing differs. Not linked from the site; noindex.
+ */
+export const heroConcepts = {
+  indexTitle: "Three hero concepts",
+  indexText:
+    "Same questions, same answer, three ways to open the page. Pick one (or the bits you like from each) and we build the full page in that direction.",
+  reviewLabel: "Hero concept for review",
+  backLabel: "All concepts",
+  items: [
+    {
+      slug: "big-question",
+      letter: "A",
+      name: "The big question",
+      eyebrow: "Quick question",
+      summary:
+        "One huge question in the middle of a white page, a sunny highlighter swipe, doodles round the edges. Flips to the answer with a PAID stamp and a little confetti.",
+    },
+    {
+      slug: "your-cash-flow-called",
+      letter: "B",
+      name: "Your cash flow called",
+      summary:
+        "The worries arrive as chat messages from your own cash flow. ClinTrust answers in teal. Beside it, a real person on a sticker card.",
+      chatFrom: "Your cash flow",
+      chatReplyFrom: "ClinTrust",
+      chatStatus: "calling…",
+      chatHeadline: "Your cash flow called.",
+      chatHeadlineContinuation: "It wants answers.",
+      people: [
+        { role: "Site coordinator", tag: "Paid on time" },
+        { role: "Finance lead", tag: "Month-end: done" },
+      ],
+    },
+    {
+      slug: "invoice-flip",
+      letter: "C",
+      name: "The invoice flip",
+      summary:
+        "A big yellow invoice card. The front asks the question, then it flips over to show the answer, stamped PAID. A day counter beside it ticks 140 down to one month.",
+      cardEyebrow: "Invoice #140",
+      cardBackEyebrow: "Invoice: this month",
+      eyebrow: "Clinical trial payments",
+      headline: "Sound familiar?",
+      counterFrom: 140,
+      counterTo: 35,
+      counterLabel: "days from visit to clean invoice",
+    },
+  ],
+} as const;

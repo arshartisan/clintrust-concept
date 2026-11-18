@@ -78,7 +78,7 @@ export function PrincipleCards() {
             key={item.name}
             once
             className={cx(
-              "flex flex-col rounded-3xl border border-border-button-default bg-background-secondary-default p-6 sm:p-7",
+              "flex flex-col rounded-3xl border-2 border-text-primary shadow-sticker bg-background-secondary-default p-6 sm:p-7",
               place[index],
             )}
           >
