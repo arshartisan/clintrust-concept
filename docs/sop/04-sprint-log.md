@@ -70,6 +70,10 @@ customer names. `hero-stickers.tsx` is no longer used on the home page.
   flips to the answer for 4 s, then the next question (was: all four
   questions, then the answer once). One dot per question. The hero carries
   only the questions, the answer and the two buttons (no lead line).
+- The answer has its own entrance, unlike the questions' cross-fade: a
+  left-aligned checklist of its three sentences (`hero.answerParts`), each
+  row sliding in with a teal tick that pops, the last row highlighted
+  (`.answer-row-in` in styles/brand.css). Shown for 5 s.
 - Under reduced motion the rotation does not run, so a static copy of the
   answer shows under the first question (`motion-reduce:` in CSS, so server
   and client match and nothing shifts).

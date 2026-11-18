@@ -56,9 +56,11 @@ export const hero = {
     "Still chasing invoices 140 days later?",
   ],
   answer: "One verified record. A clean invoice every month. Paid faster than 90–140 days.",
+  /** The same answer, split at its full stops: the hero builds it as a checklist, row by row. */
+  answerParts: ["One verified record.", "A clean invoice every month.", "Paid faster than 90–140 days."],
   intervalMs: 4000,
-  /** How long the answer stays up after each question. */
-  answerMs: 4000,
+  /** How long the answer stays up after each question (its rows take ~1.3 s to build). */
+  answerMs: 5000,
   /** ClinTrust in one line, under the headline. */
   lead: "ClinTrust: one record of trial work everyone agrees on, and a clean invoice from it every month.",
   pauseLabel: "Pause the rotating questions",

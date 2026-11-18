@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type CSSProperties } from "react";
-import { RiPauseLine, RiPlayLine } from "@remixicon/react";
+import { RiCheckLine, RiPauseLine, RiPlayLine } from "@remixicon/react";
 import { Button, ButtonLink } from "@/components/base/buttons/button";
 import { StarBorderLink } from "@/components/base/buttons/star-border-button";
 import { hero } from "@/content/landing";
@@ -85,14 +85,29 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
             </span>
           );
         })}
-        {/* The answer, set one size down in the centred hero: it is the
-            longest line and would otherwise make the slot (and the gap under
-            every short question) much taller. */}
+        {/* The answer, built as a left-aligned checklist (the block itself is
+            centred in the slot). Each showing re-mounts the rows so their
+            entrance plays again: a row slides in, its tick pops, and the last
+            row gets the highlighter. One size down from the questions, so
+            the slot stays the height of the longest question. */}
         <span
           aria-hidden={!showingAnswer}
-          className={cx(lineClass(showingAnswer), "text-accent-600", centered && "text-section")}
+          className={cx(lineClass(showingAnswer), "text-section text-start", centered && "justify-self-center")}
         >
-          {hero.answer}
+          <span key={showingAnswer ? `answer-${step}` : "answer"} className="flex flex-col gap-2 sm:gap-3">
+            {hero.answerParts.map((part, index) => (
+              <span
+                key={part}
+                className={cx("flex items-center gap-3 sm:gap-4", showingAnswer && "answer-row-in")}
+                style={{ "--i": index } as CSSProperties}
+              >
+                <span className="answer-tick flex size-8 shrink-0 items-center justify-center rounded-full border-2 border-text-primary bg-teal-400 text-text-primary sm:size-10">
+                  <RiCheckLine className="size-4 sm:size-5" aria-hidden="true" />
+                </span>
+                <span className={cx(index === hero.answerParts.length - 1 && "concept-highlight")}>{part}</span>
+              </span>
+            ))}
+          </span>
         </span>
       </h1>
 
