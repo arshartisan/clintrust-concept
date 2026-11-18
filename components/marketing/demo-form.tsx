@@ -7,6 +7,8 @@ import { Select, SelectItem } from "@/components/base/select/select";
 import { Textarea } from "@/components/base/textarea/textarea";
 import { demo } from "@/content/landing";
 import { contact } from "@/content/pages";
+import { demoFormClass } from "./demo-form-class";
+import { track } from "@/utils/track";
 
 // The toast system (and the animation library it depends on) is only needed
 // once someone uses the form: the Toaster mounts on first focus inside the
@@ -14,12 +16,14 @@ import { contact } from "@/content/pages";
 const loadToast = () => import("@/components/base/toast/toast");
 const LazyToaster = lazy(() => loadToast().then((module) => ({ default: module.Toaster })));
 
-/** Shared by the form and its loading placeholder so both are one size. */
-export const demoFormClass =
-  "min-h-[860px] rounded-3xl border border-border-button-default bg-background-primary-default p-6 sm:min-h-[646px] sm:p-8";
+
+interface DemoFormProps {
+  /** Where the form sits ("contact", "landing"); sent with the request and to analytics. */
+  source?: string;
+}
 
 /** The contact / demo request form. Loaded on demand: see lazy-widgets.tsx. */
-export function DemoForm() {
+export function DemoForm({ source = "contact" }: DemoFormProps) {
   const [sending, setSending] = useState(false);
   const [toasterArmed, setToasterArmed] = useState(false);
 
@@ -38,6 +42,7 @@ export function DemoForm() {
       });
       if (!response.ok) throw new Error(`Request failed with ${response.status}`);
 
+      track("demo_form_submit", { location: source });
       form.reset();
       toast.success("Message sent", {
         description: "We will reply to your work email.",
@@ -62,7 +67,7 @@ export function DemoForm() {
       <form
         onSubmit={onSubmit}
         onFocusCapture={() => setToasterArmed(true)}
-        className={`${demoFormClass} grid content-start gap-5 sm:grid-cols-2`}
+        className={`${demoFormClass} relative grid content-start gap-5 sm:grid-cols-2`}
       >
         <Select
           name="subject"
@@ -109,6 +114,14 @@ export function DemoForm() {
             </SelectItem>
           ))}
         </Select>
+        <input type="hidden" name="source" value={source} />
+        {/* Honeypot: hidden from people and assistive technology; bots fill it in. */}
+        <div aria-hidden="true" className="absolute -start-[9999px] size-px overflow-hidden">
+          <label>
+            Website
+            <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+          </label>
+        </div>
         <Textarea name="message" label="Message" rows={4} maxLength={2000} className="sm:col-span-2" />
 
         <div className="flex flex-wrap items-center justify-between gap-4 sm:col-span-2">
