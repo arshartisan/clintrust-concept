@@ -1,50 +1,50 @@
-import type { CSSProperties } from "react";
+import { RiAddLine } from "@remixicon/react";
 import { cx } from "@/utils/cx";
 import { container } from "./frame";
+import { HeroCards } from "./hero-cards";
 import { HeroIntro } from "./hero-intro";
-import { HeroScene } from "./hero-scene";
-import { InView } from "./in-view";
-
-const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
 /**
- * Hero (sprint 8): the visitor's worry first. A rotating question headline
- * (hero-intro.tsx) at the top left over an isometric floor grid, and a large
- * isometric scene that fills the rest and tucks in under the text. The
- * "in stealth" pill and the standards strip were removed on client feedback;
- * the standards now appear once, in the footer.
+ * Hero (sprint 9, after the client's "mindset health" reference): the
+ * rotating question headline centred and large (hero-intro.tsx, `centered`),
+ * the lead and both actions centred under it, and small sticker cards
+ * floating round it (hero-cards.tsx: people at work, a pre-invoice).
  *
- * On desktop the scene is pulled up behind the text with a negative margin.
- * That only works because the scene keeps its top-left corner empty (see
- * hero-scene.tsx): change one and check the other. Below `lg` there is no
- * overlap; the scene simply follows the text.
+ * Behind: a faint square grid with a few crosshair marks, fading out toward
+ * the edges, and two soft glows (sunny yellow on the left, coral on the
+ * right). Decorative only.
+ *
+ * Below `lg` the floating cards are hidden (they would cover the headline);
+ * the headline, lead and buttons stay centred.
  */
 export function Hero() {
   return (
-    // overflow-x-clip: the scene and dot field bleed past the column and must not widen the page.
+    // overflow-x-clip: glows and tilted cards bleed past the column and must not widen the page.
     <section id="top" className="relative overflow-x-clip">
-      <div className={cx(container, "relative")}>
-        {/* Isometric floor grid: two sets of hairlines at plus and minus 30 degrees,
-            strongest behind the scene and fading out toward the edges. */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 [background-image:repeating-linear-gradient(30deg,var(--color-separator-border)_0_1px,transparent_1px_34px),repeating-linear-gradient(150deg,var(--color-separator-border)_0_1px,transparent_1px_34px)] [mask-image:radial-gradient(ellipse_75%_70%_at_62%_58%,black_20%,transparent_78%)]"
-        />
-        <div className="pt-12 pb-12 lg:pt-16 lg:pb-16">
-          <div className="relative z-10 max-w-[600px]">
-            <HeroIntro />
-          </div>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        {/* Glows. */}
+        <span className="absolute top-[18%] start-[8%] size-[420px] rounded-full [background:radial-gradient(closest-side,color-mix(in_srgb,var(--color-accent-300)_45%,transparent),transparent)] max-sm:size-[260px]" />
+        <span className="absolute top-[10%] end-[6%] size-[460px] rounded-full [background:radial-gradient(closest-side,color-mix(in_srgb,var(--color-coral-300)_35%,transparent),transparent)] max-sm:size-[260px]" />
+        {/* Grid: 72px squares, strongest behind the headline. */}
+        <span className="absolute inset-x-0 top-0 bottom-0 [background-image:linear-gradient(var(--color-separator-border)_1px,transparent_1px),linear-gradient(90deg,var(--color-separator-border)_1px,transparent_1px)] [background-position:center_top] [background-size:72px_72px] [mask-image:radial-gradient(ellipse_48%_52%_at_50%_42%,black_30%,transparent_80%)]" />
+      </div>
 
-          {/* lg:w-[70%] sets the scene's size; ms-auto keeps it against the right edge.
-              -mt-[240px]: how far the scene's empty top-left corner reaches under the text.
-              The two go together: a smaller scene lifts the rack toward the buttons. */}
-          <div className="hero-in relative mt-6 lg:ms-auto lg:-me-8 lg:-mt-[240px] lg:w-[70%]" style={delay(200)}>
-            <InView className="relative">
-              <HeroScene className="h-auto w-full" />
-            </InView>
-          </div>
+      <div className={cx(container, "relative")}>
+        {/* Crosshair marks on the grid, desktop only. */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden text-foreground-icon-tertiary lg:block">
+          <RiAddLine className="absolute start-[24%] top-[14%] size-5" />
+          <RiAddLine className="absolute end-[26%] top-[20%] size-5" />
+          <RiAddLine className="absolute start-[30%] top-[66%] size-5" />
+          <RiAddLine className="absolute end-[30%] top-[72%] size-5" />
         </div>
 
+        <HeroCards />
+
+        <div className="relative z-10 flex flex-col items-center py-16 sm:py-20 lg:min-h-[760px] lg:justify-center lg:py-24">
+          <div className="w-full max-w-[760px]">
+            <HeroIntro centered />
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -24,8 +24,11 @@ const ANSWER = ITEMS.length - 1;
  * The first question is painted in the first frame (it is the page's LCP).
  * Rotation can be paused (WCAG 2.2.2) and does not start under reduced
  * motion; the play button still steps through the lines there.
+ *
+ * `centered`: the centred hero (sprint 9). Bigger, chunkier headline, and
+ * every row centred.
  */
-export function HeroIntro() {
+export function HeroIntro({ centered = false }: { centered?: boolean }) {
   const [index, setIndex] = useState(0);
   // null until the visitor presses the button; until then reduced motion decides.
   const [userPaused, setUserPaused] = useState<boolean | null>(null);
@@ -51,7 +54,12 @@ export function HeroIntro() {
 
   return (
     <>
-      <h1 className="hero-settle grid text-hero text-balance text-text-primary">
+      <h1
+        className={cx(
+          "hero-settle grid text-hero text-balance text-text-primary",
+          centered && "mx-auto max-w-[16ch] justify-items-center text-center text-poster",
+        )}
+      >
         {ITEMS.map((line, lineIndex) => {
           const active = lineIndex === index;
           return (
@@ -61,6 +69,13 @@ export function HeroIntro() {
               className={cx(
                 "col-start-1 row-start-1 transition-[opacity,translate,filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
                 lineIndex === ANSWER && "text-accent-600",
+                // Centred hero: the slot is as tall as the tallest line, so the
+                // long answer is set one size down (it would otherwise reserve
+                // four poster lines under every two-line question), and each
+                // line sits in the middle of the slot so spare space splits
+                // evenly above and below.
+                centered && "self-center",
+                centered && lineIndex === ANSWER && "text-section",
                 active ? "opacity-100" : "pointer-events-none translate-y-3 opacity-0 blur-[2px]",
               )}
             >
@@ -70,7 +85,7 @@ export function HeroIntro() {
         })}
       </h1>
 
-      <div className="mt-5 flex items-center gap-3">
+      <div className={cx("mt-5 flex items-center gap-3", centered && "justify-center")}>
         <Button
           variant="secondary"
           size="small"
@@ -95,7 +110,7 @@ export function HeroIntro() {
                   track("hero_question_pick", { location: "hero", question: lineIndex === ANSWER ? "answer" : lineIndex + 1 });
                   setIndex(lineIndex);
                 }}
-                className="group/dot flex h-6 cursor-pointer items-center rounded-full px-[3px] outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
+                className="group/dot flex h-6 min-w-6 cursor-pointer items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring"
               >
                 <span
                   className={cx(
@@ -111,9 +126,16 @@ export function HeroIntro() {
         </div>
       </div>
 
-      <p className="hero-settle mt-6 max-w-[52ch] text-headline-regular text-pretty text-text-secondary">{hero.lead}</p>
+      <p
+        className={cx(
+          "hero-settle mt-6 max-w-[52ch] text-headline-regular text-pretty text-text-secondary",
+          centered && "mx-auto max-w-[46ch] text-center text-lead",
+        )}
+      >
+        {hero.lead}
+      </p>
 
-      <div className="hero-in mt-7 flex flex-wrap items-center gap-3" style={{ "--d": "120ms" } as CSSProperties}>
+      <div className={cx("hero-in mt-7 flex flex-wrap items-center gap-3", centered && "justify-center")} style={{ "--d": "120ms" } as CSSProperties}>
         <StarBorderLink
           href={hero.primaryCta.href}
           onClick={() => track("hero_yes_thats_me", context)}
