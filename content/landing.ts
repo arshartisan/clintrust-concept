@@ -230,10 +230,21 @@ export const audiences = [
  * section shows it beside the number.
  */
 export const proof = {
+  /** Small tag at the top of the dark stats card. */
+  eyebrow: "The ClinTrust model",
+  /**
+   * Both figures come from the same model (see `footnote`): on a $100M
+   * portfolio a 20% advance holds $20M; a 5% buffer holds $5M. That frees
+   * $15M, 75% less held, inside the "70–80%" quoted for sponsors.
+   */
+  stats: [
+    { label: "Capital released on a $100M trial portfolio*", value: "$15M" },
+    { label: "Less capital held in escrow*", value: "70–80%" },
+  ],
+  footnote: "*Modelled: a 20% escrow advance today against a 5% buffer sized to verified work.",
   title: "Less money waiting, more money working.",
-  figure: "$15M",
-  label: "of capital released on a $100M trial portfolio",
-  basis: "ClinTrust model: a 20% escrow advance today against a 5% buffer sized to verified work.",
+  text: "Sponsors fund the work that has been done, not a forecast, so capital stops sitting in escrow while sites wait to be paid.",
+  cta: { label: "Request a demo", href: "#demo" },
   quote: null as null | { text: string; name: string; role: string; photo: string | null },
 };
 

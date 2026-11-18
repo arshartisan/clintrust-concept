@@ -1,11 +1,11 @@
 "use client";
 
 import { useRef, useState, type KeyboardEvent } from "react";
-import { RiArrowRightLine, RiFundsLine, RiHospitalLine, RiQuestionLine, RiTeamLine } from "@remixicon/react";
-import { ButtonLink } from "@/components/base/buttons/button";
+import { RiFundsLine, RiHospitalLine, RiQuestionLine, RiTeamLine } from "@remixicon/react";
 import { audiences } from "@/content/landing";
 import { cx } from "@/utils/cx";
 import { track } from "@/utils/track";
+import { ArrowLink } from "./arrow-link";
 import { Section, SectionHeading } from "./frame";
 import { Reveal } from "./reveal";
 
@@ -96,29 +96,40 @@ export function Audiences() {
           id={`audience-panel-${audience.id}`}
           aria-labelledby={`audience-tab-${audience.id}`}
           hidden={index !== active}
-          className="audience-panel mt-6 grid gap-4 lg:grid-cols-12"
+          className="audience-panel mt-6 grid gap-3 lg:grid-cols-12"
         >
-          <ul className="flex flex-col gap-4 lg:col-span-7">
-            {audience.questions.map((question) => (
+          {/* Questions: numbered cards that stretch to the benefit card's height. */}
+          <ol className="flex flex-col gap-3 lg:col-span-7">
+            {audience.questions.map((question, questionIndex) => (
               <li
                 key={question}
-                className="flex items-start gap-4 rounded-3xl border border-border-button-default bg-background-primary-default p-6 sm:p-7"
+                className="flex flex-1 flex-col justify-between gap-8 rounded-[2rem] border border-border-button-default bg-background-secondary-default p-6 transition-colors duration-200 hover:border-border-button-hover sm:p-8"
               >
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-accent-100 text-accent-700">
-                  <RiQuestionLine className="size-5" aria-hidden="true" />
+                <span className="flex items-center justify-between gap-4">
+                  <span aria-hidden="true" className="text-figure text-text-tertiary tabular-nums">
+                    {String(questionIndex + 1).padStart(2, "0")}
+                  </span>
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-background-primary-default text-foreground-icon-secondary shadow-xs">
+                    <RiQuestionLine className="size-5" aria-hidden="true" />
+                  </span>
                 </span>
-                <p className="text-title-3-medium text-balance text-text-primary">{question}</p>
+                <p className="max-w-[26ch] text-subsection text-balance text-text-primary">{question}</p>
               </li>
             ))}
-          </ul>
+          </ol>
 
-          <div className="flex flex-col rounded-3xl border border-accent-200 bg-accent-50 p-6 sm:p-7 lg:col-span-5">
-            <p className="text-display-4-medium tracking-tight text-text-primary">{audience.stat}</p>
-            <p className="text-body-medium text-text-secondary">{audience.statLabel}</p>
-            <p className="mt-6 mb-8 max-w-[44ch] text-headline-regular text-pretty text-text-primary">{audience.benefit}</p>
-            <ButtonLink href={audience.href} variant="secondary" trailingIcon={RiArrowRightLine} className="mt-auto self-start">
+          {/* Benefit: the same pale teal card as Proof, figure set large. */}
+          <div className="@container flex flex-col rounded-[2rem] bg-accent-100 p-6 sm:p-8 lg:col-span-5 lg:p-10">
+            <p className="inline-flex items-center gap-2 self-start rounded-md bg-background-primary-default/70 px-2.5 py-1.5 text-caption-1-semibold tracking-wider text-text-primary uppercase">
+              <span aria-hidden="true" className="size-2.5 rounded-[2px] bg-accent-500" />
+              For {audience.label}
+            </p>
+            <p className="mt-10 text-stat whitespace-nowrap text-accent-700 tabular-nums">{audience.stat}</p>
+            <p className="mt-3 text-body-medium text-text-primary">{audience.statLabel}</p>
+            <p className="mt-8 mb-10 max-w-[40ch] text-lead text-pretty text-text-primary">{audience.benefit}</p>
+            <ArrowLink href={audience.href} className="mt-auto">
               {audience.cta}
-            </ButtonLink>
+            </ArrowLink>
           </div>
         </div>
       ))}

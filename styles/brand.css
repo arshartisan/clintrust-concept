@@ -102,6 +102,14 @@
   --text-wordmark--letter-spacing: -0.045em;
   --text-wordmark--font-weight: 600;
 
+  /* Big stat numerals in the Proof cards: light weight, very large. Sized by
+   * the stat's own column (cqi), not the viewport, so the widest value
+   * ("70–80%") always fits its column. Put `@container` on the column. */
+  --text-stat: clamp(3rem, 24cqi, 5.25rem);
+  --text-stat--line-height: 0.95;
+  --text-stat--letter-spacing: -0.04em;
+  --text-stat--font-weight: 400;
+
   --text-figure: clamp(2.5rem, 1.6rem + 3vw, 4rem);
   --text-figure--line-height: 1;
   --text-figure--letter-spacing: -0.035em;
@@ -574,6 +582,43 @@ html.lenis {
   .button-glow {
     transition: none;
   }
+}
+
+/* Glow card (Proof stats card), built to a Figma "glowing tile" recipe and
+ * recoloured to the brand (the recipe's blues were swapped for the teal ramp,
+ * its near-black for the navy ink):
+ *   fill      navy-950 to navy-900, top to bottom
+ *   inner 1   x 0, y -80, blur 60, spread -30, accent-600 100%  (the body of the glow)
+ *   inner 2   x 0, y -40, blur 30, spread -8,  accent-300 50%   (lighter band nearer the edge)
+ *   inner 3   x 0, y -20, blur 20, spread -6,  white 40%, blend "plus lighter"
+ *             (the white-hot base). CSS cannot blend one shadow of a stack,
+ *             so this one lives on ::after with mix-blend-mode: plus-lighter.
+ *   inner 4   x 0, y 6,   blur 6,  spread -2,  accent-400 15%   (a faint lip along the top)
+ *   drop      a soft layered navy shadow under the card
+ * Negative y puts an inset shadow on the BOTTOM edge, so the light rises from
+ * below. Keep text out of the bottom ~90px: the card's bottom padding does that. */
+.glow-card {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(180deg, var(--color-navy-950), var(--color-navy-900));
+  box-shadow:
+    inset 0 -80px 60px -30px var(--color-accent-600),
+    inset 0 -40px 30px -8px color-mix(in oklab, var(--color-accent-300) 50%, transparent),
+    inset 0 6px 6px -2px color-mix(in oklab, var(--color-accent-400) 15%, transparent),
+    0 1px 2px color-mix(in oklab, var(--color-navy-950) 12%, transparent),
+    0 8px 16px -4px color-mix(in oklab, var(--color-navy-950) 18%, transparent),
+    0 24px 48px -12px color-mix(in oklab, var(--color-navy-950) 28%, transparent),
+    0 48px 80px -24px color-mix(in oklab, var(--color-accent-700) 30%, transparent);
+}
+.glow-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 -20px 20px -6px rgb(255 255 255 / 0.4);
+  mix-blend-mode: plus-lighter;
 }
 
 /* Star border CTA (components/base/buttons/star-border-button.tsx), after the

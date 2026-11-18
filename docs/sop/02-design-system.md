@@ -123,6 +123,7 @@ Two ramps:
 | `text-subsection` | 24px | 1.25 | -0.02em | 500 |
 | `text-lead` | 18px | 1.6 | -0.006em | 400 |
 | `text-figure` | 40 to 64px (fluid) | 1.0 | -0.035em | 500 |
+| `text-stat` | 48 to 84px (24% of its column) | 0.95 | -0.04em | 400 |
 | `text-wordmark` | 80 to 296px (fluid) | 0.82 | -0.055em | 600 |
 
 Rules:
@@ -332,10 +333,26 @@ only: the hero's "Yes, that's me" and the header's "Request a demo".
 - **Waiting time** (`waiting-counter.tsx`): two cards on one 0 to 140 day
   scale. Counts roll up once on first view; the ClinTrust bar ends in a
   "sent" tick. Server HTML shows the finished numbers.
-- **Audience tabs** (`audiences.tsx`): Sponsors / CROs / Sites, questions on
-  the left, figure and benefit on a teal card on the right.
-- **Proof** (`proof.tsx`): one figure with its basis. Fill `proof.quote` to
-  add a quote with a face.
+- **Audience tabs** (`audiences.tsx`): Sponsors / CROs / Sites. Questions
+  on the left as numbered cards (01, 02 in `text-figure`, question in
+  `text-subsection`) that stretch to the height of the benefit card; on the
+  right the same pale teal card as Proof: a "For <role>" eyebrow, the figure
+  in `text-stat`, its label, the benefit as a lead and an `ArrowLink`.
+  `ArrowLink` (`arrow-link.tsx`) is the shared dark-tile arrow link used by
+  both sections.
+- **Proof** (`proof.tsx`, after the Unlearn platform stat block): a dark
+  glow card (8 columns, `.dark` plus `.glow-card`: a navy-950 to navy-900
+  tile lit from the bottom edge by four stacked inner shadows in the teal
+  ramp, built to a Figma "glowing tile" recipe whose values are in the
+  comment in `brand.css` (its blues were swapped for teal: blue is not a
+  glow colour here); the white-hot one is on `::after` with `plus-lighter`. Extra
+  bottom padding keeps text out of the glow band) with an accent eyebrow tag, two big figures
+  ($15M released, 70 to 80% less held in escrow, both from one model) each
+  under its label beside a vertical hairline, and the footnote; next to it a
+  pale teal card (`accent-100`) with the headline, one line and an arrow link
+  to the demo form. Figures use `text-stat`, sized by their own column
+  (`cqi` units, `@container` on the column) so the widest value always fits.
+  Fill `proof.quote` to add a quote with a face underneath.
 - **Closing panel** (`cta-band.tsx`, `id="demo"`): the demo form sits inside
   the call-to-action panel. Every landing "Request a demo" scrolls here.
 
