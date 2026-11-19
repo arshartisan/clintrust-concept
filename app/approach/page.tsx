@@ -4,6 +4,7 @@ import { ButtonLink } from "@/components/base/buttons/button";
 import { CommandCenter } from "@/components/marketing/command-center";
 import { CtaBand } from "@/components/marketing/cta-band";
 import { Section, SectionHeading } from "@/components/marketing/frame";
+import { DoodleTile, TILE_TONE_ORDER } from "@/components/marketing/doodle-icons";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Reveal } from "@/components/marketing/reveal";
 import { SettlementLedger } from "@/components/marketing/settlement-ledger";
@@ -99,18 +100,13 @@ export default function ApproachPage() {
                   role.id === "sponsors" ? "lg:col-span-7" : "lg:grid-cols-3",
                 )}
               >
-                {role.features.map((feature) => (
+                {role.features.map((feature, featureIndex) => (
                   <li
                     key={feature.name}
                     className="rounded-3xl border-2 border-text-primary shadow-sticker bg-background-full p-6"
                   >
                     {"icon" in feature ? (
-                      <span
-                        aria-hidden="true"
-                        className="flex size-10 items-center justify-center rounded-xl border border-accent-200 bg-accent-50 text-accent-600"
-                      >
-                        <feature.icon className="size-5" />
-                      </span>
+                      <DoodleTile icon={feature.icon} tone={TILE_TONE_ORDER[featureIndex % TILE_TONE_ORDER.length]} />
                     ) : null}
                     <p className="mt-4 text-headline-medium text-text-primary">{feature.name}</p>
                     <p className="mt-1.5 text-body-regular text-text-secondary">{feature.text}</p>

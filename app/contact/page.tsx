@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { demoFormClass } from "@/components/marketing/demo-form-class";
-import { container } from "@/components/marketing/frame";
+import { container, MarkedText } from "@/components/marketing/frame";
+import { DoodleTile, TILE_TONE_ORDER } from "@/components/marketing/doodle-icons";
 import { LazyDemoForm } from "@/components/marketing/lazy-widgets";
 import { contact } from "@/content/pages";
 import { cx } from "@/utils/cx";
@@ -16,21 +17,23 @@ export default function ContactPage() {
     <section>
       <div className={cx(container, "grid gap-12 pt-16 pb-20 lg:grid-cols-12 lg:pt-24 lg:pb-28")}>
         <div className="lg:col-span-5">
-          <h1 className="hero-settle text-hero text-balance text-text-primary">{contact.hero.title}</h1>
+          {/* Dark title, lighter continuation, one phrase on a sticker: the home
+              section headings' style (SectionHeading), at hero size. */}
+          <h1 className="hero-settle title-chunky text-hero text-balance text-text-primary">
+            {contact.hero.title}{" "}
+            <span className="text-text-tertiary">
+              <MarkedText text={contact.hero.continuation} mark={contact.hero.mark} tone="coral" />
+            </span>
+          </h1>
           <p className="hero-settle mt-6 max-w-[46ch] text-lead text-pretty text-text-secondary">
             {contact.hero.lead}
           </p>
 
           {/* Ways to reach the team. Emails stay left-to-right in any layout. */}
           <address className="mt-12 grid gap-6 border-t border-separator-border pt-8 not-italic">
-            {contact.channels.map((channel) => (
-              <div key={channel.label} className="flex gap-4">
-                <span
-                  aria-hidden="true"
-                  className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-accent-200 bg-accent-50 text-accent-600"
-                >
-                  <channel.icon className="size-5" />
-                </span>
+            {contact.channels.map((channel, index) => (
+              <div key={channel.label} className="flex items-start gap-4">
+                <DoodleTile icon={channel.icon} tone={TILE_TONE_ORDER[index % TILE_TONE_ORDER.length]} />
                 <div>
                   <p className="text-caption-1-semibold tracking-wide text-text-tertiary uppercase">{channel.label}</p>
                   {"email" in channel ? (

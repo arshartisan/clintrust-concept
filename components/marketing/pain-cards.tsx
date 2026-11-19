@@ -16,10 +16,10 @@ const face =
  * reads on all four.
  */
 const CARD_TONES = [
-  { back: "bg-teal-300", tile: "bg-teal-100" },
-  { back: "bg-accent-300", tile: "bg-accent-100" },
-  { back: "bg-coral-300", tile: "bg-coral-100" },
-  { back: "bg-brand-blue-200", tile: "bg-brand-blue-100" },
+  { back: "bg-teal-300", tile: "bg-teal-100 [--doodle-fill:var(--color-teal-300)]" },
+  { back: "bg-accent-300", tile: "bg-accent-100 [--doodle-fill:var(--color-accent-300)]" },
+  { back: "bg-coral-300", tile: "bg-coral-100 [--doodle-fill:var(--color-coral-300)]" },
+  { back: "bg-brand-blue-200", tile: "bg-brand-blue-100 [--doodle-fill:var(--color-brand-blue-200)]" },
 ] as const;
 
 /**
@@ -65,8 +65,8 @@ export function PainCards({ className }: { className?: string }) {
                 {/* Front: the worry. */}
                 <span aria-hidden={isOpen} className={cx(face, "bg-background-primary-default")}>
                   <span className="flex items-center justify-between gap-3">
-                    <span className={cx("flex size-11 items-center justify-center rounded-2xl border-2 border-text-primary", tone.tile)}>
-                      <pain.icon className="size-5 text-text-primary" aria-hidden="true" />
+                    <span className={cx("doodle-tile flex size-12 items-center justify-center rounded-2xl border-2 border-text-primary shadow-sticker-sm", tone.tile)}>
+                      <pain.icon className="size-9 text-text-primary" />
                     </span>
                     <span
                       aria-hidden="true"

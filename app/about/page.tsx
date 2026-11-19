@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { RiGlobalLine } from "@remixicon/react";
+import { AboutHeroScene } from "@/components/marketing/about-hero-scene";
 import { AdvisorCards } from "@/components/marketing/advisor-cards";
 import { CtaBand } from "@/components/marketing/cta-band";
+import { DoodleTile, TILE_TONE_ORDER } from "@/components/marketing/doodle-icons";
 import { Section, SectionHeading } from "@/components/marketing/frame";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PrincipleCards } from "@/components/marketing/principle-cards";
@@ -14,10 +16,13 @@ export const metadata: Metadata = {
   description: about.hero.lead,
 };
 
+/** A light tint per value cell (sprint 10), in the page's four brand hues; the doodle tile takes the same hue (white face, so it stands off the tint). */
+const VALUE_TONES = [{ cell: "bg-accent-50" }, { cell: "bg-teal-50" }, { cell: "bg-coral-50" }, { cell: "bg-brand-blue-50" }];
+
 export default function AboutPage() {
   return (
     <>
-      <PageHero {...about.hero} />
+      <PageHero title={about.hero.title} lead={about.hero.lead} large aside={<AboutHeroScene />} />
 
       <Section id="mission">
         <div className="grid gap-12 lg:grid-cols-12">
@@ -35,15 +40,10 @@ export default function AboutPage() {
 
         {/* Hairline grid: four values sharing borders. */}
         <ul className="mt-16 grid gap-px overflow-hidden rounded-3xl border-2 border-text-primary bg-text-primary shadow-sticker sm:grid-cols-2 lg:grid-cols-4">
-          {about.values.map((value) => (
-            <li key={value.name} className="bg-background-full p-7">
-              <span
-                aria-hidden="true"
-                className="mb-5 flex size-10 items-center justify-center rounded-xl border border-accent-200 bg-accent-50 text-accent-600"
-              >
-                <value.icon className="size-5" />
-              </span>
-              <h3 className="text-headline-medium text-text-primary">{value.name}</h3>
+          {about.values.map((value, index) => (
+            <li key={value.name} className={cx("p-7", VALUE_TONES[index % VALUE_TONES.length].cell)}>
+              <DoodleTile icon={value.icon} tone={TILE_TONE_ORDER[index % TILE_TONE_ORDER.length]} className="mb-5 bg-background-primary-default" />
+              <h3 className="font-display text-title-1-semibold text-balance text-text-primary">{value.name}</h3>
               <p className="mt-2 text-body-regular text-text-secondary">{value.text}</p>
             </li>
           ))}
@@ -81,7 +81,7 @@ export default function AboutPage() {
                   )}
                   <h3 className="mt-4 text-title-3-medium text-text-primary">{person.name}</h3>
                   {person.role ? <p className="text-body-medium text-accent-600">{person.role}</p> : null}
-                  <p className="mt-3 mb-5 text-body-regular text-text-secondary">{person.bio}</p>
+                  {person.bio ? <p className="mt-3 mb-5 text-body-regular text-text-secondary">{person.bio}</p> : null}
                   <ul className="mt-auto flex flex-wrap gap-2">
                     {person.tags.map((tag) => (
                       <li
@@ -104,7 +104,7 @@ export default function AboutPage() {
             {about.advisors.eyebrow}
           </p>
           <Reveal className="mt-4">
-            <h3 className="max-w-[22ch] text-subsection text-text-primary">{about.advisors.title}</h3>
+            <h3 className="max-w-[20ch] text-section text-balance text-text-primary">{about.advisors.title}</h3>
           </Reveal>
           <p className="mt-4 max-w-[60ch] text-lead text-pretty text-text-secondary">{about.advisors.text}</p>
           <div className="mt-10">

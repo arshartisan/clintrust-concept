@@ -1,23 +1,4 @@
-import {
-  RiBriefcase4Line,
-  RiBuilding4Line,
-  RiDashboard3Line,
-  RiDashboardLine,
-  RiEarthLine,
-  RiFileList3Line,
-  RiFileShield2Line,
-  RiFlowChart,
-  RiFocus3Line,
-  RiFundsLine,
-  RiGitMergeLine,
-  RiLockLine,
-  RiMailLine,
-  RiMapPin2Line,
-  RiScales3Line,
-  RiShieldCheckLine,
-  RiStackLine,
-  RiTimerLine,
-} from "@remixicon/react";
+import { DoodleBriefcase, DoodleBuilding, DoodleChartUp, DoodleFileList, DoodleFileShield, DoodleFlow, DoodleGauge, DoodleGlobe, DoodleLayers, DoodleLock, DoodleMail, DoodleMerge, DoodlePin, DoodleScales, DoodleShieldCheck, DoodleTarget, DoodleTimer } from "@/components/marketing/doodle-icons";
 import { brand } from "./landing";
 
 /**
@@ -33,6 +14,11 @@ export const about = {
   hero: {
     title: "Financial infrastructure for the next era of clinical research.",
     lead: "ClinTrust was founded on one conviction: the way clinical trial sites are paid is broken at the infrastructure level, and fixing it takes a structural rebuild, not another workaround.",
+    /** The hero scene's labels (decorative, aria-hidden): the rebuild, block by block, bottom first. */
+    scene: {
+      blocks: ["Record", "Verify", "Paid"],
+      workaround: "Workaround",
+    },
   },
   mission: {
     title: "To become the system of record for clinical trial payables.",
@@ -42,10 +28,10 @@ export const about = {
     ],
   },
   values: [
-    { name: "Infrastructure first", icon: RiStackLine, text: "Built as core infrastructure, not a point solution." },
-    { name: "Aligned to execution", icon: RiFocus3Line, text: "Payments should reflect what has been done, not what has been invoiced." },
-    { name: "Compliance as the foundation", icon: RiShieldCheckLine, text: "Compliance is the base of every architectural decision, not a feature added later." },
-    { name: "APAC as the primary market", icon: RiEarthLine, text: "First-class payment infrastructure for the region, with a depth global players cannot match." },
+    { name: "Infrastructure first", icon: DoodleLayers, text: "Built as core infrastructure, not a point solution." },
+    { name: "Aligned to execution", icon: DoodleTarget, text: "Payments should reflect what has been done, not what has been invoiced." },
+    { name: "Compliance as the foundation", icon: DoodleShieldCheck, text: "Compliance is the base of every architectural decision, not a feature added later." },
+    { name: "APAC as the primary market", icon: DoodleGlobe, text: "First-class payment infrastructure for the region, with a depth global players cannot match." },
   ],
   leadership: {
     title: "Founded by operators, built by builders.",
@@ -63,16 +49,21 @@ export const about = {
         tags: ["Clinical finance", "APAC operations"],
       },
       {
-        name: "Vivek Gujral",
-        photo: "/team/vivek-gujral.webp",
-        role: "CTO and co-founder",
-        bio: "Fintech infrastructure specialist who has built payment solutions for the insurance sector, including payment rail architecture and AI-assisted financial systems in Singapore and internationally.",
-        tags: ["Fintech infrastructure", "AI systems"],
+        // Replaces Vivek Gujral (client, 2026-11-19). No photo or bio supplied
+        // yet: the card shows a monogram and the title. Add `photo`, `bio`
+        // and `tags` when they arrive.
+        name: "Nicole Lee",
+        photo: null,
+        role: "Chief Product Officer",
+        bio: null,
+        tags: [],
       },
       {
         name: "Amanvir Mundra",
         photo: "/team/amanvir-mundra.webp",
-        role: "CPO and co-founder",
+        // CTO since 2026-11-19 (client); was CPO. Bio and tags still describe
+        // the product role: confirm with the client.
+        role: "CTO and co-founder",
         bio: "Digital product and transformation leader across healthcare, defense, retail and construction, delivering enterprise platforms.",
         tags: ["Digital transformation", "Product leadership"],
       },
@@ -239,11 +230,11 @@ export const approach = {
         { figure: "Day 1", label: "authorization from execution confirmation", meter: { kind: "start" } },
       ],
       features: [
-        { name: "Dynamic capital management", icon: RiFundsLine, text: "Execution-calibrated funding buffers replace oversized escrow advances. On a $100M portfolio this frees $10–15M of idle capital." },
-        { name: "Real-time accrual dashboard", icon: RiDashboard3Line, text: "Earned-but-unpaid liabilities by site, study and cost center." },
-        { name: "CRO-neutral architecture", icon: RiGitMergeLine, text: "Sits above the CRO relationship, so payment visibility is consistent whichever CRO runs the study." },
-        { name: "Automated compliance", icon: RiShieldCheckLine, text: "Every payment is traced from execution event to bank receipt, with a 21 CFR Part 11 audit trail generated automatically." },
-        { name: "Configurable authorization", icon: RiFlowChart, text: "Threshold-based auto-approval, multi-tier approval and budget-owner routing, set per study protocol." },
+        { name: "Dynamic capital management", icon: DoodleChartUp, text: "Execution-calibrated funding buffers replace oversized escrow advances. On a $100M portfolio this frees $10–15M of idle capital." },
+        { name: "Real-time accrual dashboard", icon: DoodleGauge, text: "Earned-but-unpaid liabilities by site, study and cost center." },
+        { name: "CRO-neutral architecture", icon: DoodleMerge, text: "Sits above the CRO relationship, so payment visibility is consistent whichever CRO runs the study." },
+        { name: "Automated compliance", icon: DoodleShieldCheck, text: "Every payment is traced from execution event to bank receipt, with a 21 CFR Part 11 audit trail generated automatically." },
+        { name: "Configurable authorization", icon: DoodleFlow, text: "Threshold-based auto-approval, multi-tier approval and budget-owner routing, set per study protocol." },
       ],
     },
     {
@@ -259,12 +250,12 @@ export const approach = {
         { figure: "Plugs in", label: "to the trial systems you already run", meter: { kind: "full" } },
       ],
       features: [
-        { name: "Smoother invoice generation", icon: RiFileList3Line, text: "Execution-triggered payables let sites raise invoices for completed visits quickly. The AI engine closes the reconciliation loop." },
-        { name: "Less work for CRO teams", icon: RiTimerLine, text: "Clinical operations and grant payment teams spend less time matching site payables to EDC activity." },
-        { name: "Operations dashboard", icon: RiDashboardLine, text: "Payment status across all sites and studies, with overdue and disputed payments flagged." },
-        { name: "Multi-sponsor support", icon: RiBuilding4Line, text: "Multiple sponsors and protocols in one environment, with strict data segregation and sponsor-configurable access." },
-        { name: "Fewer disputes", icon: RiScales3Line, text: "Verified payables and full data lineage settle whether an activity was completed at the data layer, before payment is triggered." },
-        { name: "Audit-ready reporting", icon: RiFileShield2Line, text: "Structured reconciliation reports and audit packages for sponsor and regulatory inspections, with no manual assembly." },
+        { name: "Smoother invoice generation", icon: DoodleFileList, text: "Execution-triggered payables let sites raise invoices for completed visits quickly. The AI engine closes the reconciliation loop." },
+        { name: "Less work for CRO teams", icon: DoodleTimer, text: "Clinical operations and grant payment teams spend less time matching site payables to EDC activity." },
+        { name: "Operations dashboard", icon: DoodleGauge, text: "Payment status across all sites and studies, with overdue and disputed payments flagged." },
+        { name: "Multi-sponsor support", icon: DoodleBuilding, text: "Multiple sponsors and protocols in one environment, with strict data segregation and sponsor-configurable access." },
+        { name: "Fewer disputes", icon: DoodleScales, text: "Verified payables and full data lineage settle whether an activity was completed at the data layer, before payment is triggered." },
+        { name: "Audit-ready reporting", icon: DoodleFileShield, text: "Structured reconciliation reports and audit packages for sponsor and regulatory inspections, with no manual assembly." },
       ],
     },
     {
@@ -289,6 +280,15 @@ export const insights = {
   hero: {
     title: "Perspectives on clinical trial payments.",
     lead: "Analysis, commentary and practical thinking on investigator grant administration, payment infrastructure and the financial realities of running clinical trials.",
+
+    /** The hero scene's one visible word, on the quote bubble (decorative, aria-hidden). */
+    quote: "Hmm…",
+  },
+  /** Under the article cards (sprint 10): a short line and a button down to the demo form on this page. */
+  cta: {
+    text: "Seen your own payments in one of these?",
+    label: "Request a demo",
+    href: "#demo",
   },
   articles: [
     {
@@ -321,14 +321,17 @@ export const insights = {
 export const contact = {
   hero: {
     title: "Talk to us.",
+    /** Lighter second half of the title; `mark` goes on a coral sticker (sprint 10, like the home section headings). */
+    continuation: "Tell us what is slowing your payments down.",
+    mark: "slowing",
     lead: "Ask for a demo or tell us what you are working on. A demo is a 45-minute walkthrough of how your site payments run today and the capital you could release.",
   },
   /** Ways to reach the team, from the previous site's contact block. */
   channels: [
-    { icon: RiMapPin2Line, label: "Headquarters", lines: [brand.legalEntity, "Singapore 048946"] },
-    { icon: RiMailLine, label: "General inquiries", email: "info@clintrust.ai" },
-    { icon: RiBriefcase4Line, label: "Business development", email: "partnerships@clintrust.ai" },
-    { icon: RiLockLine, label: "Security and compliance", email: "security@clintrust.ai" },
+    { icon: DoodlePin, label: "Headquarters", lines: [brand.legalEntity, "Singapore 048946"] },
+    { icon: DoodleMail, label: "General inquiries", email: "info@clintrust.ai" },
+    { icon: DoodleBriefcase, label: "Business development", email: "partnerships@clintrust.ai" },
+    { icon: DoodleLock, label: "Security and compliance", email: "security@clintrust.ai" },
   ],
   subjects: [
     "Request a demo",

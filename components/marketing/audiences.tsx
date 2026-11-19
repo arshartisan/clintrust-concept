@@ -62,6 +62,11 @@ function RingBadge({ id, value }: { id: string; value: string }) {
  * segmented control rides on react-aria, which the site deliberately keeps out
  * of the first-load bundle (docs/sop/05-performance.md). Arrow keys, Home and
  * End move between tabs; all panels are server-rendered, inactive ones hidden.
+ *
+ * Switching is animated (sprint 10): the tint lives on one persistent panel
+ * box and cross-fades; the tabs are all one height and the inactive ones
+ * slide down behind the panel (translate only); the new panel's content
+ * settles in, staggered (`.audience-in`, styles/brand.css).
  */
 export function Audiences() {
   const [active, setActive] = useState(0);
@@ -97,15 +102,18 @@ export function Audiences() {
       </Reveal>
 
       {/* Folder tabs. The row overlaps the panel's top border by its 2px
-          (-mb-0.5): inactive tabs keep their bottom border, which lands on
-          the panel's; the active tab has none and its fill covers the
-          panel's border, so it joins the panel. The first tab is flush with
-          the panel's start edge, whose top corner is square. */}
+          (-mb-0.5). Every tab is the same height; inactive tabs sit lower,
+          tucked behind the panel (z-0 under the panel's z-10), so they look
+          shorter. The active tab rises above the panel (z-20) with no bottom
+          border, and its fill covers the panel's border so it joins the
+          panel. Only translate and colour change, so the switch is smooth.
+          The first tab is flush with the panel's start edge, whose top corner
+          is square. */}
       <div
         role="tablist"
         aria-label="Who you are"
         onKeyDown={onKeyDown}
-        className="relative z-10 mt-12 -mb-0.5 flex max-w-full items-end gap-1 sm:gap-2"
+        className="relative mt-12 -mb-0.5 flex max-w-full items-end gap-1 sm:gap-2"
       >
         {audiences.map((audience, index) => {
           const selected = index === active;
@@ -123,10 +131,10 @@ export function Audiences() {
               tabIndex={selected ? 0 : -1}
               onClick={() => select(index)}
               className={cx(
-                "inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-t-2xl border-2 border-text-primary px-3 text-body-medium transition-colors duration-200 motion-reduce:transition-none sm:gap-2.5 sm:px-5 outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring",
+                "relative inline-flex h-13 shrink-0 cursor-pointer items-center gap-2 rounded-t-2xl border-2 border-text-primary px-3 text-body-medium text-text-primary transition-[translate,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none sm:h-15 sm:gap-2.5 sm:px-5 outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring",
                 selected
-                  ? cx(TONES[index % TONES.length].panel, "h-13 border-b-0 text-text-primary sm:h-15")
-                  : cx(TONES[index % TONES.length].tab, "h-11 text-text-primary sm:h-13", TONES[index % TONES.length].hover),
+                  ? cx(TONES[index % TONES.length].panel, "z-20 border-b-0")
+                  : cx(TONES[index % TONES.length].tab, "z-0 translate-y-2 hover:translate-y-1", TONES[index % TONES.length].hover),
               )}
             >
               <span className={cx("font-display text-body-semibold tabular-nums", selected ? TONES[index % TONES.length].accent : "text-text-primary")}>
@@ -138,58 +146,65 @@ export function Audiences() {
         })}
       </div>
 
-      {audiences.map((audience, index) => (
-        <div
-          key={audience.id}
-          role="tabpanel"
-          id={`audience-panel-${audience.id}`}
-          aria-labelledby={`audience-tab-${audience.id}`}
-          hidden={index !== active}
-          className={cx("audience-panel relative grid gap-8 rounded-[2rem] rounded-ss-none border-2 border-text-primary p-6 shadow-sticker-lg sm:p-10 lg:grid-cols-2 lg:gap-12 lg:p-12", TONES[index % TONES.length].panel)}
-        >
-          <div className="flex flex-col">
-            <p className={cx("text-caption-1-semibold tracking-wider uppercase", TONES[index % TONES.length].accent)}>
-              {audienceLabels.eyebrow} {audience.label} · {number(index)}
-            </p>
-            <h3 className="title-chunky mt-5 max-w-[16ch] text-section text-balance text-text-primary sm:pe-28 lg:pe-0">{audience.benefit}</h3>
-            <ButtonLink
-              href={audienceCta.href}
-              trailingIcon={RiArrowRightUpLine}
-              className="mt-8 self-start max-lg:hidden"
-              data-track="request_demo_click"
-              data-track-location={`audiences-${audience.id}`}
-            >
-              {audienceCta.label}
-            </ButtonLink>
-          </div>
+      <div
+        className={cx(
+          "relative z-10 rounded-[2rem] rounded-ss-none border-2 border-text-primary shadow-sticker-lg transition-colors duration-300 ease-out motion-reduce:transition-none",
+          TONES[active % TONES.length].panel,
+        )}
+      >
+        {audiences.map((audience, index) => (
+          <div
+            key={audience.id}
+            role="tabpanel"
+            id={`audience-panel-${audience.id}`}
+            aria-labelledby={`audience-tab-${audience.id}`}
+            hidden={index !== active}
+            className="audience-panel relative grid gap-8 p-6 sm:p-10 lg:grid-cols-2 lg:gap-12 lg:p-12"
+          >
+            <div className="flex flex-col">
+              <p className={cx("text-caption-1-semibold tracking-wider uppercase", TONES[index % TONES.length].accent)}>
+                {audienceLabels.eyebrow} {audience.label} · {number(index)}
+              </p>
+              <h3 className="title-chunky mt-5 max-w-[16ch] text-section text-balance text-text-primary sm:pe-28 lg:pe-0">{audience.benefit}</h3>
+              <ButtonLink
+                href={audienceCta.href}
+                trailingIcon={RiArrowRightUpLine}
+                className="mt-8 self-start max-lg:hidden"
+                data-track="request_demo_click"
+                data-track-location={`audiences-${audience.id}`}
+              >
+                {audienceCta.label}
+              </ButtonLink>
+            </div>
 
-          <div className="flex flex-col lg:justify-end lg:pt-32">
-            {/* The questions, as a numbered list with hairlines between. */}
-            <ol className="border-b border-text-primary/15">
-              {audience.questions.map((question, questionIndex) => (
-                <li key={question} className="flex gap-5 border-t border-text-primary/15 py-5">
-                  <span aria-hidden="true" className={cx("font-display text-body-semibold tabular-nums", TONES[index % TONES.length].accent)}>
-                    {number(questionIndex)}
-                  </span>
-                  <span className="text-lead text-text-primary">{question}</span>
-                </li>
-              ))}
-            </ol>
-            {/* Phones and tablets: the action after the questions. */}
-            <ButtonLink
-              href={audienceCta.href}
-              trailingIcon={RiArrowRightUpLine}
-              className="mt-8 self-start lg:hidden"
-              data-track="request_demo_click"
-              data-track-location={`audiences-${audience.id}`}
-            >
-              {audienceCta.label}
-            </ButtonLink>
-          </div>
+            <div className="flex flex-col lg:justify-end lg:pt-32">
+              {/* The questions, as a numbered list with hairlines between. */}
+              <ol className="border-b border-text-primary/15">
+                {audience.questions.map((question, questionIndex) => (
+                  <li key={question} className="flex gap-5 border-t border-text-primary/15 py-5">
+                    <span aria-hidden="true" className={cx("font-display text-body-semibold tabular-nums", TONES[index % TONES.length].accent)}>
+                      {number(questionIndex)}
+                    </span>
+                    <span className="text-lead text-text-primary">{question}</span>
+                  </li>
+                ))}
+              </ol>
+              {/* Phones and tablets: the action after the questions. */}
+              <ButtonLink
+                href={audienceCta.href}
+                trailingIcon={RiArrowRightUpLine}
+                className="mt-8 self-start lg:hidden"
+                data-track="request_demo_click"
+                data-track-location={`audiences-${audience.id}`}
+              >
+                {audienceCta.label}
+              </ButtonLink>
+            </div>
 
-          <RingBadge id={audience.id} value={number(index)} />
-        </div>
-      ))}
+            <RingBadge id={audience.id} value={number(index)} />
+          </div>
+        ))}
+      </div>
     </Section>
   );
 }

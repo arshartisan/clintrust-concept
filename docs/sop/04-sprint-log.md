@@ -5,6 +5,33 @@ checked, what is open.
 
 ---
 
+## Sprint 10: about-page doodles and card colours (2026-11-19)
+
+| Area | Change |
+| --- | --- |
+| Advisor cards | (Doodles enlarged about 1.7x by cropping the viewBox to the drawn area, so they fill the card.) The four decorative line charts are replaced by hand-drawn doodles in the sticker style (ink outlines, flat yellow/coral/teal fills, hard offset shadow, sparkles): a self-ticking clipboard, an approval stamp, a coin hopping between banks, a turning globe with pins. They now loop while on screen (InView without `once`); at rest each is a finished picture. `.adv-fade`, `.adv-pop` and `.adv-rise` CSS removed |
+| Hero answer | The three checklist rows are centred, each row on its own, to match the centred question above (were left-aligned inside a centred block) |
+| Hero pieces | Four sticker pieces in the client's flat 3D-icon reference style (`hero-stickers.tsx`): an invoice stamped PAID, a payment card in a chat bubble, a verified-record shield (these three at 2xl only, to clear the headline), and a coin buddy under the buttons whose eyes follow the cursor (xl+) |
+| Hero interaction | `hero-play.tsx` (small client component): pointer parallax per piece, and click/tap reactions with a confetti pop. Phones get the tap reactions on their two doodles |
+| Audience tabs | Switching is now animated: tint cross-fades on one persistent panel box, tabs are one height with inactive ones translated behind the panel (was a height jump), new content settles in |
+| About hero | Scene beside the title (`about-hero-scene.tsx`), telling "a structural rebuild, not another workaround": Record / Verify / Paid blocks drop in and stack, a tick pops on top, on a 6s loop; a "Workaround" tangle gets struck out; wrench, coin buddy, card bubble, shield and doodles round it, sharing the home hero's mouse parallax and click reactions. Labels in `content/pages.ts` (`about.hero.scene`) |
+| About title | One size up: new `text-hero-lg` (max 64px, was 52px), via `PageHero`'s `large` prop; other inner pages unchanged |
+| Leadership | Vivek Gujral replaced by Nicole Lee, Chief Product Officer (no photo or bio yet: monogram card, bio hidden when empty). Amanvir Mundra is now CTO and co-founder; his bio and tags still describe the product role, to confirm. `public/team/vivek-gujral.webp` is now unused |
+| About values | Each cell gets a light tint (yellow, teal, coral, blue 50) with a matching icon chip; titles up to `text-title-1-semibold` in the display face |
+| Advisory title | "Guided by people who have run this." up from `text-subsection` to `text-section` |
+| Principle doodles | The thin line drawings are replaced by sticker doodles that loop while on screen: a sprout whose roots draw down (root causes), a shield on its foundation with feature blocks dropping on after, a magnifier sweeping a decision trail, a clinic with a beating heart and coins. Cards now press into their shadow on hover and further on press (`.pr-*` plus shared `.doo-*`) |
+| Contact title | Styled like the home section headings: "Talk to us." in ink, then a lighter continuation, "Tell us what is slowing your payments down.", with "slowing" on a coral sticker. Copy in `content/pages.ts` (`contact.hero`); the continuation is new copy, to confirm |
+| Phone menu | Adds the inner pages (Our approach, About, Insights, Contact) as a "More" group under the anchors, two per row, read from the footer's last column so the lists stay in step. The desktop nav is unchanged |
+| Insights hero | Scene beside the title (`insights-hero-scene.tsx`): fanned article sheets, a glowing bulb, a scribbling pencil, a chart whose bars rise, a typing quote bubble and the coin buddy, with the hero play layer (mouse parallax, click reactions). Title up to `text-hero-lg`. `SceneBit` (the scene piece wrapper) now lives in `hero-stickers.tsx`, shared with the about scene |
+| Insights CTA | A yellow sticker row under the article cards, "Seen your own payments in one of these?" with Request a demo, jumping to the demo form already at the foot of the page. Copy in `content/pages.ts` (`insights.cta`), new, to confirm |
+| Article cards | "Read article" is now drawn as the yellow sticker button (`.button-glow` on a label, since the whole card is the link) and presses in with the card on hover |
+| Doodle icons | Every decorative icon tile (contact channels, about values, approach features, home pain cards) now uses hand-drawn doodle icons (`doodle-icons.tsx`, 19 glyphs) on a sticker tile (`DoodleTile`: ink outline, tint, hard shadow, slight tilt, wiggle on hover). Content files point at the doodles instead of Remix icons. Functional icons (arrows, ticks, close, menu) stay Remix |
+| Principle cards | Grey surface replaced by pale yellow and pale teal, alternating so touching cards differ; taglines take the card's colour; drawings are ink plus the other colour, at a heavier stroke |
+
+Checked: type-check; Playwright screenshots of the hero at 1920 / 1440 / 1280 (no overlaps, no console errors), a click on the coin buddy, and a tab switch mid-animation and at rest. Not checked: reduced motion in a browser, phones, production bundle size (hero-play adds a small client component; re-measure against `05-performance.md`).
+
+---
+
 ## Sprint 9: narrower content (2026-11-18)
 
 Client feedback on sprint 8: "she wants it more narrow content-wise;

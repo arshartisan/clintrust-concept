@@ -17,6 +17,7 @@ interface ArticleCardProps {
  * Summary card for one Insights article. The whole card is clickable through
  * a stretched link on the title (so the link's accessible name is the title,
  * not the whole card), and the focus ring is drawn on the card itself.
+ * "Read article" is drawn as the yellow sticker button (sprint 10).
  */
 export function ArticleCard({ article, headingLevel: Heading = "h2", className }: ArticleCardProps) {
   return (
@@ -50,12 +51,15 @@ export function ArticleCard({ article, headingLevel: Heading = "h2", className }
           </li>
         ))}
       </ul>
-      <span
-        aria-hidden="true"
-        className="mt-6 flex items-center gap-1.5 border-t border-separator-border pt-5 text-body-medium text-accent-600"
-      >
-        {articleLabels.readArticle}
-        <RiArrowRightLine className="size-4 transition-transform duration-200 group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1" />
+      {/* Looks like the primary button (the yellow sticker, `.button-glow`)
+          but is a label: the whole card is already the link, so a second link
+          here would be invalid. It presses in when the card is hovered
+          (`.group:hover .card-cta`, styles/brand.css). */}
+      <span aria-hidden="true" className="mt-6 border-t border-separator-border pt-5">
+        <span className="button-glow card-cta inline-flex h-10 items-center gap-2 rounded-full px-5 text-body-2-semibold text-text-primary">
+          {articleLabels.readArticle}
+          <RiArrowRightLine className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 rtl:-scale-x-100 rtl:group-hover:-translate-x-0.5" />
+        </span>
       </span>
     </article>
   );

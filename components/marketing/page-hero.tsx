@@ -11,10 +11,12 @@ interface PageHeroProps {
   actions?: ReactNode;
   /** A second column beside the text from `lg` up (e.g. the approach video). */
   aside?: ReactNode;
+  /** One size up on the title (text-hero-lg), for a page with a scene beside it. */
+  large?: boolean;
 }
 
 /** Opening block for inner pages: left-aligned title and lead inside the page rails. */
-export function PageHero({ eyebrow, title, lead, actions, aside }: PageHeroProps) {
+export function PageHero({ eyebrow, title, lead, actions, aside, large = false }: PageHeroProps) {
   return (
     <section>
       <div
@@ -27,7 +29,7 @@ export function PageHero({ eyebrow, title, lead, actions, aside }: PageHeroProps
         <div className={cx(aside && "lg:col-span-6")}>
           {eyebrow ? <p className="mb-4 text-body-medium text-accent-600">{eyebrow}</p> : null}
           {/* hero-settle, not a fade: this is the page's LCP. */}
-          <h1 className="hero-settle max-w-[20ch] text-hero text-balance text-text-primary">{title}</h1>
+          <h1 className={cx("hero-settle text-balance text-text-primary", large ? "max-w-[16ch] text-hero-lg" : "max-w-[20ch] text-hero")}>{title}</h1>
           <p className="hero-settle mt-6 max-w-[62ch] text-lead text-pretty text-text-secondary">{lead}</p>
           {actions ? <div className="mt-8 flex flex-wrap gap-3">{actions}</div> : null}
         </div>

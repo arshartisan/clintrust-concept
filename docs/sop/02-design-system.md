@@ -201,6 +201,10 @@ library in the initial bundle (see `05-performance.md` for why).
 | Keycap strip under the hero | Phrases on 3D keycaps loop sideways on a tilted band; pauses on hover (after overflow.sui.io) | `.km-track`, 42s linear, slides by half its width |
 | Nav and footer links | Label rolls up and a copy rolls in from below on hover / focus | `.roll` + `.roll-host`, 300ms |
 | Footer | Wordmark letters rise in turn once, stickers pop on, then bob | `.ft-letter`, `.ft-sticker`, `.ft-bob` |
+| Advisor cards (/about, sprint 10) | Hand-drawn sticker doodles loop while on screen: boxes tick and a pencil scribbles, a stamp presses and leaves its mark, a coin hops between two banks, a globe turns as pins drop. Sparkles twinkle | `.doo-tick`, `.doo-scribble`, `.doo-stamp` / `.doo-imprint` / `.doo-burst`, `.doo-coin-x` / `.doo-coin-y` / `.doo-flip`, `.doo-spin`, `.doo-pin`, `.doo-dash`, `.doo-twinkle` |
+| Hero play (sprint 10) | Every hero piece follows the mouse at its own depth (parallax, eased); clicking or tapping one replays a reaction (wiggle, flip, spin, PAID stamp, blink) and throws confetti bits; the coin buddy's eyes follow the cursor. Mouse only for the parallax; all off under reduced motion | `hero-play.tsx` sets `--mx`/`--my`/`--lx`/`--ly`; `.hero-par`, `.hero-poke` + `.is-poked`, `.poke-*`, `.coin-pupil` |
+| Audience tabs (sprint 10) | Panel tint cross-fades; inactive tabs slide down behind the panel; the new panel's columns and badge settle in, staggered | `transition-[translate,background-color]`, `.audience-in` |
+| About hero scene (sprint 10) | Blocks drop and stack (squash on landing), tick pops, workaround struck out, tangle jitters, wrench rocks; plus the hero play layer | `.ab-block`, `.ab-tick`, `.ab-strike`, `.ab-tangle`, `.ab-wrench` |
 | Platform cards | Each illustration loops while its card is on screen: parts float, light pools breathe, beams pulse | `.iso-pulse`, `.iso-blink`, `.iso-float`, `.iso-step`, `.iso-halo`, `.iso-beam` |
 
 Rules:

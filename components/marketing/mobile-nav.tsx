@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ButtonLink } from "@/components/base/buttons/button";
 import { Drawer, DrawerBody, DrawerFooter, DrawerHeader } from "@/components/base/drawer/drawer";
-import { brand, demoCta, nav } from "@/content/landing";
+import { brand, demoCta, footer, nav } from "@/content/landing";
 import { LogoMark } from "./logo";
 
 /**
@@ -15,7 +15,14 @@ import { LogoMark } from "./logo";
  * Kept in its own file because Drawer is built on react-aria (about 75 KB
  * compressed). site-header.tsx loads this file on demand, so that weight is
  * not in any page's first load (docs/sop/05-performance.md, section 2).
+ *
+ * Sprint 10: under the anchors, the inner pages (Our approach, About,
+ * Insights, Contact) as a second group, read from the footer's "More" column
+ * so the two lists cannot drift apart.
  */
+
+// The footer's last column: the inner pages.
+const more = footer.columns[footer.columns.length - 1];
 
 const linkClass =
   "block rounded-xl px-3 py-2.5 text-headline-regular text-text-primary transition-colors duration-150 hover:bg-background-secondary-default outline-none focus-visible:ring-2 focus-visible:ring-border-focus-ring";
@@ -70,6 +77,23 @@ export function MobileNav({ isOpen, onOpenChange, pathname }: MobileNavProps) {
               </Link>
             ),
           )}
+        </nav>
+        <nav aria-label={more.title} className="mt-3 border-t border-separator-border pt-3">
+          <p className="px-3 pb-1 text-caption-1-medium text-text-tertiary">{more.title}</p>
+          <ul className="grid grid-cols-2 gap-1">
+            {more.links.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  onClick={close}
+                  aria-current={pathname === link.href ? "page" : undefined}
+                  className={linkClass}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </nav>
       </DrawerBody>
       <DrawerFooter>

@@ -1,4 +1,4 @@
-import { RiFileList3Line, RiLineChartLine, RiStethoscopeLine, RiTimeLine } from "@remixicon/react";
+import { DoodleChartUp, DoodleClock, DoodleFileList, DoodleStethoscope } from "@/components/marketing/doodle-icons";
 import type { RemixiconComponentType } from "@remixicon/react";
 
 /**
@@ -115,28 +115,28 @@ export const pains = {
     {
       id: "cash-flow",
       label: "Cash flow",
-      icon: RiLineChartLine,
+      icon: DoodleChartUp,
       worry: "I can’t see what’s coming in next quarter.",
       fix: "See what you’ve earned and when it lands, visit by visit.",
     },
     {
       id: "investigator-grants",
       label: "Investigator grants",
-      icon: RiStethoscopeLine,
+      icon: DoodleStethoscope,
       worry: "Our investigators are paid late. Again.",
       fix: "Every finished visit lands on next month’s invoice. No more slipping.",
     },
     {
       id: "reconciliation",
       label: "Reconciliation",
-      icon: RiFileList3Line,
+      icon: DoodleFileList,
       worry: "Month-end means a week of spreadsheets.",
       fix: "Visits match the budget as they happen. Month-end is a quick check.",
     },
     {
       id: "late-payments",
       label: "Late payments",
-      icon: RiTimeLine,
+      icon: DoodleClock,
       worry: "I’m still chasing invoices from months ago.",
       fix: "One clean invoice a month, after a 5-day review. Nothing to chase.",
     },

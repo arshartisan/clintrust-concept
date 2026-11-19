@@ -96,8 +96,9 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
             </span>
           );
         })}
-        {/* The answer, built as a left-aligned checklist (the block itself is
-            centred in the slot). Each showing re-mounts the rows so their
+        {/* The answer, built as a checklist. In the centred hero each row is
+            centred under the question (sprint 10); otherwise rows align to the
+            start. Each showing re-mounts the rows so their
             entrance plays again: a row slides in, its tick pops, and the last
             row gets the highlighter. One size down from the questions, so
             the slot stays the height of the longest question. */}
@@ -105,9 +106,9 @@ export function HeroIntro({ centered = false }: { centered?: boolean }) {
           aria-hidden={!showingAnswer}
           // Chunky caps like the questions, a size down (text-chunky-sm) so the
           // PAID stamp beside it clears the keycaps.
-          className={cx(lineClass(showingAnswer), centered ? "text-chunky-sm" : "text-section", "text-start", centered && "justify-self-center")}
+          className={cx(lineClass(showingAnswer), centered ? "text-chunky-sm justify-self-center text-center" : "text-section text-start")}
         >
-          <span key={showingAnswer ? `answer-${step}` : "answer"} className="relative flex flex-col gap-2 sm:gap-3">
+          <span key={showingAnswer ? `answer-${step}` : "answer"} className={cx("relative flex flex-col gap-2 sm:gap-3", centered && "items-center")}>
             {hero.answerParts.map((part, index) => (
               <span
                 key={part}
